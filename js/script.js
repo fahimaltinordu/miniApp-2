@@ -18,24 +18,6 @@ function start() {
   initializeDailyRewards();
 }
 
-//..............FULLSCREEN FUNCTION.........................
-
-function requestFullscreen() {
-  if (!document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen();
-  } else if (document.documentElement.mozRequestFullScreen) {
-    // Firefox
-    document.documentElement.mozRequestFullScreen();
-  } else if (document.documentElement.webkitRequestFullscreen) {
-    // Chrome, Safari and Opera
-    document.documentElement.webkitRequestFullscreen();
-  } else if (document.documentElement.msRequestFullscreen) {
-    // IE/Edge
-    document.documentElement.msRequestFullscreen();
-  }
-}
-requestFullscreen();
-
 
 //Coins and Score
 
@@ -166,6 +148,18 @@ const $upgrades = document.querySelectorAll(
 const $energieUpgrade = document.querySelector("#energie-upgrade");
 const $tapUpgrade = document.querySelector("#tap-upgrade");
 
+let PerHourPurchases = localStorage.getItem("PerHourPurchases")
+  ? parseInt(localStorage.getItem("PerHourPurchases"))
+  : 0;
+let PerHourCost = localStorage.getItem("PerHourCost")
+  ? parseInt(localStorage.getItem("PerHourCost"))
+  : 100;
+let NextPerHourIncome = localStorage.getItem("NextPerHourIncome")
+  ? parseInt(localStorage.getItem("NextPerHourIncome"))
+  : 2.5;
+let PerHourLevel = localStorage.getItem("PerHourLevel")
+  ? parseInt(localStorage.getItem("PerHourLevel"))
+  : 0;
 let multitapPurchases = localStorage.getItem("multitapPurchases")
   ? parseInt(localStorage.getItem("multitapPurchases"))
   : 0;
@@ -175,6 +169,9 @@ let multitapCost = localStorage.getItem("multitapCost")
 let maxEnergyCost = localStorage.getItem("maxEnergyCost")
   ? parseInt(localStorage.getItem("maxEnergyCost"))
   : 1000;
+document.querySelector("#PerHour-cost").textContent = PerHourCost;
+document.querySelector("#PerHour-income").textContent = NextPerHourIncome;
+document.querySelector("#PerHour-level").textContent = PerHourLevel;
 document.querySelector("#multitap-cost").textContent = multitapCost;
 document.querySelector("#max-energy-cost").textContent = maxEnergyCost;
 
@@ -194,11 +191,12 @@ function showUpgradeMenu(upgrade) {
   $upgradeDescription.textContent = `Increase your ${title.toLowerCase()}.`;
   $upgradeCost.textContent = cost;
 
-  $upgradeBtn.removeEventListener("click", handleUpgradeClick);
+
   $upgradeBtn.addEventListener("click", handleUpgradeClick);
 
   function handleUpgradeClick() {
     buyUpgrade(upgrade);
+    $upgradeBtn.removeEventListener("click", handleUpgradeClick);
   }
 
   $upgradeMenu.classList.add("active");
@@ -229,6 +227,8 @@ function buyUpgrade(upgrade) {
       upgradeMultitap();
     } else if (upgradeName === "max energy") {
       upgradeMaxEnergy();
+    } else if (upgradeName === "perhour") {
+      upgradePerHour();
     }
     hideUpgradeMenu();
     startFallingCoins();
@@ -269,6 +269,27 @@ function upgradeMaxEnergy() {
   maxEnergyCost += 1000;
   localStorage.setItem("maxEnergyCost", maxEnergyCost);
   document.querySelector("#max-energy-cost").textContent = maxEnergyCost;
+}
+
+function upgradePerHour() {
+  if (PerHourPurchases < 10) {
+    setCoinsPerHour(Number(getCoinsPerHour()) + PerHourCost / 40);
+    PerHourPurchases++;
+    PerHourCost += 100;
+    NextPerHourIncome = PerHourCost / 40;
+    PerHourLevel += 1
+
+    localStorage.setItem("PerHourPurchases", PerHourPurchases);
+    localStorage.setItem("PerHourCost", PerHourCost);
+    localStorage.setItem("NextPerHourIncome", NextPerHourIncome);
+    localStorage.setItem("PerHourLevel", PerHourLevel);
+
+    document.querySelector("#PerHour-cost").textContent = PerHourCost;
+    document.querySelector("#PerHour-income").textContent = NextPerHourIncome;
+    document.querySelector("#PerHour-level").textContent = PerHourLevel;
+  } else {
+    alert("Invest level is maxed out!");
+  }
 }
 
 function upgradeMultitap() {
@@ -443,11 +464,12 @@ function showCardsUpgradeMenu(card) {
   $cardsUpgradeCost.textContent = cost;
   $cardsUpgradeIncome.textContent = ` +${income} `;
 
-  $cardsUpgradeBtn.removeEventListener("click", handleUpgradeClick);
   $cardsUpgradeBtn.addEventListener("click", handleUpgradeClick);
 
   function handleUpgradeClick() {
     buyCardUpgrade(card);
+    $cardsUpgradeBtn.removeEventListener("click", handleUpgradeClick);
+
   }
 
   $cardsUpgradeMenu.classList.add("active");
@@ -509,11 +531,12 @@ const $claimDailyRewardBtn = document.querySelector("#popupClaimBtn");
 const $dailyRewardDays = document.querySelectorAll(".popup__day");
 
 const today = new Date().toISOString().slice(0, 10);
+console.log(today)
 
 function initializeDailyRewards() {
   const lastRewardDate = localStorage.getItem("lastRewardDate");
+  console.log(lastRewardDate)
   let previousDay = parseInt(localStorage.getItem("previousDay")) || 1;
-
   $dailyRewardDays.forEach((day) =>
     day.classList.remove("popup__day__current", "popup__day__completed")
   );
