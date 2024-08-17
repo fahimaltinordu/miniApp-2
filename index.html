@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>EnergyFi MiniApp</title>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1 >EnergyFi</h1>
+        <div class="settings">
+            <div><img src="assets/img/wallet-icon.svg" height="40px" alt=""></div>
+            <div><img src="assets/img/settings-icon.svg" height="40px" alt=""></div>
+        </div>
+    </div>
+
+
+    <div class="info">
+        <div class="info__container">
+            <h6 class="info__title">Earn per tap</h6>
+            <div>
+                <img src="assets/img/ENR.png" alt=""><span id="tap">1
+                </span>
+            </div>
+        </div>
+        <div class="info__container">
+            <h6 class="info__title">Coins to level up</h6>
+            <div>
+                <span id="to-lvl-up">0</span>
+            </div>
+        </div>
+        <div class="info__container">
+            <h6 class="info__title">Profit per hour</h6>
+            <div>
+                <img src="assets/img/ENR.png" alt=""><span id="perHour">0</span>
+            </div>
+        </div>
+    </div>
+    <div class="game">
+        <header class="game__header">
+            <img src="assets/img/ENR.png" alt="">
+            <h2 class="game__score">1000</h2>
+        </header>
+        <div class="game__clicker-circle">
+            <img class="game__main-image" src="assets/img/octopus/pure.png" alt="main-image">
+        </div>
+        <div class="game__footer">
+            <div class="energy">
+                <img style="height: 25px;" src="assets/img/icons/energie.png" alt="">
+                <p class="energy__value">1000</p> /
+                <p class="energy__max">1000</p>
+            </div>
+            <div onclick="toggleBoostMenu()" class="boost">
+                Boost <img style="height: 25px;" src="assets/img/icons/boost.png" alt="boost">
+            </div>
+        </div>
+        <div class="menu-bar">
+            <nav class="menu-bar__nav">
+                <a href="#home" class="menu-bar__item menu-bar__item__active">
+                    <div class="menu-bar__image">
+                        <div class="menu-bar__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M12 6.453l9 8.375v9.172h-6v-6h-6v6h-6v-9.172l9-8.375zm12 5.695l-12-11.148-12 11.133 1.361 1.465 10.639-9.868 10.639 9.883 1.361-1.465z" />
+                            </svg>
+                        </div>
+                        <p>Home</p>
+                    </div>
+                </a>
+                <a href="#mine" class="menu-bar__item">
+                    <div class="menu-bar__image">
+                        <div class="menu-bar__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none"
+                                viewBox="0 0 28 28">
+                                <path fill="currentColor"
+                                    d="M25.8 23.262 11.645 9.108l.645-.646a.9.9 0 0 0 .239-.838c3.763-3.048 7.67-4.783 10.578-4.795-2.993-1.762-7.938-.65-12.47 2.707l-.259-.259a.903.903 0 0 0-1.275 0l-.645.645L7.06 4.527a.7.7 0 0 0-.511-.2c-1.105 0-2.818 1.942-2.026 2.726l1.4 1.4-.647.648a.905.905 0 0 0 0 1.274l.26.26c-3.358 4.53-4.47 9.474-2.707 12.464.012-2.907 1.747-6.812 4.795-10.574a.9.9 0 0 0 .838-.239l.648-.646 14.162 14.158c.139.141.315.202.51.202 1.097 0 2.802-1.947 2.018-2.738">
+                                </path>
+                            </svg>
+                        </div>
+                        <p>Mine</p>
+                    </div>
+                </a>
+                <a href="#friends" class="menu-bar__item">
+                    <div class="menu-bar__image">
+                        <div class="menu-bar__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+                                <path fill="currentColor"
+                                    d="M7 16.2v.2c0 .1-.1.1-.1.1l-.1.1h-5c-.2 0-.4-.1-.5-.2-.2-.1-.3-.3-.3-.5v-.4c0-.1.1-.3.2-.4.8-1 1.8-1.8 3-2.3-.5-.5-.9-1.1-1.2-1.7-.2-.7-.3-1.4-.2-2.1-.1-.6.2-1.3.6-1.8s.9-1.1 1.5-1.4c.6-.3 1.3-.5 2-.5s1.4.1 2 .5c.7.2 1.2.7 1.6 1.2.4.6.7 1.2.8 1.9v.3c0 .1-.1.1-.2.2-1.2.6-2.2 1.5-3 2.6-.7 1.1-1.1 2.4-1.1 3.8v.4zm19.9-1c-.8-1-1.8-1.8-3-2.3.5-.5.9-1.1 1.2-1.7.2-.7.3-1.4.2-2.1-.1-.7-.3-1.4-.7-1.9-.4-.6-.9-1.1-1.5-1.4-.6-.3-1.3-.5-2-.5s-1.4.1-2 .5c-.7.2-1.2.7-1.6 1.2-.4.6-.7 1.2-.8 1.9v.3c0 .1.1.1.2.2 1.2.6 2.2 1.5 3 2.6.7 1.1 1.1 2.4 1.1 3.8V16.4c0 .1.1.1.1.1l.1.1h5c.2 0 .4-.1.5-.2.2-.1.3-.3.3-.5v-.4c.1-.1 0-.2-.1-.3zm-9.7 4.7c.9-.7 1.5-1.6 1.8-2.6.3-1 .3-2.2-.1-3.2s-1-1.9-1.9-2.6c-.9-.6-2-1-3.1-1s-2.2.3-3.1 1c-.8.6-1.4 1.5-1.8 2.6-.4 1-.4 2.2-.1 3.2.3 1 1 2 1.8 2.6-1.5.7-2.8 1.8-3.7 3.3v.4c0 .1 0 .3.1.4l.3.3c.1.1.3.1.4.1h12.3c.2 0 .3 0 .4-.1l.3-.3c.1-.1.1-.3.1-.4 0-.2 0-.3-.1-.4-.8-1.5-2.1-2.6-3.6-3.3z">
+                                </path>
+                            </svg>
+                        </div>
+                        <p>Friends</p>
+                    </div>
+                </a>
+                <a href="#earn" class="menu-bar__item">
+                    <div class="menu-bar__image">
+                        <div class="menu-bar__icon">
+                            <svg width="28" height="28" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="currentColor"
+                                    d="M264.4 95.01c-35.6-.06-80.2 11.19-124.2 34.09C96.27 152 61.45 182 41.01 211.3c-20.45 29.2-25.98 56.4-15.9 75.7 10.08 19.4 35.47 30.5 71.18 30.5 35.7 0 80.29-11.2 124.19-34 44-22.9 78.8-53 99.2-82.2 20.5-29.2 25.9-56.4 15.9-75.8-10.1-19.3-35.5-30.49-71.2-30.49zm91.9 70.29c-3.5 15.3-11.1 31-21.8 46.3-22.6 32.3-59.5 63.8-105.7 87.8-46.2 24.1-93.1 36.2-132.5 36.2-18.6 0-35.84-2.8-50.37-8.7l10.59 20.4c10.08 19.4 35.47 30.5 71.18 30.5 35.7 0 80.3-11.2 124.2-34.1 44-22.8 78.8-52.9 99.2-82.2 20.4-29.2 26-56.4 15.9-75.7zm28.8 16.8c11.2 26.7 2.2 59.2-19.2 89.7-18.9 27.1-47.8 53.4-83.6 75.4 11.1 1.2 22.7 1.8 34.5 1.8 49.5 0 94.3-10.6 125.9-27.1 31.7-16.5 49.1-38.1 49.1-59.9 0-21.8-17.4-43.4-49.1-59.9-16.1-8.4-35.7-15.3-57.6-20zm106.7 124.8c-10.2 11.9-24.2 22.4-40.7 31-35 18.2-82.2 29.1-134.3 29.1-21.2 0-41.6-1.8-60.7-5.2-23.2 11.7-46.5 20.4-68.9 26.1 1.2.7 2.4 1.3 3.7 2 31.6 16.5 76.4 27.1 125.9 27.1s94.3-10.6 125.9-27.1c31.7-16.5 49.1-38.1 49.1-59.9z" />
+                            </svg>
+                        </div>
+                        <p>Earn</p>
+                    </div>
+                </a>
+            </nav>
+        </div>
+        <div id="mine" class="tab-content">
+            <h2 class="mine-tab__title">Pump your profit per hour!</h2>
+            <div class="mine-tab__grid">
+                <div class="mine-tab__card">
+                    <div class="mine-tab__card-image">
+                        <img src="assets/img/icons/mine/apple.png" alt="Apple Actions">
+                    </div>
+                    <div class="mine-tab__card-content">
+                        <h3 class="mine-tab__card-title">Apple Actions</h3>
+                        <p class="mine-tab__card-description">Invest in Apple stocks to increase your wealth.</p>
+                        <div class="mine-tab__card-details">
+                            <span class="mine-tab__card-price">$1500</span>
+                            <span class="mine-tab__card-income">Income: $<span
+                                    class="card-income">250</span>/hour</span>
+
+                        </div>
+                        <button class="mine-tab__card-button">Invest</button>
+                    </div>
+                </div>
+                <div class="mine-tab__card">
+                    <div class="mine-tab__card-image"><img src="assets/img/icons/mine/startup-invest.png"
+                            alt="Invest in Startup"></div>
+                    <div class="mine-tab__card-content">
+                        <h3 class="mine-tab__card-title">Startup Invest</h3>
+                        <p class="mine-tab__card-description">Put money into promising startups for potential high
+                            returns.
+                        </p>
+                        <div class="mine-tab__card-details">
+                            <span class="mine-tab__card-price">$2000</span>
+                            <span class="mine-tab__card-income">Income: $<span
+                                    class="card-income">500</span>/hour</span>
+
+                        </div>
+                        <button class="mine-tab__card-button">Invest</button>
+                    </div>
+                </div>
+                <div class="mine-tab__card">
+                    <div class="mine-tab__card-image"><img src="assets/img/icons/mine/bitcoin.png" alt="Buy Bitcoin">
+                    </div>
+                    <div class="mine-tab__card-content">
+                        <h3 class="mine-tab__card-title">Bitcoin</h3>
+                        <p class="mine-tab__card-description">Invest in Bitcoin for digital currency gains.</p>
+                        <div class="mine-tab__card-details">
+                            <span class="mine-tab__card-price">$2500</span>
+                            <span class="mine-tab__card-income">Income: $<span
+                                    class="card-income">300</span>/hour</span>
+                        </div>
+                        <button class="mine-tab__card-button">Invest</button>
+                    </div>
+                </div>
+                <div class="mine-tab__card">
+                    <div class="mine-tab__card-image"><img src="assets/img/icons/mine/gold.png" alt="Gold"></div>
+                    <div class="mine-tab__card-content">
+                        <h3 class="mine-tab__card-title">Gold</h3>
+                        <p class="mine-tab__card-description">Invest in gold as a safe-haven asset.</p>
+                        <div class="mine-tab__card-details">
+                            <span class="mine-tab__card-price">$3000</span>
+                            <span class="mine-tab__card-income">Income: $<span
+                                    class="card-income">400</span>/hour</span>
+                        </div>
+                        <button class="mine-tab__card-button">Invest</button>
+                    </div>
+                </div>
+            </div>
+            <div id="cards-upgrade-menu" class="upgrade-menu">
+                <div class="upgrade-menu__content">
+                    <button class="close-btn" onclick="hideUpgradeMenu()">&times;</button>
+                    <img id="cards-upgrade-img" src="" alt="Upgrade Image">
+                    <h3 class="upgrade-menu__title" id="cards-upgrade-title"></h3>
+                    <p class="upgrade-menu__description" id="cards-upgrade-description"></p>
+                    <p style="font-size: 25px;">Profit per hour</p>
+                    <div class="cards-upgrade-income-container"><img src="assets/img/ENR.png" alt="coins"><span
+                            id="cards-upgrade-income"></span></div>
+                    <h5><img style="height: 24px;" src="assets/img/ENR.png"><span id="cards-upgrade-cost"></span>
+                    </h5>
+                    <button class="upgrade-menu__button" id="cards-upgrade-button">Invest</button>
+                </div>
+            </div>
+        </div>
+        <div id="friends" class="tab-content soon">
+            <h2 style="font-size: 2rem; text-align: center;">Friends Content <br> will be soon...</h2>
+        </div>
+        <div id="earn" class="earn tab-content ">
+            <div class="earn__top">
+                <div class="earn__top-image" style="transform: translateZ(0px); opacity: 1;">
+                    <div class="earn__icon">
+                        <svg width="275" height="275" viewBox="0 0 275 275" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <g filter="url(#filter0_f_1464_6497)">
+                                <circle cx="137.529" cy="137.471" r="72.4143" fill="#FFD337"></circle>
+                            </g>
+                            <circle cx="137" cy="138" r="63.4286" fill="white" fill-opacity="0.05"></circle>
+                            <circle cx="137" cy="138" r="74" fill="white" fill-opacity="0.05"></circle>
+                            <defs>
+                                <filter id="filter0_f_1464_6497" x="0.0999756" y="0.0428467" width="274.857"
+                                    height="274.857" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                    <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                                    <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape">
+                                    </feBlend>
+                                    <feGaussianBlur stdDeviation="32.5071" result="effect1_foregroundBlur_1464_6497">
+                                    </feGaussianBlur>
+                                </filter>
+                            </defs>
+                        </svg>
+                    </div>
+                    <img class="earn__img-responsive" src="assets/img/ENR.png">
+                </div>
+                <div class="earn__top-title" style="transform: translateZ(0px); opacity: 1;">Earn more coins</div>
+            </div>
+            
+            <div class="earn__sections">
+                <h2 class="earn__section-title">
+                    Daily Tasks
+                </h2>
+                <div class="earn__section">
+                    <div class="earn__item">
+                        <div class="earn__item-info">
+                            <div class="earn__item-image">
+                                <img src="assets/img/icons/earn/calendar.png" alt="">
+                            </div>
+                            <div>
+                                <h3 class="earn__item-title">
+                                    Daily reward
+                                </h3>
+                                <div class="earn__item-reward">
+                                    <img src="assets/img/ENR.png" style="height: 24px;" alt="coin">
+                                    <span>+25,000</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="earn__item-btn">
+                            <button id="dailyRewardBtn"> <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    width="60" height="60" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="white" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="1" d="m9 5 7 7-7 7" />
+                                </svg></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="popup" id="dailyRewardPopup">
+                <div class="popup__content">
+                    <button class="popup__close-btn" id="popupCloseBtn">&times;</button>
+                    <img class="popup__image" src="assets/img/icons/earn/calendar.png" alt="Calendar">
+                    <h3 class="popup__title">Daily reward</h3>
+                    <p class="popup__description">Accrue coins for logging into the game daily without skipping.</p>
+                    <div class="popup__days">
+                        <div class="popup__day ">
+                            <span class="popup__day-number">Day 1</span>
+                            <img class="popup__day-image" src="assets/img/ENR.png" alt="Coin">
+                            <span class="popup__day-coins">1000</span>
+                        </div>
+                        <div class="popup__day ">
+                            <span class="popup__day-number">Day 2</span>
+                            <img class="popup__day-image" src="assets/img/ENR.png" alt="Coin">
+                            <span class="popup__day-coins">1500</span>
+                        </div>
+                        <div class="popup__day">
+                            <span class="popup__day-number">Day 3</span>
+                            <img class="popup__day-image" src="assets/img/ENR.png" alt="Coin">
+                            <span class="popup__day-coins">1500</span>
+                        </div>
+                        <div class="popup__day">
+                            <span class="popup__day-number">Day 4</span>
+                            <img class="popup__day-image" src="assets/img/ENR.png" alt="Coin">
+                            <span class="popup__day-coins">2000</span>
+                        </div>
+                        <div class="popup__day">
+                            <span class="popup__day-number">Day 5</span>
+                            <img class="popup__day-image" src="assets/img/ENR.png" alt="Coin">
+                            <span class="popup__day-coins">2000</span>
+                        </div>
+                        <div class="popup__day">
+                            <span class="popup__day-number">Day 6</span>
+                            <img class="popup__day-image" src="assets/img/ENR.png" alt="Coin">
+                            <span class="popup__day-coins">2500</span>
+                        </div>
+                        <div class="popup__day">
+                            <span class="popup__day-number">Day 7</span>
+                            <img class="popup__day-image" src="assets/img/ENR.png" alt="Coin">
+                            <span class="popup__day-coins">2500</span>
+                        </div>
+                        <div class="popup__day">
+                            <span class="popup__day-number">Day 8</span>
+                            <img class="popup__day-image" src="assets/img/ENR.png" alt="Coin">
+                            <span class="popup__day-coins">3000</span>
+                        </div>
+                        <div class="popup__day">
+                            <span class="popup__day-number">Day 9</span>
+                            <img class="popup__day-image" src="assets/img/ENR.png" alt="Coin">
+                            <span class="popup__day-coins">3000</span>
+                        </div>
+                        <div class="popup__day">
+                            <span class="popup__day-number">Day 10</span>
+                            <img class="popup__day-image" src="assets/img/ENR.png" alt="Coin">
+                            <span class="popup__day-coins">6000</span>
+                        </div>
+                        <button class="popup__claim-btn" id="popupClaimBtn">Claim</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="boost-menu">
+        <div class="boost-menu__controls">
+            <button onclick="toggleBoostMenu()" class="boost-menu__close-btn">
+                <img src="assets/img/icons/back-arrow.png" alt="back arrow">
+            </button>
+        </div>
+        <div class="boost-menu__header">
+            <h4 class="boost-menu__title">Your balance:</h4>
+            <div class="boost-menu__balance-container">
+                <img src="assets/img/ENR.png" alt="coins" class="boost-menu__coins-img">
+                <h2 class="boost-menu__balance">1000</h2>
+            </div>
+            <div class="boost-menu__content">
+                <div class="boost-menu__bosters boost-menu__bosters__free">
+                    <div class="boost-menu__boost boost-menu__boost__energy">
+                        <img style="height: 50px;" src="assets/img/icons/energie.png" alt="">
+                        <div>
+                            <h3>Full Energy</h3>
+                            <h5><span id="energy-limit">1</span>/1 available</h5>
+                        </div>
+                        <div id="energy-timer"></div>
+                    </div>
+                </div>
+                <div class="boost-menu__bosters boost-menu__bosters__upgrade">
+                    <div id="tap-upgrade" class="boost-menu__boost boost-menu__boost__tap-upgrade">
+                        <div>
+                            <img style="height: 50px;" src="assets/img/icons/tapp.png" alt="">
+                            <div>
+                                <h3>Multitap</h3>
+                                <h5><img style="height: 24px;" src="assets/img/ENR.png"><span
+                                        id="multitap-cost">1000</span></h5>
+                            </div>
+                        </div>
+                        <div>
+                            <button>
+                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="60" height="60"
+                                    fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m9 5 7 7-7 7" />
+                                </svg>
+                            </button>
+
+                        </div>
+                    </div>
+                    <div id="energy-upgrade" class="boost-menu__boost boost-menu__boost__energy-upgrade">
+                        <div>
+                            <img style="height: 50px;" src="assets/img/icons/energie.png" alt="">
+                            <div>
+                                <h3>Max Energy</h3>
+                                <h5><img style="height: 24px;" src="assets/img/ENR.png"><span
+                                        id="max-energy-cost">1000</span></h5>
+                            </div>
+                        </div>
+                        <button>
+                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="60" height="60"
+                                fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m9 5 7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+
+                <div id="upgrade-menu" class="upgrade-menu">
+                    <div class="upgrade-menu__content">
+                        <button class="close-btn" onclick="hideUpgradeMenu()">&times;</button>
+                        <img id="upgrade-img" src="" alt="Upgrade Image">
+                        <h3 class="upgrade-menu__title" id="upgrade-title"></h3>
+                        <p class="upgrade-menu__description" id="upgrade-description"></p>
+                        <h5><img style="height: 24px;" src="assets/img/ENR.png"><span id="upgrade-cost"></span>
+                        </h5>
+                        <button class="upgrade-menu__button" id="upgrade-button">Buy
+                            Upgrade</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
