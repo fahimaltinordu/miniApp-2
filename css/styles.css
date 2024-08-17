@@ -26,25 +26,27 @@ body {
 }
 
 .header {
-    width:100%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: absolute;
-    top:0;
+    top: 0;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    padding:10px;
+    padding: 10px;
 }
+
 .header h1 {
     font-size: 22px;
     font-weight: 900;
-    color:white;
+    color: white;
 }
+
 .settings {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap:25px;
+    gap: 25px;
 }
 
 .settings img {
@@ -168,7 +170,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    gap:10px;
+    gap: 10px;
     width: 100%;
 }
 
@@ -385,6 +387,7 @@ body {
 
 .upgrade-menu__description {
     font-weight: 400;
+    font-size: 16px;
 }
 
 .upgrade-menu__button {
@@ -451,8 +454,8 @@ body {
 .plusCoins {
     position: absolute;
     /* font-family: Inter; */
-    text-shadow: 0px 0px 4px rgba(234, 182, 64, 0.25);
-    font-size: 25px;
+    /* text-shadow: 0px 0px 4px rgba(234, 182, 64, 0.25); */
+    font-size: 30px;
     font-weight: 800;
     background: #ffffff;
     background-clip: text;
@@ -571,6 +574,7 @@ body {
     margin-bottom: 20px;
     font-weight: 800;
     color: #ffffff;
+    text-decoration: overline;
 }
 
 .mine-tab__grid {
@@ -595,7 +599,7 @@ body {
     align-items: center;
     width: 300px;
     border: 1px solid #444;
-    padding: 20px;
+    padding: 5px;
     text-align: center;
     border-radius: 4px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
@@ -655,9 +659,9 @@ body {
 }
 
 .cards-upgrade-income-container img {
-    width: 20px;
-    height: 20px;
-    margin-left: 10px;
+    width: 24px;
+    height: 24px;
+    margin: 0;
 }
 
 #cards-upgrade-income {
@@ -942,7 +946,7 @@ body {
     width: 50px;
     height: 50px;
     z-index: 1000;
-    background-image: url('../assets/img/icons/coin.png');
+    background-image: url('../assets/img/ENR.png');
     background-size: contain;
     background-repeat: no-repeat;
     animation: fall linear;
