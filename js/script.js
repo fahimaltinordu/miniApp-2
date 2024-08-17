@@ -18,6 +18,25 @@ function start() {
   initializeDailyRewards();
 }
 
+//..............FULLSCREEN FUNCTION.........................
+
+function requestFullscreen() {
+  if (!document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen();
+  } else if (document.documentElement.mozRequestFullScreen) {
+    // Firefox
+    document.documentElement.mozRequestFullScreen();
+  } else if (document.documentElement.webkitRequestFullscreen) {
+    // Chrome, Safari and Opera
+    document.documentElement.webkitRequestFullscreen();
+  } else if (document.documentElement.msRequestFullscreen) {
+    // IE/Edge
+    document.documentElement.msRequestFullscreen();
+  }
+}
+requestFullscreen();
+
+
 //Coins and Score
 
 function addCoins(coins) {
@@ -110,7 +129,7 @@ $circle.addEventListener("click", (event) => {
     plusCoins.classList.add("plusCoins");
     plusCoins.textContent = "+" + coinsPerTap;
     plusCoins.style.left = `${event.clientX}px`;
-    plusCoins.style.top = `${event.clientY}px`;
+    plusCoins.style.top = `${event.clientY - 60}px`;
 
     $circle.parentElement.appendChild(plusCoins);
 
