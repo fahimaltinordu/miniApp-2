@@ -113,6 +113,7 @@
         <div id="mine" class="tab-content">
             <h2 class="mine-tab__title">Pump your profit per hour!</h2>
             <div class="mine-tab__grid">
+                
                 <div class="mine-tab__card">
                     <div class="mine-tab__card-image">
                         <img src="assets/img/icons/mine/apple.png" alt="Apple Actions">
@@ -121,26 +122,27 @@
                         <h3 class="mine-tab__card-title">Apple Actions</h3>
                         <p class="mine-tab__card-description">Invest in Apple stocks to increase your wealth.</p>
                         <div class="mine-tab__card-details">
-                            <span class="mine-tab__card-price">$1500</span>
-                            <span class="mine-tab__card-income">Income: $<span
-                                    class="card-income">250</span>/hour</span>
+                            <span class="mine-tab__card-price">1500 ENR</span>
+                            <span class="mine-tab__card-income">Income: <span
+                                    class="card-income">250 ENR</span>/hour</span>
 
                         </div>
                         <button class="mine-tab__card-button">Invest</button>
                     </div>
                 </div>
+
                 <div class="mine-tab__card">
                     <div class="mine-tab__card-image"><img src="assets/img/icons/mine/startup-invest.png"
                             alt="Invest in Startup"></div>
                     <div class="mine-tab__card-content">
-                        <h3 class="mine-tab__card-title">Startup Invest</h3>
+                        <h3 class="mine-tab__card-title">Startup</h3>
                         <p class="mine-tab__card-description">Put money into promising startups for potential high
                             returns.
                         </p>
                         <div class="mine-tab__card-details">
-                            <span class="mine-tab__card-price">$2000</span>
-                            <span class="mine-tab__card-income">Income: $<span
-                                    class="card-income">500</span>/hour</span>
+                            <span class="mine-tab__card-price">2000 ENR</span>
+                            <span class="mine-tab__card-income">Income: <span
+                                    class="card-income">500 ENR</span>/hour</span>
 
                         </div>
                         <button class="mine-tab__card-button">Invest</button>
@@ -153,9 +155,9 @@
                         <h3 class="mine-tab__card-title">Bitcoin</h3>
                         <p class="mine-tab__card-description">Invest in Bitcoin for digital currency gains.</p>
                         <div class="mine-tab__card-details">
-                            <span class="mine-tab__card-price">$2500</span>
-                            <span class="mine-tab__card-income">Income: $<span
-                                    class="card-income">300</span>/hour</span>
+                            <span class="mine-tab__card-price">2500 ENR</span>
+                            <span class="mine-tab__card-income">Income: <span
+                                    class="card-income">300 ENR</span>/hour</span>
                         </div>
                         <button class="mine-tab__card-button">Invest</button>
                     </div>
@@ -166,9 +168,9 @@
                         <h3 class="mine-tab__card-title">Gold</h3>
                         <p class="mine-tab__card-description">Invest in gold as a safe-haven asset.</p>
                         <div class="mine-tab__card-details">
-                            <span class="mine-tab__card-price">$3000</span>
-                            <span class="mine-tab__card-income">Income: $<span
-                                    class="card-income">400</span>/hour</span>
+                            <span class="mine-tab__card-price">3000 ENR</span>
+                            <span class="mine-tab__card-income">Income: <span
+                                    class="card-income">400 ENR</span>/hour</span>
                         </div>
                         <button class="mine-tab__card-button">Invest</button>
                     </div>
@@ -183,7 +185,7 @@
                     <p style="font-size: 25px;">Profit per hour</p>
                     <div class="cards-upgrade-income-container"><img src="assets/img/ENR.png" alt="coins"><span
                             id="cards-upgrade-income"></span></div>
-                    <h5><img style="height: 24px;" src="assets/img/ENR.png"><span id="cards-upgrade-cost"></span>
+                    <h5><img style="height: 34px;" src="assets/img/ENR.png"><span id="cards-upgrade-cost"></span>
                     </h5>
                     <button class="upgrade-menu__button" id="cards-upgrade-button">Invest</button>
                 </div>
@@ -235,7 +237,7 @@
                                     Daily reward
                                 </h3>
                                 <div class="earn__item-reward">
-                                    <img src="assets/img/ENR.png" style="height: 24px;" alt="coin">
+                                    <img src="assets/img/ENR.png" style="height: 34px;" alt="coin">
                                     <span>+25,000</span>
                                 </div>
                             </div>
@@ -338,7 +340,35 @@
                         <div id="energy-timer"></div>
                     </div>
                 </div>
+
                 <div class="boost-menu__bosters boost-menu__bosters__upgrade">
+                    
+
+                    <div id="tap-upgrade" class="boost-menu__boost boost-menu__boost__tap-upgrade">
+                        <div>
+                            <img style="height: 50px;" src="assets/img/icons/tapp.png" alt="">
+                            <div>
+                                <h3>PerHour</h3>
+                                <h5><img style="height: 24px;" src="assets/img/ENR.png"><span
+                                        id="PerHour-cost">100</span></h5>
+                                <h5><img style="height: 24px;" src="assets/img/ENR.png"><span
+                                            id="PerHour-income">2.5</span></h5>      
+                                <h5>Level: <span id="PerHour-level"> 0</span></h5>      
+                            </div>
+                        </div>
+                        <div>
+                            <button>
+                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="60" height="60"
+                                    fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m9 5 7 7-7 7" />
+                                </svg>
+                            </button>
+
+                        </div>
+                    </div>
+
+
                     <div id="tap-upgrade" class="boost-menu__boost boost-menu__boost__tap-upgrade">
                         <div>
                             <img style="height: 50px;" src="assets/img/icons/tapp.png" alt="">
@@ -385,7 +415,7 @@
                         <img id="upgrade-img" src="" alt="Upgrade Image">
                         <h3 class="upgrade-menu__title" id="upgrade-title"></h3>
                         <p class="upgrade-menu__description" id="upgrade-description"></p>
-                        <h5><img style="height: 24px;" src="assets/img/ENR.png"><span id="upgrade-cost"></span>
+                        <h5><img style="height: 34px;" src="assets/img/ENR.png"><span id="upgrade-cost"></span>
                         </h5>
                         <button class="upgrade-menu__button" id="upgrade-button">Buy
                             Upgrade</button>
