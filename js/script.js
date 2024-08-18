@@ -156,7 +156,7 @@ let PerHourCost = localStorage.getItem("PerHourCost")
   : 100;
 let NextPerHourIncome = localStorage.getItem("NextPerHourIncome")
   ? parseInt(localStorage.getItem("NextPerHourIncome"))
-  : 2.5;
+  : 7.5;
 let PerHourLevel = localStorage.getItem("PerHourLevel")
   ? parseInt(localStorage.getItem("PerHourLevel"))
   : 0;
@@ -169,9 +169,9 @@ let multitapCost = localStorage.getItem("multitapCost")
 let maxEnergyCost = localStorage.getItem("maxEnergyCost")
   ? parseInt(localStorage.getItem("maxEnergyCost"))
   : 1000;
-document.querySelector("#PerHour-cost").textContent = PerHourCost;
-document.querySelector("#PerHour-income").textContent = NextPerHourIncome;
-document.querySelector("#PerHour-level").textContent = PerHourLevel;
+document.querySelector(".mine-tab__card-price").textContent = PerHourCost;
+document.querySelector(".card-income").textContent = NextPerHourIncome;
+document.querySelector(".PerHour-level").textContent = PerHourLevel;
 document.querySelector("#multitap-cost").textContent = multitapCost;
 document.querySelector("#max-energy-cost").textContent = maxEnergyCost;
 
@@ -227,9 +227,7 @@ function buyUpgrade(upgrade) {
       upgradeMultitap();
     } else if (upgradeName === "max energy") {
       upgradeMaxEnergy();
-    } else if (upgradeName === "perhour") {
-      upgradePerHour();
-    }
+    } 
     hideUpgradeMenu();
     startFallingCoins();
     alert("Upgrade purchased!");
@@ -269,27 +267,6 @@ function upgradeMaxEnergy() {
   maxEnergyCost += 1000;
   localStorage.setItem("maxEnergyCost", maxEnergyCost);
   document.querySelector("#max-energy-cost").textContent = maxEnergyCost;
-}
-
-function upgradePerHour() {
-  if (PerHourPurchases < 10) {
-    setCoinsPerHour(Number(getCoinsPerHour()) + PerHourCost / 40);
-    PerHourPurchases++;
-    PerHourCost += 100;
-    NextPerHourIncome = PerHourCost / 40;
-    PerHourLevel += 1
-
-    localStorage.setItem("PerHourPurchases", PerHourPurchases);
-    localStorage.setItem("PerHourCost", PerHourCost);
-    localStorage.setItem("NextPerHourIncome", NextPerHourIncome);
-    localStorage.setItem("PerHourLevel", PerHourLevel);
-
-    document.querySelector("#PerHour-cost").textContent = PerHourCost;
-    document.querySelector("#PerHour-income").textContent = NextPerHourIncome;
-    document.querySelector("#PerHour-level").textContent = PerHourLevel;
-  } else {
-    alert("Invest level is maxed out!");
-  }
 }
 
 function upgradeMultitap() {
@@ -391,8 +368,24 @@ function startCoinAccumulation() {
 }
 
 function updateCoinsPerHour(coins) {
-  setCoinsPerHour(Number(getCoinsPerHour()) + coins);
-  startCoinAccumulation();
+
+    setCoinsPerHour(Number(getCoinsPerHour()) + coins);
+    PerHourPurchases++;
+    PerHourCost += 10;
+    NextPerHourIncome = PerHourCost / 10;
+    PerHourLevel += 1
+
+    localStorage.setItem("PerHourPurchases", PerHourPurchases);
+    localStorage.setItem("PerHourCost", PerHourCost);
+    localStorage.setItem("NextPerHourIncome", NextPerHourIncome);
+    localStorage.setItem("PerHourLevel", PerHourLevel);
+
+    document.querySelector(".mine-tab__card-price").textContent = PerHourCost;
+    document.querySelector(".card-income").textContent = NextPerHourIncome;
+    document.querySelector(".PerHour-level").textContent = PerHourLevel;
+
+    startCoinAccumulation();
+
 }
 
 if (getCoinsPerHour() > 0) {
@@ -479,16 +472,21 @@ function buyCardUpgrade(card) {
   const currentBalance = getScore();
   const cost = parseNumber($cardsUpgradeCost.textContent);
   const income = parseNumber($cardsUpgradeIncome.textContent);
-
-  if (currentBalance >= cost) {
-    setScore(currentBalance - cost);
-    updateCoinsPerHour(income);
+  if (PerHourPurchases < 10) {
+    if (currentBalance >= cost) {
+      setScore(currentBalance - cost);
+      updateCoinsPerHour(income);
+      hideUpgradeMenu();
+      startFallingCoins();
+      alert("Upgrade purchased!");
+    } else {
+      alert("Not enough coins!");
+    }
+  }else {
     hideUpgradeMenu();
-    startFallingCoins();
-    alert("Upgrade purchased!");
-  } else {
-    alert("Not enough coins!");
+    alert("Invest level is maxed out!");
   }
+  
 }
 
 function parseNumber(value) {
