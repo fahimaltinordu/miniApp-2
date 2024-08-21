@@ -3,8 +3,9 @@ const TELEGRAM = window.Telegram.WebApp;
 const user = TELEGRAM.initDataUnsafe.user;
 
 //Configuration
-TELEGRAM.setHeaderColor("#2C3E50");
-TELEGRAM.setBackgroundColor("#8E44AD");
+TELEGRAM.setHeaderColor("#252F43");
+TELEGRAM.expand(); //Expands the app on the users' phone to 100% height
+
 
 const telegramResponseDiv = document.getElementById('telegram-response');
 
@@ -129,7 +130,6 @@ stocks.forEach((item) => {
 
 });
 
-console.log(str);
 
 let $cardContainer = document.querySelector(".mine-tab__grid");
 $cardContainer.innerHTML = str;
