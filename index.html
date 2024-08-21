@@ -7,12 +7,14 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/styles.css">
     <title>EnergyFi MiniApp</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 
 <body>
 
     <div class="header">
         <h1>EnergyFi</h1>
+        <div id="telegram-response"></div> 
         <div class="settings">
             <div><img src="assets/img/wallet-icon.svg" height="40px" alt=""></div>
             <div><img src="assets/img/settings-icon.svg" height="40px" alt=""></div>
@@ -44,7 +46,7 @@
     <div class="game">
         <header class="game__header">
             <img src="assets/img/ENR.png" alt="">
-            <h2 class="game__score">1000</h2>
+            <h2 class="game__score">0</h2>
         </header>
         <div class="game__clicker-circle">
             <img class="game__main-image" src="assets/img/octopus/pure.png" alt="main-image">
@@ -114,69 +116,7 @@
             <h2 class="mine-tab__title">Pump your profit per hour. Invest stocks!</h2>
             <div class="mine-tab__grid">
 
-                <div class="mine-tab__card">
-                    <div class="mine-tab__card-image">
-                        <h3 class="mine-tab__card-title">AAPL</h3>
-                        <img src="assets/img/icons/mine/apple.png" alt="AAPL">
-
-                    </div>
-                    <div class="mine-tab__card-content">
-
-                        <p class="mine-tab__card-description">Invest in Apple stocks to increase your wealth.</p>
-                        <div class="mine-tab__card-details">
-                            <span class="mine-tab__card-price">100</span>
-                            <span class="card-income">7.5</span>
-                            <p style="color: #bbb;"><span>lvl </span><span class="PerHour-level">0</span> </p>
-                        </div>
-                        <button class="mine-tab__card-button">Invest</button>
-                    </div>
-                </div>
-
-                <div class="mine-tab__card">
-                    <div class="mine-tab__card-image"><img src="assets/img/icons/mine/startup-invest.png"
-                            alt="Invest in Startup"></div>
-                    <div class="mine-tab__card-content">
-                        <h3 class="mine-tab__card-title">Startup</h3>
-                        <p class="mine-tab__card-description">Put money into promising startups for potential high
-                            returns.
-                        </p>
-                        <div class="mine-tab__card-details">
-                            <span class="mine-tab__card-price">2000 ENR</span>
-                            <span class="mine-tab__card-income">Income: <span class="card-income">500
-                                    ENR</span>/hour</span>
-
-                        </div>
-                        <button class="mine-tab__card-button">Invest</button>
-                    </div>
-                </div>
-                <div class="mine-tab__card">
-                    <div class="mine-tab__card-image"><img src="assets/img/icons/mine/bitcoin.png" alt="Buy Bitcoin">
-                    </div>
-                    <div class="mine-tab__card-content">
-                        <h3 class="mine-tab__card-title">Bitcoin</h3>
-                        <p class="mine-tab__card-description">Invest in Bitcoin for digital currency gains.</p>
-                        <div class="mine-tab__card-details">
-                            <span class="mine-tab__card-price">2500 ENR</span>
-                            <span class="mine-tab__card-income">Income: <span class="card-income">300
-                                    ENR</span>/hour</span>
-                        </div>
-                        <button class="mine-tab__card-button">Invest</button>
-                    </div>
-                </div>
-                <div class="mine-tab__card">
-                    <div class="mine-tab__card-image"><img src="assets/img/icons/mine/gold.png" alt="Gold"></div>
-                    <div class="mine-tab__card-content">
-                        <h3 class="mine-tab__card-title">Gold</h3>
-                        <p class="mine-tab__card-description">Invest in gold as a safe-haven asset.</p>
-                        <div class="mine-tab__card-details">
-                            <span class="mine-tab__card-price">3000 </span>
-                            <span class="mine-tab__card-income">Income: <span class="card-income">400
-                                    ENR</span>/hour</span>
-                            <span class="card-level">0</span> lvl</span>
-                        </div>
-                        <button class="mine-tab__card-button">Invest</button>
-                    </div>
-                </div>
+               
             </div>
             <div id="cards-upgrade-menu" class="upgrade-menu">
                 <div class="upgrade-menu__content">
