@@ -1,3 +1,24 @@
+//Initialize Telegram Mini App
+const TELEGRAM = window.Telegram.WebApp;
+const user = TELEGRAM.initDataUnsafe.user;
+
+//Configuration
+TELEGRAM.setHeaderColor("#2C3E50");
+TELEGRAM.setBackgroundColor("#8E44AD");
+
+const telegramResponseDiv = document.getElementById('telegram-response');
+
+// Display user information in the telegram response div
+if (user) {
+  telegramResponseDiv.textContent = `${user.first_name} ${user.last_name || ''} - CEO`; // Display first and last name
+} else {
+  telegramResponseDiv.textContent = "No User"; // Fallback message
+}
+//Initialize Telegram Mini App
+
+
+
+
 const $score = document.querySelector(".game__score");
 const $balance = document.querySelector(".boost-menu__balance");
 const $circle = document.querySelector(".game__clicker-circle");
@@ -17,6 +38,102 @@ function start() {
   restoreRecoveryState();
   initializeDailyRewards();
 }
+
+
+let stocks = [
+  {
+    hisse: "APPL",
+    img: "assets/img/icons/mine/apple.png",
+    descr: "Invest in Apple stocks to increase your wealth.",
+    price: 100,
+    pph: 7.5,
+    purchased: 0,
+  },
+  {
+    hisse: "BTC",
+    img: "",
+    descr: "Invest in Bitcoin for digital currency gains.",
+    price: 150,
+    pph: 8,
+    purchased: 0,
+  },
+  {
+    hisse: "ETH",
+    img: "",
+    descr: "Invest in Bitcoin for digital currency gains.",
+    price: 170,
+    pph: 10,
+    purchased: 0,
+  },
+  {
+    hisse: "XRP",
+    img: "",
+    descr: "Invest in Bitcoin for digital currency gains.",
+    price: 200,
+    pph: 15,
+    purchased: 0,
+  },
+  {
+    hisse: "KCHOL",
+    img: "",
+    descr: "Invest in Bitcoin for digital currency gains.",
+    price: 250,
+    pph: 20,
+    purchased: 0,
+  },
+  {
+    hisse: "THYAO",
+    img: "",
+    descr: "Invest in Bitcoin for digital currency gains.",
+    price: 350,
+    pph: 20,
+    purchased: 0,
+  },
+  {
+    hisse: "TCELL",
+    img: "",
+    descr: "Invest in Bitcoin for digital currency gains.",
+    price: 300,
+    pph: 20,
+    purchased: 0,
+  },
+  {
+    hisse: "TSLA",
+    img: "",
+    descr: "Invest in Bitcoin for digital currency gains.",
+    price: 400,
+    pph: 25,
+    purchased: 0,
+  }
+]
+
+let str = "";
+stocks.forEach((item) => {
+
+
+  str += `<div class="mine-tab__card">
+                      <div class="mine-tab__card-image">
+                          <h3 class="mine-tab__card-title">${item.hisse}</h3>
+                          <img src="${item.img}">
+                      </div>
+                      <div class="mine-tab__card-content">
+                          <p class="mine-tab__card-description">${item.descr}</p>
+                          <div class="mine-tab__card-details">
+                              <span class="mine-tab__card-price">Fee: ${item.price}</span>
+                              <span class="card-income">PPH: ${item.pph}</span>
+                              <p style="color: #bbb;"><span>lvl </span><span class="PerHour-level">${item.purchased}</span> </p>
+                          </div>
+                          <button class="mine-tab__card-button">Invest</button>
+                      </div>
+                  </div>`;
+
+});
+
+console.log(str);
+
+let $cardContainer = document.querySelector(".mine-tab__grid");
+$cardContainer.innerHTML = str;
+
 
 
 //Coins and Score
@@ -227,11 +344,12 @@ function buyUpgrade(upgrade) {
       upgradeMultitap();
     } else if (upgradeName === "max energy") {
       upgradeMaxEnergy();
-    } 
+    }
     hideUpgradeMenu();
     startFallingCoins();
     alert("Upgrade purchased!");
   } else {
+    hideUpgradeMenu();
     alert("Not enough coins!");
   }
 }
@@ -367,24 +485,27 @@ function startCoinAccumulation() {
   }, 1000);
 }
 
+
+
+
 function updateCoinsPerHour(coins) {
 
-    setCoinsPerHour(Number(getCoinsPerHour()) + coins);
-    PerHourPurchases++;
-    PerHourCost += 10;
-    NextPerHourIncome = PerHourCost / 10;
-    PerHourLevel += 1
+  setCoinsPerHour(Number(getCoinsPerHour()) + coins);
+  PerHourPurchases++;
+  PerHourCost += 10;
+  NextPerHourIncome = PerHourCost / 10;
+  PerHourLevel += 1
 
-    localStorage.setItem("PerHourPurchases", PerHourPurchases);
-    localStorage.setItem("PerHourCost", PerHourCost);
-    localStorage.setItem("NextPerHourIncome", NextPerHourIncome);
-    localStorage.setItem("PerHourLevel", PerHourLevel);
+  localStorage.setItem("PerHourPurchases", PerHourPurchases);
+  localStorage.setItem("PerHourCost", PerHourCost);
+  localStorage.setItem("NextPerHourIncome", NextPerHourIncome);
+  localStorage.setItem("PerHourLevel", PerHourLevel);
 
-    document.querySelector(".mine-tab__card-price").textContent = PerHourCost;
-    document.querySelector(".card-income").textContent = NextPerHourIncome;
-    document.querySelector(".PerHour-level").textContent = PerHourLevel;
+  document.querySelector(".mine-tab__card-price").textContent = PerHourCost;
+  document.querySelector(".card-income").textContent = NextPerHourIncome;
+  document.querySelector(".PerHour-level").textContent = PerHourLevel;
 
-    startCoinAccumulation();
+  startCoinAccumulation();
 
 }
 
@@ -480,13 +601,14 @@ function buyCardUpgrade(card) {
       startFallingCoins();
       alert("Upgrade purchased!");
     } else {
+      hideUpgradeMenu();
       alert("Not enough coins!");
     }
-  }else {
+  } else {
     hideUpgradeMenu();
     alert("Invest level is maxed out!");
   }
-  
+
 }
 
 function parseNumber(value) {
@@ -529,11 +651,9 @@ const $claimDailyRewardBtn = document.querySelector("#popupClaimBtn");
 const $dailyRewardDays = document.querySelectorAll(".popup__day");
 
 const today = new Date().toISOString().slice(0, 10);
-console.log(today)
 
 function initializeDailyRewards() {
   const lastRewardDate = localStorage.getItem("lastRewardDate");
-  console.log(lastRewardDate)
   let previousDay = parseInt(localStorage.getItem("previousDay")) || 1;
   $dailyRewardDays.forEach((day) =>
     day.classList.remove("popup__day__current", "popup__day__completed")
