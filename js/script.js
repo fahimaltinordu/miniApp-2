@@ -11,7 +11,7 @@ const telegramResponseDiv = document.getElementById('telegram-response');
 
 // Display user information in the telegram response div
 if (user) {
-  telegramResponseDiv.textContent = `${user.first_name} ${user.last_name || ''} - CEO`; // Display first and last name
+  telegramResponseDiv.textContent = `${user.first_name} ${user.last_name || ''} - ${user.id}`; // Display first and last name
 } else {
   telegramResponseDiv.textContent = "No User"; // Fallback message
 }
