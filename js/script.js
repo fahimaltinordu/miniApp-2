@@ -1,19 +1,43 @@
 //Initialize Telegram Mini App
-const TELEGRAM = window.Telegram.WebApp;
-const user = TELEGRAM.initDataUnsafe.user;
+if (window.Telegram && window.Telegram.WebApp) {
+  const playerInfo = document.querySelector(".player__info");
 
-//Configuration
-TELEGRAM.setHeaderColor("#252F43");
-TELEGRAM.expand(); //Expands the app on the users' phone to 100% height
+  // Initialize the Telegram Mini App
+  const TELEGRAM = window.Telegram.WebApp;
 
+  // Notify Telegram that the web app is ready
+  TELEGRAM.ready();
+  
+  TELEGRAM.disableVerticalSwipes()
 
-const telegramResponseDiv = document.getElementById('telegram-response');
+  // Show the block only if the app is running within Telegram
+  playerInfo.style.display = "flex";
 
-// Display user information in the telegram response div
-if (user) {
-  telegramResponseDiv.textContent = `${user.first_name} ${user.last_name || ''} - ${user.id}`; // Display first and last name
-} else {
-  telegramResponseDiv.textContent = "No User"; // Fallback message
+  const user = TELEGRAM.initDataUnsafe.user;
+
+  // Settings
+  TELEGRAM.setHeaderColor("#252F43");
+  TELEGRAM.expand(); // Expand the app to 100% height on the user's phone
+
+  const playerIcon = document.getElementById('player-icon');
+  const playerName = document.getElementById('player-name');
+
+  console.log(user);
+
+  // Display user information in the element
+  if (user) {
+      playerName.textContent = `${user.first_name}`; // Display the user's first name
+      if (user.photo_url) {
+          playerIcon.src = user.photo_url; // Display the user's photo
+      } else {
+          playerIcon.src = "assets/img/ENR.png"; // Fallback image if no photo is available
+      }
+  } else {
+      console.log("No User"); // Message if no user information is available
+      // playerInfo.style.display = "none"; // Hide player info if no user is present
+      playerIcon.src = "assets/img/nopic.png"; // Fallback image if no photo is available
+      playerName.textContent = `No user`; 
+  }
 }
 //Initialize Telegram Mini App
 
