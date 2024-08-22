@@ -14,6 +14,7 @@ if (window.Telegram && window.Telegram.WebApp) {
   playerInfo.style.display = "flex";
 
   const user = TELEGRAM.initDataUnsafe.user;
+  console.log(user)
 
   // Settings
   TELEGRAM.setHeaderColor("#252F43");
@@ -22,15 +23,13 @@ if (window.Telegram && window.Telegram.WebApp) {
   const playerIcon = document.getElementById('player-icon');
   const playerName = document.getElementById('player-name');
 
-  console.log(user);
-
   // Display user information in the element
   if (user) {
     playerName.textContent = `${user.first_name}`; // Display the user's first name
     if (user.photo_url) {
       playerIcon.src = user.photo_url; // Display the user's photo
     } else {
-      playerIcon.src = "assets/img/ENR.png"; // Fallback image if no photo is available
+      playerIcon.src = "assets/img/nopic.png"; // Fallback image if no photo is available
     }
   } else {
     console.log("No User"); // Message if no user information is available
