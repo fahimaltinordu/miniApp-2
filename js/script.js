@@ -7,7 +7,7 @@ if (window.Telegram && window.Telegram.WebApp) {
 
   // Notify Telegram that the web app is ready
   TELEGRAM.ready();
-  
+
   TELEGRAM.disableVerticalSwipes()
 
   // Show the block only if the app is running within Telegram
@@ -26,17 +26,17 @@ if (window.Telegram && window.Telegram.WebApp) {
 
   // Display user information in the element
   if (user) {
-      playerName.textContent = `${user.first_name}`; // Display the user's first name
-      if (user.photo_url) {
-          playerIcon.src = user.photo_url; // Display the user's photo
-      } else {
-          playerIcon.src = "assets/img/ENR.png"; // Fallback image if no photo is available
-      }
+    playerName.textContent = `${user.first_name}`; // Display the user's first name
+    if (user.photo_url) {
+      playerIcon.src = user.photo_url; // Display the user's photo
+    } else {
+      playerIcon.src = "assets/img/ENR.png"; // Fallback image if no photo is available
+    }
   } else {
-      console.log("No User"); // Message if no user information is available
-      // playerInfo.style.display = "none"; // Hide player info if no user is present
-      playerIcon.src = "assets/img/nopic.png"; // Fallback image if no photo is available
-      playerName.textContent = `No user`; 
+    console.log("No User"); // Message if no user information is available
+    // playerInfo.style.display = "none"; // Hide player info if no user is present
+    playerIcon.src = "assets/img/nopic.png"; // Fallback image if no photo is available
+    playerName.textContent = `No user`;
   }
 }
 //Initialize Telegram Mini App
@@ -231,6 +231,10 @@ setInterval(() => {
 
 $circle.addEventListener("click", (event) => {
   if (getEnergy() >= getCoinsPerTap()) {
+    // Vibration 
+    if (navigator.vibrate) {
+      navigator.vibrate(200)
+    }
     const rect = $circle.getBoundingClientRect();
     const offsetX = event.clientX - rect.left - rect.width / 2;
     const offsetY = event.clientY - rect.top - rect.height / 2;
