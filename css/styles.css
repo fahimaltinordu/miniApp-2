@@ -7,8 +7,8 @@
 
 /* ALERT STYLE */
 .swal2-popup.swal2-toast {
-    background:#157866 !important;
-    color:white;
+    background: #157866 !important;
+    color: white;
 }
 
 html,
@@ -790,7 +790,7 @@ body {
     align-items: center;
     width: 300px;
     border: 1px solid #444;
-    padding: 20px;
+    padding: 15px 20px;
     border-radius: 4px;
     transition: transform 0.2s;
 }
@@ -801,11 +801,17 @@ body {
     align-items: center;
 }
 
-.earn__item-info {
+.earn__item-content {
     display: flex;
     justify-content: center;
     align-items: center;
+}
 
+.earn__item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: start;
 }
 
 .earn__item-image,
