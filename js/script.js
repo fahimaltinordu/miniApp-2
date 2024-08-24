@@ -1,3 +1,19 @@
+// import {TelegramBot} from 'telegram.js';
+// const token = '7209041141:AAEwvNw_bYLEv4oVc9t6n4X-pmt-RUTkeiw';
+// const bot = new TelegramBot(token, {polling: true});
+
+// bot.onText(/\/start (.+)|\/start/i, function (message, match) {
+//     var invite_code;
+//     var username;
+//     if (match[1] != undefined){
+//         invite_code = match[1];
+//         username = message.from.username;
+//     }
+// });
+
+const playerIcon = document.getElementById('player-icon');
+const playerName = document.getElementById('player-name');
+
 //Initialize Telegram Mini App
 if (window.Telegram && window.Telegram.WebApp) {
   const playerInfo = document.querySelector(".player__info");
@@ -20,23 +36,19 @@ if (window.Telegram && window.Telegram.WebApp) {
   TELEGRAM.setHeaderColor("#252F43");
   TELEGRAM.expand(); // Expand the app to 100% height on the user's phone
 
-  const playerIcon = document.getElementById('player-icon');
-  const playerName = document.getElementById('player-name');
 
-  // Display user information in the element
-  if (user) {
-    playerName.textContent = `${user.first_name}`; // Display the user's first name
-    if (user.photo_url) {
-      playerIcon.src = user.photo_url; // Display the user's photo
+  function updateProfile() {
+    // Display user information in the element
+    let level = getCurrentLevel();
+    updateImage(level);
+    if (user) {
+      playerName.textContent = `${user.first_name} - lvl: ${level}`; // Display the user's first name
     } else {
-      playerIcon.src = "assets/img/nopic.png"; // Fallback image if no photo is available
+      // playerIcon.src = "assets/img/nopic.png"; // Fallback image if no photo is available
+      playerName.textContent = `No user - lvl: ${level}`;
     }
-  } else {
-    console.log("No User"); // Message if no user information is available
-    // playerInfo.style.display = "none"; // Hide player info if no user is present
-    playerIcon.src = "assets/img/nopic.png"; // Fallback image if no photo is available
-    playerName.textContent = `No user`;
   }
+
 }
 //Initialize Telegram Mini App
 
@@ -49,7 +61,7 @@ const $circle = document.querySelector(".game__clicker-circle");
 const $mainImg = document.querySelector(".game__main-image");
 const $energy = document.querySelector(".energy__value");
 const $maxEnergy = document.querySelector(".energy__max");
-const $toLvlUp = document.querySelector("#to-lvl-up");
+// const $toLvlUp = document.querySelector("#to-lvl-up");
 const $perTap = document.querySelector("#tap");
 
 function start() {
@@ -207,18 +219,20 @@ function updateLevel() {
   }
 
   setCurrentLevel(level);
-  $toLvlUp.textContent = nextLevelScore;
+  // $toLvlUp.textContent = nextLevelScore;
   updateImage(level);
+  updateProfile()
 }
 
 function updateImage(level) {
   const octopusImages = {
-    0: "assets/img/octopus/pure.png",
-    1: "assets/img/octopus/normal.png",
-    2: "assets/img/octopus/employed.png",
-    3: "assets/img/octopus/rich.png",
+    0: "assets/img/levels/lvl0.png",
+    1: "assets/img/levels/lvl1.png",
+    2: "assets/img/levels/lvl2.png",
+    3: "assets/img/levels/lvl3.png",
   };
-  $mainImg.setAttribute("src", octopusImages[level]);
+  // playerIcon.src = octopusImages[level]
+  playerIcon.setAttribute("src", octopusImages[level]);
 }
 
 // Energy regenerator
