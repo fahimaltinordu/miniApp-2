@@ -388,10 +388,40 @@ function buyUpgrade(upgrade) {
     }
     hideUpgradeMenu();
     startFallingCoins();
-    alert("Upgrade purchased!");
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+    Toast.fire({
+      icon: "success",
+      title: "Upgrade purchased!"
+    });
+    // alert("Upgrade purchased!");
   } else {
     hideUpgradeMenu();
-    alert("Not enough coins!");
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+    Toast.fire({
+      icon: "error",
+      title: "Not enough coins!"
+    });
+    // alert("Not enough coins!");
   }
 }
 
@@ -716,7 +746,7 @@ function initializeDailyRewards() {
       // If this is the user's first visit
       previousDay = 1;
     }
-    
+
     // Update the previous day in localStorage
     setPreviousDay(previousDay);
   }
