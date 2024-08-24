@@ -392,7 +392,7 @@ function buyUpgrade(upgrade) {
       toast: true,
       position: "top-end",
       showConfirmButton: false,
-      timer: 3000,
+      timer: 2000,
       timerProgressBar: true,
       didOpen: (toast) => {
         toast.onmouseenter = Swal.stopTimer;
@@ -410,7 +410,7 @@ function buyUpgrade(upgrade) {
       toast: true,
       position: "top-end",
       showConfirmButton: false,
-      timer: 3000,
+      timer: 2000,
       timerProgressBar: true,
       didOpen: (toast) => {
         toast.onmouseenter = Swal.stopTimer;
@@ -421,7 +421,6 @@ function buyUpgrade(upgrade) {
       icon: "error",
       title: "Not enough coins!"
     });
-    // alert("Not enough coins!");
   }
 }
 
@@ -670,14 +669,59 @@ function buyCardUpgrade(card) {
       updateCoinsPerHour(income);
       hideUpgradeMenu();
       startFallingCoins();
-      alert("Upgrade purchased!");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "success",
+        title: "Upgrade purchased!"
+      });
+      // alert("Upgrade purchased!");
     } else {
       hideUpgradeMenu();
-      alert("Not enough coins!");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "error",
+        title: "Not enough coins!"
+      });
+      // alert("Not enough coins!");
     }
   } else {
     hideUpgradeMenu();
-    alert("Invest level is maxed out!");
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+    Toast.fire({
+      icon: "warning",
+      title: "Invest level is maxed out!"
+    });
+    // alert("Invest level is maxed out!");
   }
 
 }
