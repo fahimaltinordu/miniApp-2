@@ -65,30 +65,33 @@ body {
     align-items: center;
     font-size: 1rem;
     background-color: #252F43;
-    padding: 5px 20px;
+    padding: 5px 10px;
     border-radius: 5px;
     color: #fff;
 }
 
 .player__icon {
-    width: 30px;
+    width: 20px;
 }
 
 
 .info {
     display: flex;
-    gap: 3px;
+    justify-content: center;
+    width: 95%;
+    gap: 10px;
+    margin-bottom: 25px;
 }
 
 .info__container {
     font-size: 1rem;
     background-color: #252F43;
-    padding: 5px 20px;
+    padding: 5px 10px;
     border-radius: 5px;
     color: #fff;
     text-align: center;
     font-weight: 800;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     display: flex;
     gap: 3px;
     flex-direction: column;
@@ -123,6 +126,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap:7px;
 }
 
 .game__header img {
@@ -170,8 +174,8 @@ body {
 
 
 .game__clicker-circle img {
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
     border-radius: 50%;
     user-select: none;
     -webkit-user-drag: none;
@@ -475,7 +479,7 @@ body {
 .plusCoins {
     position: absolute;
     /* font-family: Inter; */
-    /* text-shadow: 0px 0px 4px rgba(234, 182, 64, 0.25); */
+    text-shadow: 0px 0px 4px rgb(7, 218, 157, 0.5);
     font-size: 30px;
     font-weight: 800;
     background: #ffffff;
@@ -484,7 +488,7 @@ body {
     -webkit-text-fill-color: transparent;
     pointer-events: none;
     user-select: none;
-    animation: move-up 2s forwards;
+    animation: move-up 3s forwards;
 }
 
 .energy {
@@ -1032,12 +1036,12 @@ body {
 
     100% {
         opacity: 0;
-        transform: translateY(-50px);
+        transform: translateY(-100px);
     }
 }
 
 @media (max-width: 480px) {
-    .info__container {
+    .info__container, .player__info {
         font-size: 0.9rem;
     }
 
@@ -1052,19 +1056,19 @@ body {
 }
 
 @media (max-width: 380px) {
-    .info__container {
+    .info__container, .player__info {
         font-size: 0.8rem;
     }
 }
 
 @media (max-width: 350px) {
-    .info__container {
+    .info__container, .player__info {
         font-size: 0.7rem;
     }
 }
 
 @media (max-width: 320px) {
-    .info__container {
+    .info__container, .player__info {
         font-size: 0.6rem;
     }
 }
