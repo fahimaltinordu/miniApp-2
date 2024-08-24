@@ -2,6 +2,7 @@
 
 * {
     font-family: "Squada One", sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 
@@ -126,7 +127,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap:7px;
+    gap: 7px;
 }
 
 .game__header img {
@@ -624,7 +625,7 @@ body {
     justify-content: space-evenly;
     align-items: center;
     /* width: 300px; */
-    gap:20px;
+    gap: 20px;
     border: 1px solid #444;
     padding: 5px;
     text-align: center;
@@ -669,7 +670,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap:7px;
+    gap: 7px;
     font-size: 14px;
     color: #ddd;
 }
@@ -1041,7 +1042,9 @@ body {
 }
 
 @media (max-width: 480px) {
-    .info__container, .player__info {
+
+    .info__container,
+    .player__info {
         font-size: 0.9rem;
     }
 
@@ -1056,19 +1059,25 @@ body {
 }
 
 @media (max-width: 380px) {
-    .info__container, .player__info {
+
+    .info__container,
+    .player__info {
         font-size: 0.8rem;
     }
 }
 
 @media (max-width: 350px) {
-    .info__container, .player__info {
+
+    .info__container,
+    .player__info {
         font-size: 0.7rem;
     }
 }
 
 @media (max-width: 320px) {
-    .info__container, .player__info {
+
+    .info__container,
+    .player__info {
         font-size: 0.6rem;
     }
 }
