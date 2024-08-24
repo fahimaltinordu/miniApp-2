@@ -14,10 +14,7 @@
 
     <div class="header">
         <h1>EnergyFi</h1>
-        <div id="player-info" class="player__info">
-            <img id="player-icon" class="player__icon" src="" alt="player icon">
-            <p id="player-name" class="player__name"></p>
-        </div>
+        
         <div class="settings">
             <div><img src="assets/img/wallet-icon.svg" height="40px" alt=""></div>
             <div><img src="assets/img/settings-icon.svg" height="40px" alt=""></div>
@@ -26,6 +23,10 @@
 
 
     <div class="info">
+        <div id="player-info" class="player__info">
+            <img id="player-icon" class="player__icon" src="" alt="player icon">
+            <p id="player-name" class="player__name"></p>
+        </div>
         <div class="info__container">
             <h6 class="info__title">Earn per tap</h6>
             <div>
@@ -33,12 +34,12 @@
                 </span>
             </div>
         </div>
-        <div class="info__container">
+        <!-- <div class="info__container">
             <h6 class="info__title">Coins to level up</h6>
             <div>
                 <span id="to-lvl-up">0</span>
             </div>
-        </div>
+        </div> -->
         <div class="info__container">
             <h6 class="info__title">Profit per hour</h6>
             <div>
@@ -48,11 +49,14 @@
     </div>
     <div class="game">
         <header class="game__header">
-            <img src="assets/img/ENR.png" alt="">
-            <h2 class="game__score">0</h2>
+            <!-- <img src="assets/img/ENR.png" alt=""> -->
+            <p style="display: flex;justify-content: center;align-items: center;">
+                <h2 class="game__score">0</h2>
+                <span style="align-self: baseline;color: white;font-weight: 500;font-size: 25px;">ENR</span>
+            </p>
         </header>
         <div class="game__clicker-circle">
-            <img class="game__main-image" src="assets/img/octopus/pure.png" alt="main-image">
+            <img class="game__main-image" src="assets/img/ENR.png" alt="main-image">
         </div>
         <div class="game__footer">
             <div class="energy">
