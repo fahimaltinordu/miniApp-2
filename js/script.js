@@ -177,6 +177,8 @@ function setScore(score) {
 }
 
 // Level
+const $currentLvlName = document.querySelector('.level-progress__name');
+const $currentLvl = document.querySelector('.level-progress__current-level');
 
 function getCurrentLevel() {
   return Number(localStorage.getItem('level')) || 0;
@@ -184,29 +186,53 @@ function getCurrentLevel() {
 
 function setCurrentLevel(level) {
   localStorage.setItem('level', level);
+  $currentLvl.textContent = level;
+}
+function updateProgressBar(currentScore, maxScore) {
+  const progressBar = document.getElementById('level-progress');
+  progressBar.max = maxScore;
+  progressBar.value = currentScore;
 }
 
 function updateLevel() {
   const score = getScore();
   let level = getCurrentLevel();
-  let nextLevelScore = '';
+  let nextLevelScore = 0;
+
+  switch (level) {
+    case 0:
+      $currentLvlName.textContent = 'Neon';
+      break;
+    case 1:
+      $currentLvlName.textContent = 'Galactic';
+      break;
+    case 2:
+      $currentLvlName.textContent = 'Cyber';
+      break;
+    case 3:
+      $currentLvlName.textContent = 'Stellar';
+      break;
+    default:
+      $currentLvlName.textContent = 'Neon';
+  }
 
   if (score >= 10000 && level < 3) {
     level = 3;
-    nextLevelScore = 'Max Lvl';
+    nextLevelScore = 10000;
   } else if (score >= 5000 && level < 2) {
     level = 2;
-    nextLevelScore = '10k';
+    nextLevelScore = 10000;
   } else if (score >= 1000 && level < 1) {
     level = 1;
-    nextLevelScore = '5000';
+    nextLevelScore = 5000;
   } else if (level === 0) {
-    nextLevelScore = '1000';
+    nextLevelScore = 1000;
   } else {
-    nextLevelScore = level === 1 ? '5000' : '10k';
+    nextLevelScore = level === 1 ? 5000 : 10000;
   }
 
   setCurrentLevel(level);
+  updateProgressBar(score, nextLevelScore);
   // $toLvlUp.textContent = nextLevelScore;
   updateImage(level);
   updateProfile();
