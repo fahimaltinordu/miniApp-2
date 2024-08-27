@@ -1,15 +1,10 @@
-// import {TelegramBot} from 'telegram.js';
-// const token = '7209041141:AAEwvNw_bYLEv4oVc9t6n4X-pmt-RUTkeiw';
-// const bot = new TelegramBot(token, {polling: true});
+window.addEventListener("load", function () {
+  // setTimeout(function() {
+  //   document.getElementById("loading").style.display = "none" 
+  // }, 6000);
+  document.getElementById("loading").style.display = "none";
+});
 
-// bot.onText(/\/start (.+)|\/start/i, function (message, match) {
-//     var invite_code;
-//     var username;
-//     if (match[1] != undefined){
-//         invite_code = match[1];
-//         username = message.from.username;
-//     }
-// });
 
 const playerIcon = document.getElementById('player-icon');
 const playerName = document.getElementById('player-name');
