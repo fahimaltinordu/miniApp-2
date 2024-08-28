@@ -1,10 +1,9 @@
-window.addEventListener("load", function () {
+window.addEventListener('load', function () {
   // setTimeout(function() {
-  //   document.getElementById("loading").style.display = "none" 
+  //   document.getElementById("loading").style.display = "none"
   // }, 6000);
-  document.getElementById("loading").style.display = "none";
+  document.getElementById('loading').style.display = 'none';
 });
-
 
 const playerIcon = document.getElementById('player-icon');
 const playerName = document.getElementById('player-name');
@@ -61,98 +60,10 @@ function start() {
   updateLevel();
   setCoinsPerTap(getCoinsPerTap());
   setCoinsPerHour(getCoinsPerHour());
+  loadStocks();
   restoreRecoveryState();
   initializeDailyRewards();
 }
-
-let stocks = [
-  {
-    hisse: 'APPL',
-    img: 'assets/img/icons/mine/apple.png',
-    descr: 'Invest in Apple stocks to increase your wealth.',
-    price: 100,
-    pph: 7.5,
-    purchased: 0,
-  },
-  {
-    hisse: 'BTC',
-    img: '',
-    descr: 'Invest in Bitcoin for digital currency gains.',
-    price: 150,
-    pph: 8,
-    purchased: 0,
-  },
-  {
-    hisse: 'ETH',
-    img: '',
-    descr: 'Invest in Bitcoin for digital currency gains.',
-    price: 170,
-    pph: 10,
-    purchased: 0,
-  },
-  {
-    hisse: 'XRP',
-    img: '',
-    descr: 'Invest in Bitcoin for digital currency gains.',
-    price: 200,
-    pph: 15,
-    purchased: 0,
-  },
-  {
-    hisse: 'KCHOL',
-    img: '',
-    descr: 'Invest in Bitcoin for digital currency gains.',
-    price: 250,
-    pph: 20,
-    purchased: 0,
-  },
-  {
-    hisse: 'THYAO',
-    img: '',
-    descr: 'Invest in Bitcoin for digital currency gains.',
-    price: 350,
-    pph: 20,
-    purchased: 0,
-  },
-  {
-    hisse: 'TCELL',
-    img: '',
-    descr: 'Invest in Bitcoin for digital currency gains.',
-    price: 300,
-    pph: 20,
-    purchased: 0,
-  },
-  {
-    hisse: 'TSLA',
-    img: '',
-    descr: 'Invest in Bitcoin for digital currency gains.',
-    price: 400,
-    pph: 25,
-    purchased: 0,
-  },
-];
-
-let str = '';
-stocks.forEach((item) => {
-  str += `<div class="mine-tab__card">
-                      <div class="mine-tab__card-image">
-                          <h3 class="mine-tab__card-title">${item.hisse}</h3>
-                          <img src="${item.img}">
-                      </div>
-                      <div class="mine-tab__card-content">
-                          <p class="mine-tab__card-description">${item.descr}</p>
-                          <div class="mine-tab__card-details">
-                              <span class="mine-tab__card-price">Fee: ${item.price}</span>
-                              <span class="card-income">PPH: ${item.pph}</span>
-                              <p style="color: #bbb;"><span>lvl </span><span class="PerHour-level">${item.purchased}</span> </p>
-                          </div>
-                          <button class="mine-tab__card-button">Invest</button>
-                      </div>
-                  </div>`;
-});
-
-let $cardContainer = document.querySelector('.mine-tab__grid');
-$cardContainer.innerHTML = str;
 
 //Coins and Score
 
@@ -183,8 +94,9 @@ function setCurrentLevel(level) {
   localStorage.setItem('level', level);
   $currentLvl.textContent = level;
 }
+const progressBar = document.getElementById('level-progress');
+
 function updateProgressBar(currentScore, maxScore) {
-  const progressBar = document.getElementById('level-progress');
   progressBar.max = maxScore;
   progressBar.value = currentScore;
 }
@@ -314,39 +226,6 @@ const $upgrades = document.querySelectorAll(
 
 const $energieUpgrade = document.querySelector('#energie-upgrade');
 const $tapUpgrade = document.querySelector('#tap-upgrade');
-
-let PerHourPurchases = localStorage.getItem('PerHourPurchases')
-  ? parseInt(localStorage.getItem('PerHourPurchases'))
-  : 0;
-let PerHourCost = localStorage.getItem('PerHourCost')
-  ? parseInt(localStorage.getItem('PerHourCost'))
-  : 100;
-let NextPerHourIncome = localStorage.getItem('NextPerHourIncome')
-  ? parseInt(localStorage.getItem('NextPerHourIncome'))
-  : 7.5;
-let PerHourLevel = localStorage.getItem('PerHourLevel')
-  ? parseInt(localStorage.getItem('PerHourLevel'))
-  : 0;
-let multitapPurchases = localStorage.getItem('multitapPurchases')
-  ? parseInt(localStorage.getItem('multitapPurchases'))
-  : 0;
-let multitapCost = localStorage.getItem('multitapCost')
-  ? parseInt(localStorage.getItem('multitapCost'))
-  : 1000;
-let maxEnergyCost = localStorage.getItem('maxEnergyCost')
-  ? parseInt(localStorage.getItem('maxEnergyCost'))
-  : 1000;
-document.querySelector('.mine-tab__card-price').textContent = PerHourCost;
-document.querySelector('.card-income').textContent = NextPerHourIncome;
-document.querySelector('.PerHour-level').textContent = PerHourLevel;
-document.querySelector('#multitap-cost').textContent = multitapCost;
-document.querySelector('#max-energy-cost').textContent = maxEnergyCost;
-
-for (let upgrade of $upgrades) {
-  upgrade.addEventListener('click', (e) => {
-    showUpgradeMenu(e.currentTarget);
-  });
-}
 
 function showUpgradeMenu(upgrade) {
   const imgSrc = upgrade.querySelector('img').src;
@@ -535,56 +414,8 @@ $energyBoost.addEventListener('click', () => {
     startRecoveryTimer(startTime);
   }
 });
-const $coinsPerHour = document.querySelector('#perHour');
 
-function setCoinsPerHour(coins) {
-  localStorage.setItem('coinsPerHour', coins);
-  $coinsPerHour.textContent = coins;
-}
-
-function getCoinsPerHour() {
-  return localStorage.getItem('coinsPerHour') ?? 0;
-}
-
-let accumulatedCoins = 0;
-let coinsIntervalId = null;
-
-function startCoinAccumulation() {
-  if (coinsIntervalId) {
-    clearInterval(coinsIntervalId);
-  }
-
-  coinsIntervalId = setInterval(() => {
-    accumulatedCoins += getCoinsPerHour() / 3600;
-    if (accumulatedCoins >= 1) {
-      addCoins(Math.floor(accumulatedCoins));
-      accumulatedCoins -= Math.floor(accumulatedCoins);
-    }
-  }, 1000);
-}
-
-function updateCoinsPerHour(coins) {
-  setCoinsPerHour(Number(getCoinsPerHour()) + coins);
-  PerHourPurchases++;
-  PerHourCost += 10;
-  NextPerHourIncome = PerHourCost / 10;
-  PerHourLevel += 1;
-
-  localStorage.setItem('PerHourPurchases', PerHourPurchases);
-  localStorage.setItem('PerHourCost', PerHourCost);
-  localStorage.setItem('NextPerHourIncome', NextPerHourIncome);
-  localStorage.setItem('PerHourLevel', PerHourLevel);
-
-  document.querySelector('.mine-tab__card-price').textContent = PerHourCost;
-  document.querySelector('.card-income').textContent = NextPerHourIncome;
-  document.querySelector('.PerHour-level').textContent = PerHourLevel;
-
-  startCoinAccumulation();
-}
-
-if (getCoinsPerHour() > 0) {
-  startCoinAccumulation();
-}
+// Menu bar / swiching tabs
 
 const $barItems = document.querySelectorAll('.menu-bar__item');
 const $tabContents = document.querySelectorAll('.tab-content');
@@ -620,11 +451,155 @@ $barItems.forEach((barItem) => {
     }
   });
 });
-const $mineTabItems = document.querySelectorAll('.mine-tab__card');
 
-$mineTabItems.forEach(($mineTabItem) => {
-  $mineTabItem.addEventListener('click', (e) => {
-    showCardsUpgradeMenu(e.currentTarget);
+const $coinsPerHour = document.querySelector('#perHour');
+
+function setCoinsPerHour(coins) {
+  localStorage.setItem('coinsPerHour', coins);
+  $coinsPerHour.textContent = coins;
+}
+
+function getCoinsPerHour() {
+  return localStorage.getItem('coinsPerHour') ?? 0;
+}
+
+let accumulatedCoins = 0;
+let coinsIntervalId = null;
+
+function startCoinAccumulation() {
+  if (coinsIntervalId) {
+    clearInterval(coinsIntervalId);
+  }
+
+  coinsIntervalId = setInterval(() => {
+    accumulatedCoins += getCoinsPerHour() / 3600;
+    if (accumulatedCoins >= 1) {
+      addCoins(Math.floor(accumulatedCoins));
+      accumulatedCoins -= Math.floor(accumulatedCoins);
+    }
+  }, 1000);
+}
+
+function updateCoinsPerHour(coins) {
+  setCoinsPerHour(Number(getCoinsPerHour()) + coins);
+  startCoinAccumulation();
+}
+
+if (getCoinsPerHour() > 0) {
+  startCoinAccumulation();
+}
+
+let stocks = [
+  {
+    hisse: 'APPL',
+    img: 'assets/img/icons/mine/apple.png',
+    descr: 'Invest in Apple stocks to increase your wealth.',
+    price: 100,
+    pph: 7.5,
+    purchased: 0,
+    priceIncrease: 1.15,
+  },
+  {
+    hisse: 'BTC',
+    img: 'assets/img/icons/mine/bitcoin.png',
+    descr: 'Invest in Bitcoin for digital currency gains.',
+    price: 150,
+    pph: 8,
+    purchased: 0,
+    priceIncrease: 1.15,
+  },
+  {
+    hisse: 'ETH',
+    img: 'assets/img/icons/mine/ethereum.png',
+    descr: 'Invest in Ethereum for digital currency gains.',
+    price: 170,
+    pph: 10,
+    purchased: 0,
+    priceIncrease: 1.15,
+  },
+  {
+    hisse: 'XRP',
+    img: 'assets/img/icons/mine/ripple.png',
+    descr: 'Invest in Ripple for digital currency gains.',
+    price: 200,
+    pph: 15,
+    purchased: 0,
+    priceIncrease: 1.15,
+  },
+  {
+    hisse: 'KCHOL',
+    img: '',
+    descr: 'Invest in Koç Holding for diversified industrial exposure.',
+    price: 250,
+    pph: 20,
+    purchased: 0,
+    priceIncrease: 1.15,
+  },
+  {
+    hisse: 'THYAO',
+    img: 'assets/img/icons/mine/turkish-airlines.png',
+    descr: 'Invest in Turkish Airlines for aviation sector growth.',
+    price: 350,
+    pph: 20,
+    purchased: 0,
+    priceIncrease: 1.15,
+  },
+  {
+    hisse: 'TCELL',
+    img: '',
+    descr: 'Invest in Turkcell for telecommunications expansion.',
+    price: 300,
+    pph: 20,
+    purchased: 0,
+    priceIncrease: 1.15,
+  },
+  {
+    hisse: 'TSLA',
+    img: 'assets/img/icons/mine/tesla.png',
+    descr: 'Invest in Tesla for innovation in electric vehicles.',
+    price: 400,
+    pph: 25,
+    purchased: 0,
+    priceIncrease: 1.15,
+  },
+];
+
+// Load saved stocks from localStorage if available
+function loadStocks() {
+  const savedStocks = localStorage.getItem('stocks');
+  if (savedStocks) {
+    stocks = JSON.parse(savedStocks);
+  }
+}
+
+function saveStocks() {
+  localStorage.setItem('stocks', JSON.stringify(stocks));
+}
+
+let str = '';
+stocks.forEach((item, index) => {
+  str += `<div class="mine-tab__card" data-index="${index}">
+                      <div class="mine-tab__card-image">
+                          <h3 class="mine-tab__card-title">${item.hisse}</h3>
+                          <img src="${item.img}">
+                      </div>
+                      <div class="mine-tab__card-content">
+                          <p class="mine-tab__card-description">${item.descr}</p>
+                          <div class="mine-tab__card-details">
+                              <span class="mine-tab__card-price">Fee: ${item.price}</span>
+                              <span class="card-income">PPH: ${item.pph}</span>
+                              <p style="color: #bbb;"><span>lvl </span><span class="PerHour-level">${item.purchased}</span> </p>
+                          </div>
+                      </div>
+                  </div>`;
+});
+const $cardContainer = document.querySelector('.mine-tab__grid');
+$cardContainer.innerHTML = str;
+
+// Add event listener to each card to open the upgrade menu
+document.querySelectorAll('.mine-tab__card').forEach((card) => {
+  card.addEventListener('click', (e) => {
+    showCardsUpgradeMenu(card);
   });
 });
 
@@ -639,76 +614,48 @@ const $cardsUpgradeCost = document.querySelector('#cards-upgrade-cost');
 const $cardsUpgradeIncome = document.querySelector('#cards-upgrade-income');
 
 function showCardsUpgradeMenu(card) {
-  const imgSrc = card.querySelector('img').src;
-  const title = card.querySelector('h3').textContent;
-  const cost = card.querySelector('span').textContent.trim();
-  const description = card.querySelector('p').textContent;
-  const income = card.querySelector('.card-income').textContent.trim();
+  const index = card.dataset.index;
+  const stock = stocks[index];
 
-  $cardsUpgradeImg.src = imgSrc;
-  $cardsUpgradeTitle.textContent = title;
-  $cardsUpgradeDescription.textContent = description;
-  $cardsUpgradeCost.textContent = cost;
-  $cardsUpgradeIncome.textContent = ` +${income} `;
+  $cardsUpgradeImg.src = card.querySelector('img').src;
+  $cardsUpgradeTitle.textContent = stock.hisse;
+  $cardsUpgradeDescription.textContent = stock.descr;
+  $cardsUpgradeCost.textContent = `Fee: ${stock.price}`;
+  $cardsUpgradeIncome.textContent = `PPH: ${stock.pph}`;
 
-  $cardsUpgradeBtn.addEventListener('click', handleUpgradeClick);
-
-  function handleUpgradeClick() {
-    buyCardUpgrade(card);
-    $cardsUpgradeBtn.removeEventListener('click', handleUpgradeClick);
-  }
+  $cardsUpgradeBtn.onclick = function () {
+    buyStock(stock, card);
+  };
 
   $cardsUpgradeMenu.classList.add('active');
 }
 
-function buyCardUpgrade(card) {
+function buyStock(stock, cardElement) {
   const currentBalance = getScore();
-  const cost = parseNumber($cardsUpgradeCost.textContent);
-  const income = parseNumber($cardsUpgradeIncome.textContent);
-  if (PerHourPurchases < 10) {
-    if (currentBalance >= cost) {
-      setScore(currentBalance - cost);
-      updateCoinsPerHour(income);
-      hideUpgradeMenu();
-      startFallingCoins();
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.onmouseenter = Swal.stopTimer;
-          toast.onmouseleave = Swal.resumeTimer;
-        },
-      });
-      Toast.fire({
-        icon: 'success',
-        title: 'Upgrade purchased!',
-      });
-      // alert("Upgrade purchased!");
-    } else {
-      hideUpgradeMenu();
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.onmouseenter = Swal.stopTimer;
-          toast.onmouseleave = Swal.resumeTimer;
-        },
-      });
-      Toast.fire({
-        icon: 'error',
-        title: 'Not enough coins!',
-      });
-      // alert("Not enough coins!");
-    }
-  } else {
-    hideUpgradeMenu();
-    const Toast = Swal.mixin({
+  const cost = stock.price;
+
+  if (currentBalance >= cost) {
+    setScore(currentBalance - cost);
+
+    const currentCoinsPerHour = Number(getCoinsPerHour());
+    const additionalCoinsPerHour = Number(stock.pph);
+
+    setCoinsPerHour(currentCoinsPerHour + additionalCoinsPerHour);
+
+    stock.purchased += 1;
+
+    // Increase the stock price
+    stock.price = Math.ceil(stock.price * stock.priceIncrease);
+
+    saveStocks();
+
+    updateStockCardUI(cardElement, stock);
+
+    startFallingCoins();
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Upgrade purchased!',
       toast: true,
       position: 'top-end',
       showConfirmButton: false,
@@ -719,12 +666,30 @@ function buyCardUpgrade(card) {
         toast.onmouseleave = Swal.resumeTimer;
       },
     });
-    Toast.fire({
-      icon: 'warning',
-      title: 'Invest level is maxed out!',
+
+    $cardsUpgradeMenu.classList.remove('active');
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Not enough coins!',
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      },
     });
-    // alert("Invest level is maxed out!");
   }
+}
+
+function updateStockCardUI(cardElement, stock) {
+  cardElement.querySelector(
+    '.mine-tab__card-price'
+  ).textContent = `Fee: ${stock.price}`;
+  cardElement.querySelector('.PerHour-level').textContent = stock.purchased;
 }
 
 function parseNumber(value) {
