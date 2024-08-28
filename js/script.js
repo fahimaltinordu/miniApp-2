@@ -5,6 +5,21 @@ window.addEventListener('load', function () {
   document.getElementById('loading').style.display = 'none';
 });
 
+// Abbreviate Numbers
+var prefixes = ["", "k", "M", "G", "T", "P", "E"];
+
+function AbbreviateNum(number) {
+  var num = Math.log10(number) / 3 | 0;
+  if (num == 0) return number;
+  var prefix = prefixes[num];
+  var scale = Math.pow(10, num * 3);
+  var scaled = number / scale;
+  return scaled.toFixed(1) + prefix;
+
+}
+// Abbreviate Numbers ends
+
+
 const playerIcon = document.getElementById('player-icon');
 const playerName = document.getElementById('player-name');
 
@@ -78,8 +93,8 @@ function getScore() {
 
 function setScore(score) {
   localStorage.setItem('score', score);
-  $score.textContent = score;
-  $balance.textContent = score;
+  $score.textContent = String(score).replace(/(.)(?=(\d{3})+$)/g,'$1,');
+  $balance.textContent = String(score).replace(/(.)(?=(\d{3})+$)/g,'$1,');
 }
 
 // Level
@@ -457,7 +472,7 @@ const $coinsPerHour = document.querySelector('#perHour');
 
 function setCoinsPerHour(coins) {
   localStorage.setItem('coinsPerHour', coins);
-  $coinsPerHour.textContent = coins;
+  $coinsPerHour.textContent = AbbreviateNum(coins);
 }
 
 function getCoinsPerHour() {
