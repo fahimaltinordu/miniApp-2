@@ -548,7 +548,7 @@ let stocks = [
   },
   {
     hisse: 'KCHOL',
-    img: '',
+    img: 'assets/img/icons/mine/kchol.png',
     descr: 'Invest in Koç Holding for diversified industrial exposure.',
     price: 250,
     pph: 20,
@@ -568,7 +568,7 @@ let stocks = [
   },
   {
     hisse: 'TCELL',
-    img: '',
+    img: 'assets/img/icons/mine/tcell.png',
     descr: 'Invest in Turkcell for telecommunications expansion.',
     price: 300,
     pph: 20,
@@ -613,7 +613,7 @@ function renderStockCards() {
                         <p class="mine-tab__card-description">${item.descr}</p>
                         <div class="mine-tab__card-details">
                             <span class="mine-tab__card-price">Fee: ${item.price}</span>
-                            <span class="card-income">Profit per hour: ${item.pph}</span>
+                            <span class="card-income">Profit: ${item.pph}</span>
                             <p style="color: #bbb;"><span>lvl </span><span class="PerHour-level">${item.purchased}</span> </p>
                         </div>
                     </div>
