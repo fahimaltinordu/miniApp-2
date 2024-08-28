@@ -60,9 +60,9 @@ function start() {
   updateLevel();
   setCoinsPerTap(getCoinsPerTap());
   setCoinsPerHour(getCoinsPerHour());
-  loadStocks();
   restoreRecoveryState();
   initializeDailyRewards();
+  renderStockCards();
 }
 
 //Coins and Score
@@ -273,6 +273,7 @@ function buyUpgrade(upgrade) {
     } else if (upgradeName === 'max energy') {
       upgradeMaxEnergy();
     }
+    updateLevel();
     hideUpgradeMenu();
     startFallingCoins();
     const Toast = Swal.mixin({
@@ -498,6 +499,7 @@ let stocks = [
     pph: 7.5,
     purchased: 0,
     priceIncrease: 1.15,
+    pphIncrease: 1.1,
   },
   {
     hisse: 'BTC',
@@ -507,6 +509,7 @@ let stocks = [
     pph: 8,
     purchased: 0,
     priceIncrease: 1.15,
+    pphIncrease: 1.3,
   },
   {
     hisse: 'ETH',
@@ -516,6 +519,7 @@ let stocks = [
     pph: 10,
     purchased: 0,
     priceIncrease: 1.15,
+    pphIncrease: 1.1,
   },
   {
     hisse: 'XRP',
@@ -525,6 +529,7 @@ let stocks = [
     pph: 15,
     purchased: 0,
     priceIncrease: 1.15,
+    pphIncrease: 1.1,
   },
   {
     hisse: 'KCHOL',
@@ -534,6 +539,7 @@ let stocks = [
     pph: 20,
     purchased: 0,
     priceIncrease: 1.15,
+    pphIncrease: 1.1,
   },
   {
     hisse: 'THYAO',
@@ -543,6 +549,7 @@ let stocks = [
     pph: 20,
     purchased: 0,
     priceIncrease: 1.15,
+    pphIncrease: 1.1,
   },
   {
     hisse: 'TCELL',
@@ -552,6 +559,7 @@ let stocks = [
     pph: 20,
     purchased: 0,
     priceIncrease: 1.15,
+    pphIncrease: 1.1,
   },
   {
     hisse: 'TSLA',
@@ -561,10 +569,10 @@ let stocks = [
     pph: 25,
     purchased: 0,
     priceIncrease: 1.15,
+    pphIncrease: 1.4,
   },
 ];
 
-// Load saved stocks from localStorage if available
 function loadStocks() {
   const savedStocks = localStorage.getItem('stocks');
   if (savedStocks) {
@@ -576,33 +584,42 @@ function saveStocks() {
   localStorage.setItem('stocks', JSON.stringify(stocks));
 }
 
-let str = '';
-stocks.forEach((item, index) => {
-  str += `<div class="mine-tab__card" data-index="${index}">
-                      <div class="mine-tab__card-image">
-                          <h3 class="mine-tab__card-title">${item.hisse}</h3>
-                          <img src="${item.img}">
-                      </div>
-                      <div class="mine-tab__card-content">
-                          <p class="mine-tab__card-description">${item.descr}</p>
-                          <div class="mine-tab__card-details">
-                              <span class="mine-tab__card-price">Fee: ${item.price}</span>
-                              <span class="card-income">PPH: ${item.pph}</span>
-                              <p style="color: #bbb;"><span>lvl </span><span class="PerHour-level">${item.purchased}</span> </p>
-                          </div>
-                      </div>
-                  </div>`;
-});
-const $cardContainer = document.querySelector('.mine-tab__grid');
-$cardContainer.innerHTML = str;
+loadStocks();
 
-// Add event listener to each card to open the upgrade menu
-document.querySelectorAll('.mine-tab__card').forEach((card) => {
-  card.addEventListener('click', (e) => {
-    showCardsUpgradeMenu(card);
+function renderStockCards() {
+  let str = '';
+  stocks.forEach((item, index) => {
+    str += `<div class="mine-tab__card" data-index="${index}">
+                    <div class="mine-tab__card-image">
+                        <h3 class="mine-tab__card-title">${item.hisse}</h3>
+                        <img src="${item.img}">
+                    </div>
+                    <div class="mine-tab__card-content">
+                        <p class="mine-tab__card-description">${item.descr}</p>
+                        <div class="mine-tab__card-details">
+                            <span class="mine-tab__card-price">Fee: ${item.price}</span>
+                            <span class="card-income">Profit per hour: ${item.pph}</span>
+                            <p style="color: #bbb;"><span>lvl </span><span class="PerHour-level">${item.purchased}</span> </p>
+                        </div>
+                    </div>
+                </div>`;
   });
-});
 
+  const $cardContainer = document.querySelector('.mine-tab__grid');
+  $cardContainer.innerHTML = str;
+
+  // Add event listener to each card to open the upgrade menu
+  document.querySelectorAll('.mine-tab__card').forEach((card) => {
+    card.addEventListener('click', (e) => {
+      showCardsUpgradeMenu(card);
+    });
+  });
+}
+
+// Initial render of stock cards
+renderStockCards();
+
+// Define upgrade menu elements
 const $cardsUpgradeMenu = document.querySelector('#cards-upgrade-menu');
 const $cardsUpgradeImg = document.querySelector('#cards-upgrade-img');
 const $cardsUpgradeTitle = document.querySelector('#cards-upgrade-title');
@@ -624,13 +641,14 @@ function showCardsUpgradeMenu(card) {
   $cardsUpgradeIncome.textContent = `PPH: ${stock.pph}`;
 
   $cardsUpgradeBtn.onclick = function () {
-    buyStock(stock, card);
+    buyStock(index, card);
   };
 
   $cardsUpgradeMenu.classList.add('active');
 }
 
-function buyStock(stock, cardElement) {
+function buyStock(index, cardElement) {
+  const stock = stocks[index];
   const currentBalance = getScore();
   const cost = stock.price;
 
@@ -644,11 +662,12 @@ function buyStock(stock, cardElement) {
 
     stock.purchased += 1;
 
-    // Increase the stock price
+    // Increase the stock price and income
     stock.price = Math.ceil(stock.price * stock.priceIncrease);
+    stock.pph = Math.ceil(stock.pph * stock.pphIncrease);
 
     saveStocks();
-
+    updateLevel();
     updateStockCardUI(cardElement, stock);
 
     startFallingCoins();
@@ -666,7 +685,6 @@ function buyStock(stock, cardElement) {
         toast.onmouseleave = Swal.resumeTimer;
       },
     });
-
     $cardsUpgradeMenu.classList.remove('active');
   } else {
     Swal.fire({
@@ -689,6 +707,9 @@ function updateStockCardUI(cardElement, stock) {
   cardElement.querySelector(
     '.mine-tab__card-price'
   ).textContent = `Fee: ${stock.price}`;
+  cardElement.querySelector(
+    '.card-income'
+  ).textContent = `Profit per hour: ${stock.pph}`;
   cardElement.querySelector('.PerHour-level').textContent = stock.purchased;
 }
 
