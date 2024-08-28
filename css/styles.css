@@ -631,6 +631,7 @@ body {
 
 .tab-content__active {
     display: flex;
+    height: 536px;
 }
 
 .hidden {
@@ -697,9 +698,11 @@ body {
 }
 
 .mine-tab__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: auto;
+    padding: 10px 3px;
+    /* max-width: 90%; */
     align-items: center;
     justify-content: center;
     gap: 20px;
@@ -714,17 +717,18 @@ body {
     /* max-width: 80px; */
     /* max-height: 80px; */
     height: 40px;
+    filter: drop-shadow(0 0 0.05rem #000);
 }
 
 .mine-tab__card {
     background-color: #157866;
     display: flex;
+    flex: 0 0 45%;
     justify-content: space-between;
     align-items: center;
-
-    gap: 20px;
+    gap: 10px;
     border: 1px solid #444;
-    padding: 20px 30px;
+    padding: 20px 20px;
     text-align: center;
     border-radius: 4px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
@@ -741,7 +745,7 @@ body {
 
 .mine-tab__card-title {
     font-size: 18px;
-    margin: 0 0 10px;
+    margin: 0 0 1px;
     color: #c4eb00;
 }
 
@@ -1109,9 +1113,9 @@ body {
     }
 }
 
-.mine-tab__grid {
+/* .mine-tab__grid {
     grid-template-columns: repeat(2, 1fr);
-}
+} */
 
 
 
@@ -1126,9 +1130,9 @@ body {
         max-height: 50px;
     }
 
-    .mine-tab__card {
+    /* .mine-tab__card {
         width: 250px;
-    }
+    } */
 }
 
 
@@ -1156,9 +1160,9 @@ body {
         max-height: 30px;
     }
 
-    .mine-tab__card {
+    /* .mine-tab__card {
         width: 150px;
-    }
+    } */
 }
 
 @media (max-width: 380px) {
