@@ -20,6 +20,72 @@ function AbbreviateNum(number) {
 // Abbreviate Numbers ends
 
 
+// Vibrate setting ////////
+function getVibrate() {
+  return Number(localStorage.getItem('Vibrate')) || 0;
+}
+function setVibrate(Vibrate) {
+  localStorage.setItem('Vibrate', Vibrate);
+  // document.getElementById("vibrateButton").textContent = Vibrate === 0 ? "Vibrate OFF" : "Vibrate ON";
+}
+let xVibrate = getVibrate();
+let active = false;
+
+function vibrate() {
+  active =! active
+  if(active) {
+    xVibrate = 200;
+    setVibrate(xVibrate);
+    document.getElementById("vibrateButton").textContent="Vibrate ON"
+  }else {
+    xVibrate = 0;
+    setVibrate(xVibrate);
+    document.getElementById("vibrateButton").textContent="Vibrate OFF"
+  }
+}
+// Vibrate setting ends ////////
+
+function openSettings() {
+
+  Swal.fire({
+    title: "<strong>Settings</strong>",
+    html: `
+      <div id="settings_container">
+          <div>
+          <button id="vibrateButton" onclick="vibrate()"></button>
+        </div>
+        <div id="social">
+          <a href="https://twitter.com/EnergyFi_org" target="_blank">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-twitter-x" viewBox="0 0 16 16">
+                <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
+              </svg>
+          <a>
+          <a href="https://github.com/fahimaltinordu/miniApp-2" target="_blank">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+              </svg>
+          <a>
+          <a href="https://t.me/EnergyFi_org" target="_blank">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-telegram" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.287 5.906q-1.168.486-4.666 2.01-.567.225-.595.442c-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294q.39.01.868-.32 3.269-2.206 3.374-2.23c.05-.012.12-.026.166.016s.042.12.037.141c-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8 8 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629q.14.092.27.187c.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.4 1.4 0 0 0-.013-.315.34.34 0 0 0-.114-.217.53.53 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09"/>
+              </svg>
+          <a>
+        </div>
+      </div>
+    `,
+    showCloseButton: true,
+    showConfirmButton: false,
+
+  });
+  console.log(getVibrate())
+  if (getVibrate() === 0) {
+    document.getElementById("vibrateButton").textContent="Vibrate OFF"
+  }else if (getVibrate() === 200) {
+    document.getElementById("vibrateButton").textContent="Vibrate ON"
+  }
+}
+
+
 const playerIcon = document.getElementById('player-icon');
 const playerName = document.getElementById('player-name');
 
@@ -69,6 +135,7 @@ const $toLvlUp = document.querySelector("#to-lvl-up");
 const $perTap = document.querySelector('#tap');
 
 function start() {
+  setVibrate(getVibrate());
   setScore(getScore());
   setEnergy(getEnergy());
   setMaxEnergy(getMaxEnergy());
@@ -94,8 +161,8 @@ function getScore() {
 
 function setScore(score) {
   localStorage.setItem('score', score);
-  $score.textContent = String(score).replace(/(.)(?=(\d{3})+$)/g,'$1,');
-  $balance.textContent = String(score).replace(/(.)(?=(\d{3})+$)/g,'$1,');
+  $score.textContent = String(score).replace(/(.)(?=(\d{3})+$)/g, '$1,');
+  $balance.textContent = String(score).replace(/(.)(?=(\d{3})+$)/g, '$1,');
 }
 
 // Level
@@ -123,7 +190,7 @@ function getnextLevelScore() {
 }
 function setnextLevelScore(nextLevelScore) {
   localStorage.setItem('nextLevelScore', nextLevelScore);
-  $toLvlUp.textContent = AbbreviateNum (nextLevelScore);
+  $toLvlUp.textContent = AbbreviateNum(nextLevelScore);
 }
 
 function updateLevel() {
@@ -192,7 +259,7 @@ function updateLevel() {
     nextLevelScore = 500000;
   } else if (score > 100000 && level < 3) { //100k-250k
     level = 3;
-    nextLevelScore = 250000; 
+    nextLevelScore = 250000;
   } else if (score > 50000 && level < 2) { //50k-100k
     level = 2;
     nextLevelScore = 100000;
@@ -201,8 +268,8 @@ function updateLevel() {
     nextLevelScore = 50000;
   } else if (level === 0) {                 //0-10k
     nextLevelScore = 10000;
-  } 
-  
+  }
+
   // else {
   //   nextLevelScore = level === 1 ? 5000 : 10000;
   // }
@@ -244,7 +311,7 @@ $circle.addEventListener('click', (event) => {
   if (getEnergy() >= getCoinsPerTap()) {
     // Vibration
     if (navigator.vibrate) {
-      navigator.vibrate(200);
+      navigator.vibrate(xVibrate);
     }
     const rect = $circle.getBoundingClientRect();
     const offsetX = event.clientX - rect.left - rect.width / 2;
