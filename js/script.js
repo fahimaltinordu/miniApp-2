@@ -50,10 +50,10 @@ if (window.Telegram && window.Telegram.WebApp) {
     let level = getCurrentLevel();
     updateImage(level);
     if (user) {
-      playerName.textContent = `${user.first_name} - lvl: ${level}`; // Display the user's first name
+      playerName.textContent = `${user.first_name}`; // Display the user's first name
     } else {
       // playerIcon.src = "assets/img/nopic.png"; // Fallback image if no photo is available
-      playerName.textContent = `No user - lvl: ${level}`;
+      playerName.textContent = `No user`;
     }
   }
 }
@@ -123,35 +123,79 @@ function updateLevel() {
 
   switch (level) {
     case 0:
-      $currentLvlName.textContent = 'Neon';
+      $currentLvlName.textContent = 'Core';
       break;
     case 1:
-      $currentLvlName.textContent = 'Galactic';
+      $currentLvlName.textContent = 'Windmill';
       break;
     case 2:
-      $currentLvlName.textContent = 'Cyber';
+      $currentLvlName.textContent = 'Volcanic';
       break;
     case 3:
       $currentLvlName.textContent = 'Stellar';
       break;
+    case 4:
+      $currentLvlName.textContent = 'Plasma';
+      break;
+    case 5:
+      $currentLvlName.textContent = 'Photon';
+      break;
+    case 6:
+      $currentLvlName.textContent = 'Neutron';
+      break;
+    case 7:
+      $currentLvlName.textContent = 'Solar';
+      break;
+    case 8:
+      $currentLvlName.textContent = 'Nexus';
+      break;
+    case 9:
+      $currentLvlName.textContent = 'Quantum';
+      break;
+    case 10:
+      $currentLvlName.textContent = 'Mystic';
+      break;
     default:
-      $currentLvlName.textContent = 'Neon';
+      $currentLvlName.textContent = 'Core';
   }
 
-  if (score >= 10000 && level < 3) {
+  if (score > 50000000 && level < 10) { // 50M-100M
+    level = 10;
+    nextLevelScore = 1000000000;
+  } else if (score > 25000000 && level < 9) { //25M-50M
+    level = 9;
+    nextLevelScore = 50000000;
+  } else if (score > 10000000 && level < 8) { //10M-25M
+    level = 8;
+    nextLevelScore = 25000000;
+  } else if (score > 5000000 && level < 7) { //5M-10M
+    level = 7;
+    nextLevelScore = 10000000;
+  } else if (score > 1000000 && level < 6) { //1M-5M
+    level = 6;
+    nextLevelScore = 5000000;
+  } else if (score > 500000 && level < 5) { //500k-1M
+    level = 5;
+    nextLevelScore = 1000000;
+  } else if (score > 250000 && level < 4) { //250k-500k
+    level = 4;
+    nextLevelScore = 500000;
+  } else if (score > 100000 && level < 3) { //100k-250k
     level = 3;
-    nextLevelScore = 10000;
-  } else if (score >= 5000 && level < 2) {
+    nextLevelScore = 250000; 
+  } else if (score > 50000 && level < 2) { //50k-100k
     level = 2;
-    nextLevelScore = 10000;
-  } else if (score >= 1000 && level < 1) {
+    nextLevelScore = 100000;
+  } else if (score > 10000 && level < 1) { //10k-50k
     level = 1;
-    nextLevelScore = 5000;
-  } else if (level === 0) {
-    nextLevelScore = 1000;
-  } else {
-    nextLevelScore = level === 1 ? 5000 : 10000;
-  }
+    nextLevelScore = 50000;
+  } else if (level === 0) {                 //0-10k
+    nextLevelScore = 10000;
+  } 
+  
+  // else {
+  //   nextLevelScore = level === 1 ? 5000 : 10000;
+  // }
 
   setCurrentLevel(level);
   updateProgressBar(score, nextLevelScore);
@@ -166,6 +210,13 @@ function updateImage(level) {
     1: 'assets/img/levels/lvl1.png',
     2: 'assets/img/levels/lvl2.png',
     3: 'assets/img/levels/lvl3.png',
+    4: 'assets/img/levels/lvl4.png',
+    5: 'assets/img/levels/lvl5.png',
+    6: 'assets/img/levels/lvl6.png',
+    7: 'assets/img/levels/lvl7.png',
+    8: 'assets/img/levels/lvl8.png',
+    9: 'assets/img/levels/lvl9.png',
+    10: 'assets/img/levels/lvl10.png',
   };
   // playerIcon.src = octopusImages[level]
   playerIcon.setAttribute('src', octopusImages[level]);
