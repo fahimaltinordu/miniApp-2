@@ -100,7 +100,7 @@ body {
 }
 
 .player__icon {
-    width: 20px;
+    width: 30px;
 }
 
 
@@ -108,7 +108,7 @@ body {
     display: flex;
     justify-content: center;
     width: 95%;
-    gap: 10px;
+    gap: 15px;
     margin-bottom: 25px;
 }
 
