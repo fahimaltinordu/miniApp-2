@@ -182,12 +182,14 @@ body {
 .level-progress {
     width: 90%;
     max-width: 350px;
+    margin-top:20px;
 }
 
 .level-progress__info {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    color:white;
 }
 
 .level-progress__bar {
@@ -271,12 +273,14 @@ body {
 
 .game__footer {
     margin-top: 20px;
+    margin-bottom:20px;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    width: 100%;
+    width: 90%;
+    max-width: 350px;
 }
 
 .boost {
@@ -287,7 +291,7 @@ body {
     align-items: center;
     color: #fff;
     text-align: center;
-    font-size: 24px;
+    font-size: 1.2rem;
     font-weight: 800;
 }
 
@@ -577,7 +581,7 @@ body {
     gap: 5px;
     color: #fff;
     text-align: center;
-    font-size: 24px;
+    font-size: 1.2rem;
     font-weight: 800;
 
 }
@@ -694,7 +698,7 @@ body {
     margin-bottom: 20px;
     font-weight: 800;
     color: #ffffff;
-    text-decoration: overline;
+    width:90%;
 }
 
 .mine-tab__grid {
