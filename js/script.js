@@ -75,6 +75,7 @@ function start() {
   updateLevel();
   setCoinsPerTap(getCoinsPerTap());
   setCoinsPerHour(getCoinsPerHour());
+  setnextLevelScore(getnextLevelScore());
   restoreRecoveryState();
   initializeDailyRewards();
   renderStockCards();
@@ -116,10 +117,19 @@ function updateProgressBar(currentScore, maxScore) {
   progressBar.value = currentScore;
 }
 
+
+function getnextLevelScore() {
+  return Number(localStorage.getItem('nextLevelScore')) || 0;
+}
+function setnextLevelScore(nextLevelScore) {
+  localStorage.setItem('nextLevelScore', nextLevelScore);
+  $toLvlUp.textContent = AbbreviateNum (nextLevelScore);
+}
+
 function updateLevel() {
   const score = getScore();
   let level = getCurrentLevel();
-  let nextLevelScore = 0;
+  let nextLevelScore = getnextLevelScore();
 
   switch (level) {
     case 0:
@@ -198,6 +208,7 @@ function updateLevel() {
   // }
 
   setCurrentLevel(level);
+  setnextLevelScore(nextLevelScore);
   updateProgressBar(score, nextLevelScore);
   $toLvlUp.textContent = AbbreviateNum(nextLevelScore);
   updateImage(level);
