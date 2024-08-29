@@ -59,21 +59,28 @@
                 <h2 class="game__score">0</h2>
                 <span
                     style="margin-left: 5px; align-self: baseline;color: white;font-weight: 500;font-size: 25px;">ENR</span>
-            </div>
-            <div class="level-progress">
-                <div class="level-progress__info">
-                    <p class="level-progress__name">Lvl name</p>
-                    <p class="level-progress__text">Level <span class="level-progress__current-level">1</span> / <span
-                            class="level-progress__max-level">3</span></p>
-                </div>
-                <div class="level-progress__bar">
-                    <progress class="level-progress__fill" max="1000" value="0" id="level-progress"></progress>
-                </div>
-            </div>
+            </div>       
         </header>
+        
         <div class="game__clicker-circle">
             <img class="game__main-image" src="assets/img/ENR.png" alt="main-image">
         </div>
+      
+        <div class="level-progress">
+            <div class="level-progress__info">
+                <p class="level-progress__name">Lvl name</p>
+                <p class="level-progress__text">Level <span class="level-progress__current-level">1</span> / <span
+                        class="level-progress__max-level">3</span></p>
+                <p>
+                    <img style="height:15px;margin-right:5px;" src="assets/img/icons/coins.png" alt="">
+                    <span id="to-lvl-up">0</span> 
+                </p> 
+            </div>
+            <div class="level-progress__bar">
+                <progress class="level-progress__fill" max="1000" value="0" id="level-progress"></progress>
+            </div>
+        </div>
+
         <div class="game__footer">
             <div class="energy">
                 <img style="height: 25px;" src="assets/img/icons/energie.png" alt="">
@@ -84,6 +91,7 @@
                 Boost <img style="height: 25px;" src="assets/img/icons/boost.png" alt="boost">
             </div>
         </div>
+
         <div class="menu-bar">
             <nav class="menu-bar__nav">
                 <a href="#home" class="menu-bar__item menu-bar__item__active">
@@ -136,7 +144,7 @@
             </nav>
         </div>
         <div id="mine" class="tab-content">
-            <h2 class="mine-tab__title">Pump your profit per hour. Invest stocks!</h2>
+            <h2 class="mine-tab__title">Invest stocks!</h2>
             <div class="mine-tab__grid">
 
 

@@ -65,7 +65,7 @@ const $circle = document.querySelector('.game__clicker-circle');
 const $mainImg = document.querySelector('.game__main-image');
 const $energy = document.querySelector('.energy__value');
 const $maxEnergy = document.querySelector('.energy__max');
-// const $toLvlUp = document.querySelector("#to-lvl-up");
+const $toLvlUp = document.querySelector("#to-lvl-up");
 const $perTap = document.querySelector('#tap');
 
 function start() {
@@ -155,7 +155,7 @@ function updateLevel() {
 
   setCurrentLevel(level);
   updateProgressBar(score, nextLevelScore);
-  // $toLvlUp.textContent = nextLevelScore;
+  $toLvlUp.textContent = AbbreviateNum(nextLevelScore);
   updateImage(level);
   updateProfile();
 }
@@ -436,7 +436,7 @@ $energyBoost.addEventListener('click', () => {
 const $barItems = document.querySelectorAll('.menu-bar__item');
 const $tabContents = document.querySelectorAll('.tab-content');
 const $gameContent = document.querySelectorAll(
-  '.game__header, .game__clicker-circle, .game__footer, .info'
+  '.game__header, .game__clicker-circle, .game__footer, .info, .level-progress'
 );
 
 $barItems.forEach((barItem) => {
@@ -724,7 +724,7 @@ function updateStockCardUI(cardElement, stock) {
   ).textContent = `Fee: ${stock.price}`;
   cardElement.querySelector(
     '.card-income'
-  ).textContent = `Profit per hour: ${stock.pph}`;
+  ).textContent = `Profit: ${stock.pph}`;
   cardElement.querySelector('.PerHour-level').textContent = stock.purchased;
 }
 
