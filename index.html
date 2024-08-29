@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/styles.css">
     <title>EnergyFi MiniApp</title>
@@ -19,10 +20,9 @@
 
     <div class="header">
         <h1>EnergyFi</h1>
-
         <div class="settings">
             <div><img src="assets/img/wallet-icon.svg" height="40px" alt=""></div>
-            <div><img src="assets/img/settings-icon.svg" height="40px" alt=""></div>
+            <div onclick="openSettings()"><img src="assets/img/settings-icon.svg" height="40px" alt=""></div>
         </div>
     </div>
 
@@ -403,7 +403,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <script src="js/script.js"></script>
 
 </body>
