@@ -5,6 +5,45 @@ window.addEventListener('load', function () {
   document.getElementById('loading').style.display = 'none';
 });
 
+const playerIcon = document.getElementById('player-icon');
+const playerName = document.getElementById('player-name');
+
+//Initialize Telegram Mini App
+if (window.Telegram && window.Telegram.WebApp) {
+  const playerInfo = document.querySelector('.player__info');
+
+  // Initialize the Telegram Mini App
+  const TELEGRAM = window.Telegram.WebApp;
+
+  // Notify Telegram that the web app is ready
+  TELEGRAM.ready();
+
+  TELEGRAM.disableVerticalSwipes();
+
+  // Show the block only if the app is running within Telegram
+  playerInfo.style.display = 'flex';
+  // const { first_name, last_name, username } = window.Telegram.WebApp.initDataUnsafe.user;
+  const user = TELEGRAM.initDataUnsafe.user;
+  console.log(user);
+
+  // Settings
+  TELEGRAM.setHeaderColor('#252F43');
+  TELEGRAM.expand(); // Expand the app to 100% height on the user's phone
+
+  function updateProfile() {
+    // Display user information in the element
+    let level = getCurrentLevel();
+    updateImage(level);
+    if (user) {
+      playerName.textContent = `${user.first_name}`; // Display the user's first name
+    } else {
+      // playerIcon.src = "assets/img/nopic.png"; // Fallback image if no photo is available
+      playerName.textContent = `No user`;
+    }
+  }
+}
+//Initialize Telegram Mini App
+
 // Abbreviate Numbers
 var prefixes = ["", "k", "M", "G", "T", "P", "E"];
 
@@ -26,7 +65,6 @@ function getVibrate() {
 }
 function setVibrate(Vibrate) {
   localStorage.setItem('Vibrate', Vibrate);
-  // document.getElementById("vibrateButton").textContent = Vibrate === 0 ? "Vibrate OFF" : "Vibrate ON";
 }
 let xVibrate = getVibrate();
 let active = false;
@@ -36,22 +74,24 @@ function vibrate() {
   if(active) {
     xVibrate = 200;
     setVibrate(xVibrate);
-    document.getElementById("vibrateButton").textContent="Vibrate ON"
+    document.getElementById("vibrateButton").textContent="ON"
   }else {
     xVibrate = 0;
     setVibrate(xVibrate);
-    document.getElementById("vibrateButton").textContent="Vibrate OFF"
+    document.getElementById("vibrateButton").textContent="OFF"
   }
 }
 // Vibrate setting ends ////////
 
-function openSettings() {
 
+
+function openSettings() {
   Swal.fire({
-    title: "<strong>Settings</strong>",
+    title: `<strong>Hi ${playerName.textContent}</strong>`,
     html: `
       <div id="settings_container">
-          <div>
+        <div>
+          <span>Vibration: </span>
           <button id="vibrateButton" onclick="vibrate()"></button>
         </div>
         <div id="social">
@@ -79,51 +119,14 @@ function openSettings() {
   });
   console.log(getVibrate())
   if (getVibrate() === 0) {
-    document.getElementById("vibrateButton").textContent="Vibrate OFF"
+    document.getElementById("vibrateButton").textContent="OFF";
+    active = false;
   }else if (getVibrate() === 200) {
-    document.getElementById("vibrateButton").textContent="Vibrate ON"
+    document.getElementById("vibrateButton").textContent="ON";
+    active = true;
   }
 }
 
-
-const playerIcon = document.getElementById('player-icon');
-const playerName = document.getElementById('player-name');
-
-//Initialize Telegram Mini App
-if (window.Telegram && window.Telegram.WebApp) {
-  const playerInfo = document.querySelector('.player__info');
-
-  // Initialize the Telegram Mini App
-  const TELEGRAM = window.Telegram.WebApp;
-
-  // Notify Telegram that the web app is ready
-  TELEGRAM.ready();
-
-  TELEGRAM.disableVerticalSwipes();
-
-  // Show the block only if the app is running within Telegram
-  playerInfo.style.display = 'flex';
-
-  const user = TELEGRAM.initDataUnsafe.user;
-  console.log(user);
-
-  // Settings
-  TELEGRAM.setHeaderColor('#252F43');
-  TELEGRAM.expand(); // Expand the app to 100% height on the user's phone
-
-  function updateProfile() {
-    // Display user information in the element
-    let level = getCurrentLevel();
-    updateImage(level);
-    if (user) {
-      playerName.textContent = `${user.first_name}`; // Display the user's first name
-    } else {
-      // playerIcon.src = "assets/img/nopic.png"; // Fallback image if no photo is available
-      playerName.textContent = `No user`;
-    }
-  }
-}
-//Initialize Telegram Mini App
 
 const $score = document.querySelector('.game__score');
 const $balance = document.querySelector('.boost-menu__balance');
@@ -815,7 +818,7 @@ function buyStock(index, cardElement) {
     updateStockCardUI(cardElement, stock);
 
     startFallingCoins();
-
+    hideUpgradeMenu();
     Swal.fire({
       icon: 'success',
       title: 'Upgrade purchased!',
@@ -831,6 +834,7 @@ function buyStock(index, cardElement) {
     });
     $cardsUpgradeMenu.classList.remove('active');
   } else {
+    hideUpgradeMenu();
     Swal.fire({
       icon: 'error',
       title: 'Not enough coins!',
