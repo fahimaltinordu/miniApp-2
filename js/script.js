@@ -46,19 +46,17 @@ if (window.Telegram && window.Telegram.WebApp) {
 //Initialize Telegram Mini App
 
 // Abbreviate Numbers
-var prefixes = ["", "k", "M", "G", "T", "P", "E"];
+var prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E'];
 
 function AbbreviateNum(number) {
-  var num = Math.log10(number) / 3 | 0;
+  var num = (Math.log10(number) / 3) | 0;
   if (num == 0) return number;
   var prefix = prefixes[num];
   var scale = Math.pow(10, num * 3);
   var scaled = number / scale;
   return scaled.toFixed(1) + prefix;
-
 }
 // Abbreviate Numbers ends
-
 
 // Vibrate setting ////////
 function getVibrate() {
@@ -71,20 +69,18 @@ let xVibrate = getVibrate();
 let active = false;
 
 function vibrate() {
-  active =! active
-  if(active) {
+  active = !active;
+  if (active) {
     xVibrate = 200;
     setVibrate(xVibrate);
-    document.getElementById("vibrateButton").textContent="ON"
-  }else {
+    document.getElementById('vibrateButton').textContent = 'ON';
+  } else {
     xVibrate = 0;
     setVibrate(xVibrate);
-    document.getElementById("vibrateButton").textContent="OFF"
+    document.getElementById('vibrateButton').textContent = 'OFF';
   }
 }
 // Vibrate setting ends ////////
-
-
 
 function openSettings() {
   Swal.fire({
@@ -116,18 +112,16 @@ function openSettings() {
     `,
     showCloseButton: true,
     showConfirmButton: false,
-
   });
-  console.log(getVibrate())
+  console.log(getVibrate());
   if (getVibrate() === 0) {
-    document.getElementById("vibrateButton").textContent="OFF";
+    document.getElementById('vibrateButton').textContent = 'OFF';
     active = false;
-  }else if (getVibrate() === 200) {
-    document.getElementById("vibrateButton").textContent="ON";
+  } else if (getVibrate() === 200) {
+    document.getElementById('vibrateButton').textContent = 'ON';
     active = true;
   }
 }
-
 
 const $score = document.querySelector('.game__score');
 const $balance = document.querySelector('.boost-menu__balance');
@@ -135,7 +129,7 @@ const $circle = document.querySelector('.game__clicker-circle');
 const $mainImg = document.querySelector('.game__main-image');
 const $energy = document.querySelector('.energy__value');
 const $maxEnergy = document.querySelector('.energy__max');
-const $toLvlUp = document.querySelector("#to-lvl-up");
+const $toLvlUp = document.querySelector('#to-lvl-up');
 const $perTap = document.querySelector('#tap');
 
 function start() {
@@ -188,7 +182,6 @@ function updateProgressBar(currentScore, maxScore) {
   progressBar.value = currentScore;
 }
 
-
 function getnextLevelScore() {
   return Number(localStorage.getItem('nextLevelScore')) || 0;
 }
@@ -240,37 +233,48 @@ function updateLevel() {
       $currentLvlName.textContent = 'Core';
   }
 
-  if (score > 50000000 && level < 10) { // 50M-100M
+  if (score > 50000000 && level < 10) {
+    // 50M-100M
     level = 10;
     nextLevelScore = 1000000000;
-  } else if (score > 25000000 && level < 9) { //25M-50M
+  } else if (score > 25000000 && level < 9) {
+    //25M-50M
     level = 9;
     nextLevelScore = 50000000;
-  } else if (score > 10000000 && level < 8) { //10M-25M
+  } else if (score > 10000000 && level < 8) {
+    //10M-25M
     level = 8;
     nextLevelScore = 25000000;
-  } else if (score > 5000000 && level < 7) { //5M-10M
+  } else if (score > 5000000 && level < 7) {
+    //5M-10M
     level = 7;
     nextLevelScore = 10000000;
-  } else if (score > 1000000 && level < 6) { //1M-5M
+  } else if (score > 1000000 && level < 6) {
+    //1M-5M
     level = 6;
     nextLevelScore = 5000000;
-  } else if (score > 500000 && level < 5) { //500k-1M
+  } else if (score > 500000 && level < 5) {
+    //500k-1M
     level = 5;
     nextLevelScore = 1000000;
-  } else if (score > 250000 && level < 4) { //250k-500k
+  } else if (score > 250000 && level < 4) {
+    //250k-500k
     level = 4;
     nextLevelScore = 500000;
-  } else if (score > 100000 && level < 3) { //100k-250k
+  } else if (score > 100000 && level < 3) {
+    //100k-250k
     level = 3;
     nextLevelScore = 250000;
-  } else if (score > 50000 && level < 2) { //50k-100k
+  } else if (score > 50000 && level < 2) {
+    //50k-100k
     level = 2;
     nextLevelScore = 100000;
-  } else if (score > 10000 && level < 1) { //10k-50k
+  } else if (score > 10000 && level < 1) {
+    //10k-50k
     level = 1;
     nextLevelScore = 50000;
-  } else if (level === 0) {                 //0-10k
+  } else if (level === 0) {
+    //0-10k
     nextLevelScore = 10000;
   }
 
@@ -420,57 +424,46 @@ function buyUpgrade(upgrade) {
   const cost = Number($upgradeCost.textContent);
   const upgradeName = $upgradeTitle.textContent.toLowerCase();
 
-  if (currentBalance >= cost) {
-    setScore(currentBalance - cost);
-    if (upgradeName === 'multitap') {
+  if (upgradeName === 'multitap') {
+    if (canUpgradeMultitap() && cost <= currentBalance) {
       upgradeMultitap();
-    } else if (upgradeName === 'max energy') {
-      upgradeMaxEnergy();
+      setScore(currentBalance - cost);
+
+      showToast('success', 'Upgrade purchased!');
+    } else if (cost > currentBalance) {
+      showToast('error', 'Not enough coins!');
+    } else if (!canUpgradeMultitap()) {
+      showToast('error', 'Multitap upgrade is maxed out!');
     }
-    updateLevel();
-    hideUpgradeMenu();
-    // startFallingCoins();
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 2000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.onmouseenter = Swal.stopTimer;
-        toast.onmouseleave = Swal.resumeTimer;
-      },
-    });
-    Toast.fire({
-      icon: 'success',
-      title: 'Upgrade purchased!',
-    });
-    // alert("Upgrade purchased!");
-  } else {
-    hideUpgradeMenu();
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 2000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.onmouseenter = Swal.stopTimer;
-        toast.onmouseleave = Swal.resumeTimer;
-      },
-    });
-    Toast.fire({
-      icon: 'error',
-      title: 'Not enough coins!',
-    });
+  } else if (upgradeName === 'max energy') {
+    if (cost <= currentBalance) {
+      upgradeMaxEnergy();
+      setScore(currentBalance - cost);
+      showToast('success', 'Upgrade purchased!');
+    } else {
+      showToast('error', 'Not enough coins!');
+    }
   }
+
+  updateLevel();
+  hideUpgradeMenu();
 }
 
-window.addEventListener('click', function (event) {
-  if (event.target === $upgradeMenu || event.target === $cardsUpgradeMenu) {
-    hideUpgradeMenu();
-  }
-});
+function canUpgradeMultitap() {
+  return multitapPurchases < 8;
+}
+
+function showToast(icon, title) {
+  Swal.fire({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+    icon: icon,
+    title: title,
+  });
+}
 
 // Energie
 
@@ -492,15 +485,19 @@ function setEnergy(energy) {
   localStorage.setItem('energy', energy);
   $energy.textContent = energy;
 }
+let maxEnergyCost = Number(localStorage.getItem('maxEnergyCost')) || 1000;
+
 function upgradeMaxEnergy() {
   setMaxEnergy(getMaxEnergy() + 500);
   maxEnergyCost += 1000;
   localStorage.setItem('maxEnergyCost', maxEnergyCost);
   document.querySelector('#max-energy-cost').textContent = maxEnergyCost;
 }
+let multitapPurchases = Number(localStorage.getItem('multitapPurchases')) || 0;
+let multitapCost = Number(localStorage.getItem('multitapCost')) || 1000;
 
 function upgradeMultitap() {
-  if (multitapPurchases < 8) {
+  if (canUpgradeMultitap()) {
     setCoinsPerTap(getCoinsPerTap() + 1);
     multitapPurchases++;
     multitapCost += 1000;
@@ -511,6 +508,12 @@ function upgradeMultitap() {
     alert('Multitap upgrade is maxed out!');
   }
 }
+
+window.addEventListener('click', function (event) {
+  if (event.target === $upgradeMenu || event.target === $cardsUpgradeMenu) {
+    hideUpgradeMenu();
+  }
+});
 
 const $energyBoost = document.querySelector('.boost-menu__boost__energy');
 const $energyLimit = document.querySelector('#energy-limit');
