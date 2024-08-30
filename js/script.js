@@ -18,7 +18,8 @@ if (window.Telegram && window.Telegram.WebApp) {
   // Notify Telegram that the web app is ready
   TELEGRAM.ready();
 
-  TELEGRAM.disableVerticalSwipes();
+  TELEGRAM.disableVerticalSwipes(); // disable vertical swipes
+  TELEGRAM.enableClosingConfirmation(); // enables confirmation dialog while closing app
 
   // Show the block only if the app is running within Telegram
   playerInfo.style.display = 'flex';
@@ -428,7 +429,7 @@ function buyUpgrade(upgrade) {
     }
     updateLevel();
     hideUpgradeMenu();
-    startFallingCoins();
+    // startFallingCoins();
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
@@ -823,7 +824,7 @@ function buyStock(index, cardElement) {
     updateLevel();
     updateStockCardUI(cardElement, stock);
 
-    startFallingCoins();
+    // startFallingCoins();
     hideUpgradeMenu();
     Swal.fire({
       icon: 'success',
