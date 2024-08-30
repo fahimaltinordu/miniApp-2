@@ -364,7 +364,7 @@ body {
 .boost-menu__bosters {
     width: 100%;
     display: flex;
-    gap: 5px;
+    gap: 10px;
     flex-direction: column;
 }
 
@@ -405,7 +405,7 @@ body {
 }
 
 .boost-menu__bosters__free {
-    margin-bottom: 100px;
+    margin-bottom: 50px;
 }
 
 #energy-timer {
