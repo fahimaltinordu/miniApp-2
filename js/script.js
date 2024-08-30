@@ -374,6 +374,12 @@ const $upgrades = document.querySelectorAll(
 const $energieUpgrade = document.querySelector('#energie-upgrade');
 const $tapUpgrade = document.querySelector('#tap-upgrade');
 
+for (let upgrade of $upgrades) {
+  upgrade.addEventListener('click', (e) => {
+    showUpgradeMenu(e.currentTarget);
+  });
+}
+
 function showUpgradeMenu(upgrade) {
   const imgSrc = upgrade.querySelector('img').src;
   const title = upgrade.querySelector('h3').textContent;
