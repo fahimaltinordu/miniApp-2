@@ -661,6 +661,8 @@ let stocks = [
     purchased: 0,
     priceIncrease: 1.15,
     pphIncrease: 1.1,
+    disabled: false,
+    unlockCondition: null,
   },
   {
     hisse: 'BTC',
@@ -671,6 +673,8 @@ let stocks = [
     purchased: 0,
     priceIncrease: 1.15,
     pphIncrease: 1.3,
+    disabled: false,
+    unlockCondition: null,
   },
   {
     hisse: 'ETH',
@@ -681,6 +685,8 @@ let stocks = [
     purchased: 0,
     priceIncrease: 1.15,
     pphIncrease: 1.1,
+    disabled: true,
+    unlockCondition: { hisse: 'BTC', level: 5 },
   },
   {
     hisse: 'XRP',
@@ -691,6 +697,8 @@ let stocks = [
     purchased: 0,
     priceIncrease: 1.15,
     pphIncrease: 1.1,
+    disabled: true,
+    unlockCondition: { hisse: 'ETH', level: 4 },
   },
   {
     hisse: 'KCHOL',
@@ -701,6 +709,8 @@ let stocks = [
     purchased: 0,
     priceIncrease: 1.15,
     pphIncrease: 1.1,
+    disabled: true,
+    unlockCondition: { hisse: 'XRP', level: 6 },
   },
   {
     hisse: 'THYAO',
@@ -711,6 +721,8 @@ let stocks = [
     purchased: 0,
     priceIncrease: 1.15,
     pphIncrease: 1.1,
+    disabled: true,
+    unlockCondition: { hisse: 'KCHOL', level: 7 },
   },
   {
     hisse: 'TCELL',
@@ -721,6 +733,8 @@ let stocks = [
     purchased: 0,
     priceIncrease: 1.15,
     pphIncrease: 1.1,
+    disabled: true,
+    unlockCondition: { hisse: 'THYAO', level: 5 },
   },
   {
     hisse: 'TSLA',
@@ -729,8 +743,10 @@ let stocks = [
     price: 400,
     pph: 25,
     purchased: 0,
+    disabled: true,
     priceIncrease: 1.15,
     pphIncrease: 1.4,
+    unlockCondition: { hisse: 'APPL', level: 8 },
   },
 ];
 
@@ -747,23 +763,50 @@ function saveStocks() {
 
 loadStocks();
 
+function checkUnlockConditions() {
+  stocks.forEach((stock) => {
+    if (stock.unlockCondition) {
+      const requiredStock = stocks.find(
+        (s) => s.hisse === stock.unlockCondition.hisse
+      );
+      if (requiredStock.purchased >= stock.unlockCondition.level) {
+        stock.disabled = false;
+      }
+    }
+  });
+  saveStocks();
+}
+
 function renderStockCards() {
   let str = '';
-  stocks.forEach((item, index) => {
-    str += `<div class="mine-tab__card" data-index="${index}">
-                    <div class="mine-tab__card-image">
-                        <h3 class="mine-tab__card-title">${item.hisse}</h3>
-                        <img src="${item.img}">
-                    </div>
-                    <div class="mine-tab__card-content">
-                        <p class="mine-tab__card-description">${item.descr}</p>
-                        <div class="mine-tab__card-details">
-                            <span class="mine-tab__card-price">Fee: ${item.price}</span>
-                            <span class="card-income">Profit: ${item.pph}</span>
-                            <p style="color: #bbb;"><span>lvl </span><span class="PerHour-level">${item.purchased}</span> </p>
-                        </div>
-                    </div>
-                </div>`;
+  stocks.forEach((stock, index) => {
+    const isDisabled = stock.disabled === true;
+    const disabledClass = isDisabled ? 'disabled' : '';
+    const disabledAttr = isDisabled ? 'aria-disabled="true"' : '';
+
+    const unlockText =
+      isDisabled && stock.unlockCondition
+        ? `Unlock after ${stock.unlockCondition.hisse} reaches level ${stock.unlockCondition.level}`
+        : '';
+
+    str += `<div class="mine-tab__card ${disabledClass}" data-index="${index}" ${disabledAttr}>
+              <div class="mine-tab__card-image">
+                  <h3 class="mine-tab__card-title">${stock.hisse}</h3>
+                  <img src="${stock.img}">
+              </div>
+              <div class="mine-tab__card-content">
+                  <p class="mine-tab__card-description">${stock.descr}</p>
+                  <div class="mine-tab__card-details">
+                      <span class="mine-tab__card-price">Fee: ${stock.price}</span>
+                      <span class="card-income">Profit: ${stock.pph}</span>
+                      <p style="color: #bbb;"><span>lvl </span><span class="PerHour-level">${stock.purchased}</span></p>
+                  </div>
+              </div>
+              <div class="mine-tab__card-unlock">
+                <img src="/assets/img/icons/mine/lock.svg">
+                <p>${unlockText}</p>
+              </div>
+          </div>`;
   });
 
   const $cardContainer = document.querySelector('.mine-tab__grid');
@@ -777,7 +820,8 @@ function renderStockCards() {
   });
 }
 
-// Initial render of stock cards
+// Check unlock conditions before rendering stock cards
+checkUnlockConditions();
 renderStockCards();
 
 // Define upgrade menu elements
@@ -834,6 +878,8 @@ function buyStock(index, cardElement) {
     hideUpgradeMenu();
     showToast('success', 'Upgrade purchased!');
     $cardsUpgradeMenu.classList.remove('active');
+    checkUnlockConditions();
+    renderStockCards();
   } else {
     hideUpgradeMenu();
     showToast('error', 'Not enough coins!');
