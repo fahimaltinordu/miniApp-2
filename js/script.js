@@ -291,7 +291,7 @@ function updateLevel() {
 }
 
 function updateImage(level) {
-  const octopusImages = {
+  const levelsImages = {
     0: 'assets/img/levels/lvl0.png',
     1: 'assets/img/levels/lvl1.png',
     2: 'assets/img/levels/lvl2.png',
@@ -304,8 +304,7 @@ function updateImage(level) {
     9: 'assets/img/levels/lvl9.png',
     10: 'assets/img/levels/lvl10.png',
   };
-  // playerIcon.src = octopusImages[level]
-  playerIcon.setAttribute('src', octopusImages[level]);
+  playerIcon.setAttribute('src', levelsImages[level]);
 }
 
 // Energy regenerator
@@ -453,6 +452,8 @@ function canUpgradeMultitap() {
   return multitapPurchases < 8;
 }
 
+// Message
+
 function showToast(icon, title) {
   Swal.fire({
     toast: true,
@@ -495,6 +496,9 @@ function upgradeMaxEnergy() {
 }
 let multitapPurchases = Number(localStorage.getItem('multitapPurchases')) || 0;
 let multitapCost = Number(localStorage.getItem('multitapCost')) || 1000;
+
+document.querySelector('#max-energy-cost').textContent = maxEnergyCost;
+document.querySelector('#multitap-cost').textContent = multitapCost;
 
 function upgradeMultitap() {
   if (canUpgradeMultitap()) {
@@ -827,37 +831,12 @@ function buyStock(index, cardElement) {
     updateLevel();
     updateStockCardUI(cardElement, stock);
 
-    // startFallingCoins();
     hideUpgradeMenu();
-    Swal.fire({
-      icon: 'success',
-      title: 'Upgrade purchased!',
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 2000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.onmouseenter = Swal.stopTimer;
-        toast.onmouseleave = Swal.resumeTimer;
-      },
-    });
+    showToast('success', 'Upgrade purchased!');
     $cardsUpgradeMenu.classList.remove('active');
   } else {
     hideUpgradeMenu();
-    Swal.fire({
-      icon: 'error',
-      title: 'Not enough coins!',
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 2000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.onmouseenter = Swal.stopTimer;
-        toast.onmouseleave = Swal.resumeTimer;
-      },
-    });
+    showToast('error', 'Not enough coins!');
   }
 }
 
