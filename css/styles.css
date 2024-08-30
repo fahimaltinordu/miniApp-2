@@ -10,12 +10,12 @@
     background: #157866 !important;
     color: white;
 }
-div:where(.swal2-container).swal2-backdrop-show, div:where(.swal2-container).swal2-noanimation {
+/* div:where(.swal2-container).swal2-backdrop-show, div:where(.swal2-container).swal2-noanimation {
     background: rgba(0, 0, 0, .6) !important;
-}
+} */
 div:where(.swal2-container) div:where(.swal2-popup){
     background: #252F43 !important;
-    color:#03c98e !important;
+    color:#fff !important;
 }
 body.swal2-height-auto {
     height: -webkit-fill-available !important;
@@ -109,9 +109,12 @@ body {
     fill:#03c98e;
 }
 #vibrateButton {
-    padding: 10px 10px;
+    padding: 7px 10px;
     color: white;
     background-color: #03c98e;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1.1rem;
 }
 
 #player-info {
