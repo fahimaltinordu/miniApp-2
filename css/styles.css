@@ -786,13 +786,29 @@ body {
 
 .mine-tab__card.disabled .mine-tab__card-unlock {
     display: flex;
+    flex-direction:column;
+    gap:5px;
+    font-size: 0.8rem;
+    text-shadow: 1px 2px 1px rgb(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.28);
+    border-radius: 4px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(0.5px);
+    -webkit-backdrop-filter: blur(0.2px);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    height: 100%;
+    width: 100%;
+    padding: 0 25px;
 }
-
+.mine-tab__card-unlock img {
+    height:35px;
+    filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4));
+}
 
 
 .mine-tab__card-unlock {
     display: none;
-    min-width: 200px;
+    /* min-width: 200px; */
     justify-content: center;
     align-items: center;
     opacity: 1;
@@ -809,11 +825,11 @@ body {
 }
 
 .mine-tab__card.disabled .mine-tab__card-image {
-    opacity: 0.3;
+    opacity: 0.2;
 }
 
 .mine-tab__card.disabled .mine-tab__card-content {
-    opacity: 0.3;
+    opacity: 0.2;
 }
 
 
@@ -1036,7 +1052,7 @@ body {
     flex-direction: column;
     align-items: center;
     background: #252F43;
-    padding: 20px;
+    padding: 10px 15px;
     border-radius: 10px;
     width: 60%;
     max-width: 700px;
@@ -1089,7 +1105,7 @@ body {
 .popup__day {
     font-family: Roboto Flex, sans-serif;
     font-weight: 700;
-    min-width: 90px;
+    min-width: 80px;
     min-height: 70px;
     background: #444;
     border-radius: 10px;
