@@ -19,15 +19,17 @@
         <p>Swipe fingers, Invite friends and Earn together !</p>
     </div>
 
+    <!-- <p id="tonAddress"></p> -->
     <div class="header">
         <h1>EnergyFi</h1>
         <div class="settings">
-            <div id="ton-connect"></div>
-            <div onclick="openTonModal()"><img src="assets/img/wallet-icon.svg" height="40px" alt=""></div>
+            <!-- <div id="ton-connect"></div> -->
+            <p id="tonAddress"></p>
+            <div id="connectWallet" onclick="connectWallet()"><img src="assets/img/wallet-icon.svg" height="40px" alt=""></div>
+            <div id="disconnectWallet" onclick="disconnectWallet()"><img src="assets/img/disconnect.png" height="40px" alt=""></div>
             <div onclick="openSettings()"><img src="assets/img/settings-icon.svg" height="40px" alt=""></div>
         </div>
     </div>
-
 
     <div class="info">
         <div id="player-info" class="player__info">
@@ -42,12 +44,7 @@
                 </span>
             </div>
         </div>
-        <!-- <div class="info__container">
-            <h6 class="info__title">Coins to level up</h6>
-            <div>
-                <span id="to-lvl-up">0</span>
-            </div>
-        </div> -->
+
         <div class="info__container">
             <h6 class="info__title">Profit per hour</h6>
             <div>
@@ -416,38 +413,79 @@
             twaReturnUrl: 'https://t.me/EnergyFi_testApp_bot', //To redirect user to a Telegram Mini App after wallet connection
         };
 
-        // async function openTonModal() {
-        //     await tonConnectUI.openModal();
-        // }
+        function connectAct() {
+            document.getElementById("connectWallet").style.display="none";
+            document.getElementById("disconnectWallet").style.display="block";
+            document.getElementById("tonAddress").style.display="block";
+        }
+        function disconnectAct() {
+            document.getElementById("disconnectWallet").style.display="none";
+            document.getElementById("connectWallet").style.display="block";
+            document.getElementById("tonAddress").style.display="none";
+        }
+        if (getWalletStatus() === 1 ) {
+            connectAct();
+        } else if (getWalletStatus() === 0 ){
+            disconnectAct();
+        }
+        
+        setAddress(getAddress());
+        setWalletStatus(getWalletStatus());
+        
 
-        async function openTonModal() {
+        function getAddress() {
+            const address = localStorage.getItem('address');
+            return address === null ? "no address" : address;
+        }
+        function setAddress(address) {
+            localStorage.setItem('address', address);
+            document.getElementById("tonAddress").textContent = address;
+        }
+        function getWalletStatus() {
+            const status = localStorage.getItem('status');
+            return status === null ? 0 : Number(status);
+        }
+        function setWalletStatus(status) {
+            localStorage.setItem('status', status);
+        }
+
+        async function connectWallet() {
             const connectedWallet = await tonConnectUI.connectWallet();
-            const currentWallet = tonConnectUI.wallet;
-            const currentWalletInfo = tonConnectUI.walletInfo;
-            const currentAccount = tonConnectUI.account;
-            const currentIsConnectedStatus = tonConnectUI.connected;
-            console.log(currentWallet, currentWalletInfo, currentAccount, currentIsConnectedStatus);
-            
-            console.log(connectedWallet);
+            currentIsConnectedStatus = tonConnectUI.connected;
+
+            setAddress(connectedWallet.account.address)
+            setWalletStatus(1)
+
+            connectAct();
+            document.getElementById("tonAddress").textContent=getAddress();
 
             Swal.fire({
-                title: `<strong style="font-size:1.25rem;text-decoration:underline">Wallet details</strong>`,
-                html: `
-                <div>
-                    <div>connected wallet: ${connectedWallet}</div>
-                    <hr>
-                    <div>Wallet: ${currentWallet}</div>
-                    <hr>
-                    <div>Info: ${currentWalletInfo}</div>
-                    <hr>
-                    <div>Acc: ${currentAccount}</div>
-                    <hr>
-                    <div>Status : ${currentIsConnectedStatus}</div>
-                </div>
-                `,
-                showCloseButton: true,
+                toast: true,
+                position: 'top-end',
                 showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true,
+                icon: "success",
+                title: "Connected",
             });
+            return currentIsConnectedStatus;
+        }
+
+        async function disconnectWallet() {
+            await tonConnectUI.disconnect();
+            currentIsConnectedStatus = tonConnectUI.connected;
+            disconnectAct();
+            setWalletStatus(0);
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+                icon: "success",
+                title: "Disconnected",
+            });
+            return currentIsConnectedStatus;
         }
         
     </script>

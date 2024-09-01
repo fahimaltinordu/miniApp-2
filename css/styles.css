@@ -9,7 +9,22 @@
 [data-tc-button="true"] {
     background-color: #252F43 !important;
 }
-
+#tonAddress {
+    display:none;
+    font-size: 1rem;
+    white-space: nowrap; 
+    width: 60px; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    border: 1px solid #252F43;
+    background-color: #252F43;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+}
+/* #disconnectWallet {
+    display:none;
+} */
 
 /* ALERT STYLE */
 .swal2-popup.swal2-toast {
@@ -93,7 +108,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 25px;
+    gap: 10px;
 }
 
 .settings img {
