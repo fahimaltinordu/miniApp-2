@@ -427,29 +427,30 @@
             const currentAccount = tonConnectUI.account;
             const currentIsConnectedStatus = tonConnectUI.connected;
             console.log(currentWallet, currentWalletInfo, currentAccount, currentIsConnectedStatus);
-            
+
             console.log(connectedWallet);
 
             Swal.fire({
                 title: `<strong style="font-size:1.25rem;text-decoration:underline">Wallet details</strong>`,
                 html: `
-                <div>
-                    <div>connected wallet: ${connectedWallet}</div>
+                    <div>
+                    <div>Connected wallet: ${JSON.stringify(connectedWallet, null, 2)}</div>
                     <hr>
-                    <div>Wallet: ${currentWallet}</div>
+                    <div>Wallet: ${JSON.stringify(currentWallet, null, 2)}</div>
                     <hr>
-                    <div>Info: ${currentWalletInfo}</div>
+                    <div>Info: ${JSON.stringify(currentWalletInfo, null, 2)}</div>
                     <hr>
-                    <div>Acc: ${currentAccount}</div>
+                    <div>Acc: ${JSON.stringify(currentAccount, null, 2)}</div>
                     <hr>
-                    <div>Status : ${currentIsConnectedStatus}</div>
-                </div>
-                `,
+                    <div>Status: ${currentIsConnectedStatus}</div>
+                    </div>
+    `,
                 showCloseButton: true,
                 showConfirmButton: false,
             });
+
         }
-        
+
     </script>
 
 </body>
