@@ -100,8 +100,24 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    font-size: 1.25rem;
 }
-
+hr {
+    border: 0;
+    clear:both;
+    display:block;
+    width: 96%;               
+    background-color:#26f0b1;
+    height: 1px;
+  }
+.space-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+}
 #social {
     display: flex;
     justify-content: center;
@@ -115,6 +131,7 @@ body {
 }
 
 #vibrateButton {
+    width: 50px;
     padding: 7px 10px;
     color: white;
     background-color: #03c98e;

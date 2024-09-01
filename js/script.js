@@ -1,10 +1,12 @@
 window.addEventListener('load', function () {
-  // setTimeout(function() {
-  //   document.getElementById("loading").style.display = "none"
-  // }, 6000);
-  document.getElementById('loading').style.display = 'none';
+  setTimeout(loadingDelay,3000);
 });
+function loadingDelay(){
+  document.getElementById('loading').style.display = 'none';
+}
 
+let telegram_username = "";
+let telegram_userId = "";
 const playerIcon = document.getElementById('player-icon');
 const playerName = document.getElementById('player-name');
 
@@ -37,9 +39,15 @@ if (window.Telegram && window.Telegram.WebApp) {
     updateImage(level);
     if (user) {
       playerName.textContent = `${user.first_name}`; // Display the user's first name
+      telegram_username = user.first_name
+      telegram_userId = user.id
+      return telegram_username, telegram_userId
     } else {
       // playerIcon.src = "assets/img/nopic.png"; // Fallback image if no photo is available
       playerName.textContent = `No user`;
+      telegram_username = "No user"
+      telegram_userId = "Null"
+      return telegram_username, telegram_userId
     }
   }
 }
@@ -74,23 +82,36 @@ function vibrate() {
     xVibrate = 200;
     setVibrate(xVibrate);
     document.getElementById('vibrateButton').textContent = 'ON';
+    if (navigator.vibrate) {
+      navigator.vibrate(xVibrate);
+    }
   } else {
     xVibrate = 0;
     setVibrate(xVibrate);
     document.getElementById('vibrateButton').textContent = 'OFF';
+    if (navigator.vibrate) {
+      navigator.vibrate(xVibrate);
+    }
   }
 }
 // Vibrate setting ends ////////
 
 function openSettings() {
+  console.log(telegram_username,telegram_userId)
   Swal.fire({
-    title: `<strong>Hi ${playerName.textContent}</strong>`,
+    title: `<strong style="font-size:1.25rem;text-decoration:underline">Settings</strong>`,
     html: `
       <div id="settings_container">
-        <div>
-          <span>Vibration: </span>
+        <div class="space-between">
+          <span>${telegram_username}</span>
+          <span>${telegram_userId} </span>
+        </div>
+        <hr >
+        <div class="space-between">
+          <span>Vibration </span>
           <button id="vibrateButton" onclick="vibrate()"></button>
         </div>
+        <hr >
         <div id="social">
           <a href="https://twitter.com/EnergyFi_org" target="_blank">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-twitter-x" viewBox="0 0 16 16">
