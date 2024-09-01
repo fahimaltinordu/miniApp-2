@@ -5,6 +5,12 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+/* WALLET CONNECT */
+[data-tc-button="true"] {
+    background-color: #252F43 !important;
+}
+
+
 /* ALERT STYLE */
 .swal2-popup.swal2-toast {
     background: #157866 !important;
