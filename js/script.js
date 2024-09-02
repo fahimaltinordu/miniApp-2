@@ -1,12 +1,12 @@
 window.addEventListener('load', function () {
-  setTimeout(loadingDelay,3000);
+  setTimeout(loadingDelay, 3000);
 });
-function loadingDelay(){
+function loadingDelay() {
   document.getElementById('loading').style.display = 'none';
 }
 
-let telegram_username = "";
-let telegram_userId = "";
+let telegram_username = '';
+let telegram_userId = '';
 const playerIcon = document.getElementById('player-icon');
 const playerName = document.getElementById('player-name');
 
@@ -39,15 +39,15 @@ if (window.Telegram && window.Telegram.WebApp) {
     updateImage(level);
     if (user) {
       playerName.textContent = `${user.first_name}`; // Display the user's first name
-      telegram_username = user.first_name
-      telegram_userId = user.id
-      return telegram_username, telegram_userId
+      telegram_username = user.first_name;
+      telegram_userId = user.id;
+      return telegram_username, telegram_userId;
     } else {
       // playerIcon.src = "assets/img/nopic.png"; // Fallback image if no photo is available
       playerName.textContent = `No user`;
-      telegram_username = "No user"
-      telegram_userId = "Null"
-      return telegram_username, telegram_userId
+      telegram_username = 'No user';
+      telegram_userId = 'Null';
+      return telegram_username, telegram_userId;
     }
   }
 }
@@ -97,7 +97,7 @@ function vibrate() {
 // Vibrate setting ends ////////
 
 function openSettings() {
-  console.log(telegram_username,telegram_userId)
+  console.log(telegram_username, telegram_userId);
   Swal.fire({
     title: `<strong style="font-size:1.25rem;text-decoration:underline">Settings</strong>`,
     html: `
@@ -216,43 +216,21 @@ function updateLevel() {
   let level = getCurrentLevel();
   let nextLevelScore = getnextLevelScore();
 
-  switch (level) {
-    case 0:
-      $currentLvlName.textContent = 'Core';
-      break;
-    case 1:
-      $currentLvlName.textContent = 'Windmill';
-      break;
-    case 2:
-      $currentLvlName.textContent = 'Volcanic';
-      break;
-    case 3:
-      $currentLvlName.textContent = 'Stellar';
-      break;
-    case 4:
-      $currentLvlName.textContent = 'Plasma';
-      break;
-    case 5:
-      $currentLvlName.textContent = 'Photon';
-      break;
-    case 6:
-      $currentLvlName.textContent = 'Neutron';
-      break;
-    case 7:
-      $currentLvlName.textContent = 'Solar';
-      break;
-    case 8:
-      $currentLvlName.textContent = 'Nexus';
-      break;
-    case 9:
-      $currentLvlName.textContent = 'Quantum';
-      break;
-    case 10:
-      $currentLvlName.textContent = 'Mystic';
-      break;
-    default:
-      $currentLvlName.textContent = 'Core';
-  }
+  const levelNames = [
+    'Core', // Level 0
+    'Windmill', // Level 1
+    'Volcanic', // Level 2
+    'Stellar', // Level 3
+    'Plasma', // Level 4
+    'Photon', // Level 5
+    'Neutron', // Level 6
+    'Solar', // Level 7
+    'Nexus', // Level 8
+    'Quantum', // Level 9
+    'Mystic', // Level 10
+  ];
+
+  $currentLvlName.textContent = levelNames[level] || 'Core';
 
   if (score > 50000000 && level < 10) {
     // 50M-100M
@@ -805,22 +783,24 @@ function renderStockCards() {
     const disabledClass = isDisabled ? 'disabled' : '';
     const disabledAttr = isDisabled ? 'aria-disabled="true"' : '';
 
+    const { unlockCondition, hisse, img, descr, price, pph, purchased } = stock;
+
     const unlockText =
-      isDisabled && stock.unlockCondition
-        ? `Unlock after ${stock.unlockCondition.hisse} reaches level ${stock.unlockCondition.level}`
+      isDisabled && unlockCondition
+        ? `Unlock after ${unlockCondition.hisse} reaches level ${unlockCondition.level}`
         : '';
 
     str += `<div class="mine-tab__card ${disabledClass}" data-index="${index}" ${disabledAttr}>
               <div class="mine-tab__card-image">
-                  <h3 class="mine-tab__card-title">${stock.hisse}</h3>
-                  <img src="${stock.img}">
+                  <h3 class="mine-tab__card-title">${hisse}</h3>
+                  <img src="${img}">
               </div>
               <div class="mine-tab__card-content">
-                  <p class="mine-tab__card-description">${stock.descr}</p>
+                  <p class="mine-tab__card-description">${descr}</p>
                   <div class="mine-tab__card-details">
-                      <span class="mine-tab__card-price">Fee: ${stock.price}</span>
-                      <span class="card-income">Profit: ${stock.pph}</span>
-                      <p style="color: #bbb;"><span>lvl </span><span class="PerHour-level">${stock.purchased}</span></p>
+                      <span class="mine-tab__card-price">Fee: ${price}</span>
+                      <span class="card-income">Profit: ${pph}</span>
+                      <p style="color: #bbb;"><span>lvl </span><span class="PerHour-level">${purchased}</span></p>
                   </div>
               </div>
               <div class="mine-tab__card-unlock">
@@ -859,12 +839,13 @@ const $cardsUpgradeIncome = document.querySelector('#cards-upgrade-income');
 function showCardsUpgradeMenu(card) {
   const index = card.dataset.index;
   const stock = stocks[index];
+  const { hisse, descr, price, pph } = stock;
 
   $cardsUpgradeImg.src = card.querySelector('img').src;
-  $cardsUpgradeTitle.textContent = stock.hisse;
-  $cardsUpgradeDescription.textContent = stock.descr;
-  $cardsUpgradeCost.textContent = `Fee: ${stock.price}`;
-  $cardsUpgradeIncome.textContent = `PPH: ${stock.pph}`;
+  $cardsUpgradeTitle.textContent = hisse;
+  $cardsUpgradeDescription.textContent = descr;
+  $cardsUpgradeCost.textContent = `Fee: ${price}`;
+  $cardsUpgradeIncome.textContent = `PPH: ${pph}`;
 
   $cardsUpgradeBtn.onclick = function () {
     buyStock(index, card);
@@ -876,6 +857,7 @@ function showCardsUpgradeMenu(card) {
 function buyStock(index, cardElement) {
   const stock = stocks[index];
   const currentBalance = getScore();
+
   const cost = stock.price;
 
   if (currentBalance >= cost) {
