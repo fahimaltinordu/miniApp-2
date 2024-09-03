@@ -964,6 +964,48 @@ function startFallingCoins() {
   }, 3000);
 }
 
+//Earn section
+
+const $checkBtn = document.querySelector('.earn__item__check-btn');
+const $checkBtncontainer = $checkBtn.parentElement;
+
+let isWalletConnected = localStorage.getItem('isWalletConnected') === 'true';
+
+updateButtonState();
+
+$checkBtn.addEventListener('click', () => {
+  checkWalletConnection();
+});
+
+function checkWalletConnection() {
+  isWalletConnected = localStorage.getItem('status') == 1;
+
+  if (isWalletConnected) {
+    addCoins(5000);
+    startFallingCoins();
+    localStorage.setItem('isWalletConnected', 'true');
+    updateButtonState();
+    showToast('success', 'Wallet connected successfully!');
+  } else {
+    showToast('error', 'You have not connected your wallet.');
+  }
+}
+
+function updateButtonState() {
+  if (localStorage.getItem('isWalletConnected') === 'true') {
+    $checkBtn.style.display = 'none';
+
+    const img = document.createElement('img');
+    img.src = '/assets/img/icons/earn/competed.png';
+    img.alt = 'Task completed';
+    img.style.width = '30px';
+    img.style.height = '30px';
+    img.style.marginLeft = '80%';
+
+    $checkBtncontainer.appendChild(img);
+  }
+}
+
 const $dailyRewardBtn = document.querySelector('#dailyRewardBtn');
 const $dailyRewardPopup = document.querySelector('#dailyRewardPopup');
 const $popupCloseBtn = document.querySelector('#popupCloseBtn');
