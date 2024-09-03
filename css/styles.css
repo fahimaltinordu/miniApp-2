@@ -9,19 +9,21 @@
 [data-tc-button="true"] {
     background-color: #252F43 !important;
 }
+
 #tonAddress {
-    display:none;
+    display: none;
     font-size: 1rem;
-    white-space: nowrap; 
+    white-space: nowrap;
     /* width: 60px;  */
     overflow: hidden;
-    text-overflow: ellipsis; 
+    text-overflow: ellipsis;
     border: 1px solid #252F43;
     background-color: #252F43;
     color: white;
     padding: 6px;
     border-radius: 3px;
 }
+
 /* #disconnectWallet {
     display:none;
 } */
@@ -125,20 +127,23 @@ body {
     width: 100%;
     font-size: 1.25rem;
 }
+
 hr {
     border: 0;
-    clear:both;
-    display:block;
-    width: 96%;               
-    background-color:#26f0b1;
+    clear: both;
+    display: block;
+    width: 96%;
+    background-color: #26f0b1;
     height: 1px;
-  }
+}
+
 .space-between {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 90%;
 }
+
 #social {
     display: flex;
     justify-content: center;
@@ -824,8 +829,8 @@ hr {
 
 .mine-tab__card.disabled .mine-tab__card-unlock {
     display: flex;
-    flex-direction:column;
-    gap:5px;
+    flex-direction: column;
+    gap: 5px;
     font-size: 0.8rem;
     text-shadow: 1px 2px 1px rgb(0, 0, 0, 0.5);
     background: rgba(255, 255, 255, 0.28);
@@ -838,8 +843,9 @@ hr {
     width: 100%;
     padding: 0 25px;
 }
+
 .mine-tab__card-unlock img {
-    height:35px;
+    height: 35px;
     filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4));
 }
 
@@ -1060,6 +1066,14 @@ hr {
 .earn__item-btn button {
     background-color: transparent;
     color: rgb(142, 140, 140);
+    transition: 0.3s ease-in-out;
+}
+
+.earn__item-btn .earn__item__check-btn {
+    margin-left: 80%;
+    padding: 5px 20px;
+    background-color: #04C98E;
+    color: white;
     transition: 0.3s ease-in-out;
 }
 
