@@ -10,6 +10,7 @@
     <title>EnergyFi MiniApp</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <script src="https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js"></script>
 </head>
 
 <body>
@@ -19,14 +20,12 @@
         <p>Swipe fingers, Invite friends and Earn together !</p>
     </div>
 
-    <!-- <p id="tonAddress"></p> -->
     <div class="header">
         <h1>EnergyFi</h1>
         <div class="settings">
-            <!-- <div id="ton-connect"></div> -->
             <p id="tonAddress"></p>
-            <div id="connectWallet" onclick="connectWallet()"><img src="assets/img/wallet-icon.svg" height="40px" alt=""></div>
-            <div id="disconnectWallet" onclick="disconnectWallet()"><img src="assets/img/disconnect.png" height="40px" alt=""></div>
+            <div id="connectWallet" onclick="connectWallet()"><img src="assets/img/wallet-icon.svg" height="40px"
+                    alt=""></div>
             <div onclick="openSettings()"><img src="assets/img/settings-icon.svg" height="40px" alt=""></div>
         </div>
     </div>
@@ -404,91 +403,7 @@
 
 
     <script src="js/script.js"></script>
-    <script>
-        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-            manifestUrl: 'https://mini-app-2.vercel.app/tonconnect-manifest.json',
-        });
-
-        tonConnectUI.uiOptions = {
-            twaReturnUrl: 'https://t.me/EnergyFi_testApp_bot', //To redirect user to a Telegram Mini App after wallet connection
-        };
-
-        function connectAct() {
-            document.getElementById("connectWallet").style.display="none";
-            document.getElementById("disconnectWallet").style.display="block";
-            document.getElementById("tonAddress").style.display="block";
-        }
-        function disconnectAct() {
-            document.getElementById("disconnectWallet").style.display="none";
-            document.getElementById("connectWallet").style.display="block";
-            document.getElementById("tonAddress").style.display="none";
-        }
-        if (getWalletStatus() === 1 ) {
-            connectAct();
-        } else if (getWalletStatus() === 0 ){
-            disconnectAct();
-        }
-        
-        setAddress(getAddress());
-        setWalletStatus(getWalletStatus());
-        
-
-        function getAddress() {
-            const address = localStorage.getItem('address');
-            return address === null ? "no address" : address;
-        }
-        function setAddress(address) {
-            localStorage.setItem('address', address);
-            document.getElementById("tonAddress").textContent = address;
-        }
-        function getWalletStatus() {
-            const status = localStorage.getItem('status');
-            return status === null ? 0 : Number(status);
-        }
-        function setWalletStatus(status) {
-            localStorage.setItem('status', status);
-        }
-
-        async function connectWallet() {
-            const connectedWallet = await tonConnectUI.connectWallet();
-            currentIsConnectedStatus = tonConnectUI.connected;
-
-            setAddress(connectedWallet.account.address)
-            setWalletStatus(1)
-
-            connectAct();
-            document.getElementById("tonAddress").textContent=getAddress();
-
-            Swal.fire({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 5000,
-                timerProgressBar: true,
-                icon: "success",
-                title: "Connected",
-            });
-            return currentIsConnectedStatus;
-        }
-
-        async function disconnectWallet() {
-            await tonConnectUI.disconnect();
-            currentIsConnectedStatus = tonConnectUI.connected;
-            disconnectAct();
-            setWalletStatus(0);
-            Swal.fire({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 2000,
-                timerProgressBar: true,
-                icon: "success",
-                title: "Disconnected",
-            });
-            return currentIsConnectedStatus;
-        }
-        
-    </script>
+    <script src="js/tonconnect.js"></script>
 
 </body>
 

@@ -13,13 +13,13 @@
     display:none;
     font-size: 1rem;
     white-space: nowrap; 
-    width: 60px; 
+    /* width: 60px;  */
     overflow: hidden;
     text-overflow: ellipsis; 
     border: 1px solid #252F43;
     background-color: #252F43;
     color: white;
-    padding: 5px;
+    padding: 6px;
     border-radius: 3px;
 }
 /* #disconnectWallet {
