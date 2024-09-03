@@ -660,6 +660,7 @@ let stocks = [
     purchased: 0,
     priceIncrease: 1.15,
     pphIncrease: 1.1,
+    maxLevel: 15,
     disabled: false,
     unlockCondition: null,
   },
@@ -672,6 +673,7 @@ let stocks = [
     purchased: 0,
     priceIncrease: 1.15,
     pphIncrease: 1.3,
+    maxLevel: 15,
     disabled: false,
     unlockCondition: null,
   },
@@ -684,6 +686,7 @@ let stocks = [
     purchased: 0,
     priceIncrease: 1.15,
     pphIncrease: 1.1,
+    maxLevel: 15,
     disabled: true,
     unlockCondition: { hisse: 'BTC', level: 5 },
   },
@@ -696,6 +699,7 @@ let stocks = [
     purchased: 0,
     priceIncrease: 1.15,
     pphIncrease: 1.1,
+    maxLevel: 15,
     disabled: true,
     unlockCondition: { hisse: 'ETH', level: 4 },
   },
@@ -708,6 +712,7 @@ let stocks = [
     purchased: 0,
     priceIncrease: 1.15,
     pphIncrease: 1.1,
+    maxLevel: 15,
     disabled: true,
     unlockCondition: { hisse: 'XRP', level: 6 },
   },
@@ -720,6 +725,7 @@ let stocks = [
     purchased: 0,
     priceIncrease: 1.15,
     pphIncrease: 1.1,
+    maxLevel: 15,
     disabled: true,
     unlockCondition: { hisse: 'KCHOL', level: 7 },
   },
@@ -732,6 +738,7 @@ let stocks = [
     purchased: 0,
     priceIncrease: 1.15,
     pphIncrease: 1.1,
+    maxLevel: 15,
     disabled: true,
     unlockCondition: { hisse: 'THYAO', level: 5 },
   },
@@ -742,9 +749,10 @@ let stocks = [
     price: 400,
     pph: 25,
     purchased: 0,
-    disabled: true,
     priceIncrease: 1.15,
     pphIncrease: 1.4,
+    maxLevel: 15,
+    disabled: true,
     unlockCondition: { hisse: 'APPL', level: 8 },
   },
 ];
@@ -783,12 +791,23 @@ function renderStockCards() {
     const disabledClass = isDisabled ? 'disabled' : '';
     const disabledAttr = isDisabled ? 'aria-disabled="true"' : '';
 
-    const { unlockCondition, hisse, img, descr, price, pph, purchased } = stock;
+    const {
+      unlockCondition,
+      hisse,
+      img,
+      descr,
+      price,
+      pph,
+      purchased,
+      maxLevel,
+    } = stock;
 
     const unlockText =
       isDisabled && unlockCondition
         ? `Unlock after ${unlockCondition.hisse} reaches level ${unlockCondition.level}`
         : '';
+
+    const maxLevelText = purchased >= maxLevel ? 'Max level reached' : '';
 
     str += `<div class="mine-tab__card ${disabledClass}" data-index="${index}" ${disabledAttr}>
               <div class="mine-tab__card-image">
@@ -806,6 +825,7 @@ function renderStockCards() {
               <div class="mine-tab__card-unlock">
                 <img src="/assets/img/icons/mine/lock.svg">
                 <p>${unlockText}</p>
+                <p style="color: red;">${maxLevelText}</p>
               </div>
           </div>`;
   });
@@ -839,7 +859,15 @@ const $cardsUpgradeIncome = document.querySelector('#cards-upgrade-income');
 function showCardsUpgradeMenu(card) {
   const index = card.dataset.index;
   const stock = stocks[index];
-  const { hisse, descr, price, pph } = stock;
+  const { hisse, descr, price, pph, purchased, maxLevel } = stock;
+
+  if (purchased >= maxLevel) {
+    $cardsUpgradeBtn.disabled = true;
+    $cardsUpgradeBtn.textContent = 'Max Level Reached';
+  } else {
+    $cardsUpgradeBtn.disabled = false;
+    $cardsUpgradeBtn.textContent = 'Buy Upgrade';
+  }
 
   $cardsUpgradeImg.src = card.querySelector('img').src;
   $cardsUpgradeTitle.textContent = hisse;
@@ -853,10 +881,14 @@ function showCardsUpgradeMenu(card) {
 
   $cardsUpgradeMenu.classList.add('active');
 }
-
 function buyStock(index, cardElement) {
   const stock = stocks[index];
   const currentBalance = getScore();
+
+  if (stock.purchased >= stock.maxLevel) {
+    showToast('info', 'Max level reached for this stock!');
+    return;
+  }
 
   const cost = stock.price;
 
