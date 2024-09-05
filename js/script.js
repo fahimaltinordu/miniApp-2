@@ -1,5 +1,5 @@
 window.addEventListener('load', function () {
-  setTimeout(loadingDelay, 3000);
+  setTimeout(loadingDelay, 2000);
 });
 function loadingDelay() {
   document.getElementById('loading').style.display = 'none';
@@ -614,15 +614,29 @@ $barItems.forEach((barItem) => {
 });
 
 const $coinsPerHour = document.querySelector('#perHour');
-
+const $coinsPerHourPopover = document.querySelector('#perHourPopover');
 function setCoinsPerHour(coins) {
   localStorage.setItem('coinsPerHour', coins);
   $coinsPerHour.textContent = AbbreviateNum(coins);
+  $coinsPerHourPopover.innerHTML = coins;
 }
 
 function getCoinsPerHour() {
   return localStorage.getItem('coinsPerHour') ?? 0;
 }
+
+//POPOVER per hour - without AbbreviateNum
+let clicked = false;
+$coinsPerHour.addEventListener('click', () => {
+  clicked = !clicked; 
+  if (clicked) {
+    document.getElementById("perHourPopover").style.opacity="1";
+    document.getElementById("perHourPopover").style.visibility="visible";
+  } else {
+    document.getElementById("perHourPopover").style.opacity="0";
+    document.getElementById("perHourPopover").style.visibility="hidden";
+  }
+});
 
 let accumulatedCoins = 0;
 let coinsIntervalId = null;
