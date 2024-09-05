@@ -214,6 +214,20 @@ hr {
     display: flex;
     justify-content: center;
     align-items: center;
+    position:relative;
+}
+
+#perHourPopover {
+    opacity:0;
+    visibility: hidden;
+    position:absolute;
+    top: 30px;
+    left: 34%;
+    background-color: #252F43;
+    width: 50px;
+    padding:2px 0px;
+    border-radius:2px;
+    transition:visibility 0.3s linear,opacity 0.3s linear;
 }
 
 .info__container img {
