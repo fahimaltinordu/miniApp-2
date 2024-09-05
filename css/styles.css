@@ -561,6 +561,9 @@ hr {
 }
 
 .upgrade-menu__content {
+    -webkit-box-shadow: 0px -5px 30px -1px #252F43;
+    box-shadow: 0px -5px 30px -1px #252F43;
+    border-radius: 20px;
     color: #fff;
     padding: 20px;
     display: flex;
@@ -719,7 +722,7 @@ hr {
 .tab-content__active {
     display: flex;
     height: 536px;
-    overflow:auto;
+    overflow: auto;
 }
 
 .hidden {
@@ -1044,8 +1047,9 @@ hr {
     align-items: center;
     flex-direction: column;
     gap: 7px;
-    margin-bottom:20px;
+    margin-bottom: 20px;
 }
+
 .earn__section-title {
     color: #fff;
     text-align: start;
@@ -1107,7 +1111,7 @@ hr {
 .earn__item-btn .earn__item__check-btn {
     margin-left: 80%;
     padding: 5px 10px;
-    border-radius:3px;
+    border-radius: 3px;
     background-color: #04C98E;
     color: white;
     transition: 0.3s ease-in-out;
