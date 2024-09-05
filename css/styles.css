@@ -1315,6 +1315,11 @@ hr {
         font-size: 1.5rem;
     }
 
+    .mine-tab__tabs .mine-tab__btn {
+        font-size: 18px;
+    }
+
+
     .mine-tab__card-image,
     .mine-tab__card-image img {
         max-height: 50px;
@@ -1343,6 +1348,10 @@ hr {
     .info__container,
     .player__info {
         font-size: 0.9rem;
+    }
+
+    .mine-tab__tabs .mine-tab__btn {
+        font-size: 16px;
     }
 
     .mine-tab__card-image,
