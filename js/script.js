@@ -164,7 +164,7 @@ function start() {
   setnextLevelScore(getnextLevelScore());
   restoreRecoveryState();
   initializeDailyRewards();
-  renderStockCards();
+  renderStockCards('Crypto');
 }
 
 //Coins and Score
@@ -663,6 +663,7 @@ let stocks = [
     maxLevel: 15,
     disabled: false,
     unlockCondition: null,
+    category: 'Shares',
   },
   {
     hisse: 'BTC',
@@ -676,6 +677,7 @@ let stocks = [
     maxLevel: 15,
     disabled: false,
     unlockCondition: null,
+    category: 'Crypto',
   },
   {
     hisse: 'ETH',
@@ -689,6 +691,7 @@ let stocks = [
     maxLevel: 15,
     disabled: true,
     unlockCondition: { hisse: 'BTC', level: 5 },
+    category: 'Crypto',
   },
   {
     hisse: 'XRP',
@@ -702,6 +705,49 @@ let stocks = [
     maxLevel: 15,
     disabled: true,
     unlockCondition: { hisse: 'ETH', level: 4 },
+    category: 'Crypto',
+  },
+  {
+    hisse: 'ADA',
+    img: 'assets/img/icons/mine/cardano.png',
+    descr: 'Invest in Cardano for smart contract innovation.',
+    price: 180,
+    pph: 12,
+    purchased: 0,
+    priceIncrease: 1.15,
+    pphIncrease: 1.2,
+    maxLevel: 15,
+    disabled: true,
+    unlockCondition: { hisse: 'XRP', level: 6 },
+    category: 'Crypto',
+  },
+  {
+    hisse: 'SOL',
+    img: 'assets/img/icons/mine/solana.png',
+    descr: 'Invest in Solana for fast and scalable blockchain solutions.',
+    price: 220,
+    pph: 18,
+    purchased: 0,
+    priceIncrease: 1.15,
+    pphIncrease: 1.3,
+    maxLevel: 15,
+    disabled: true,
+    unlockCondition: { hisse: 'ADA', level: 5 },
+    category: 'Crypto',
+  },
+  {
+    hisse: 'DOT',
+    img: 'assets/img/icons/mine/polkadot.png',
+    descr: 'Invest in Polkadot for cross-chain blockchain solutions.',
+    price: 250,
+    pph: 20,
+    purchased: 0,
+    priceIncrease: 1.15,
+    pphIncrease: 1.2,
+    maxLevel: 15,
+    disabled: true,
+    unlockCondition: { hisse: 'SOL', level: 7 },
+    category: 'Crypto',
   },
   {
     hisse: 'KCHOL',
@@ -715,6 +761,7 @@ let stocks = [
     maxLevel: 15,
     disabled: true,
     unlockCondition: { hisse: 'XRP', level: 6 },
+    category: 'Shares',
   },
   {
     hisse: 'THYAO',
@@ -728,6 +775,7 @@ let stocks = [
     maxLevel: 15,
     disabled: true,
     unlockCondition: { hisse: 'KCHOL', level: 7 },
+    category: 'Shares',
   },
   {
     hisse: 'TCELL',
@@ -741,6 +789,7 @@ let stocks = [
     maxLevel: 15,
     disabled: true,
     unlockCondition: { hisse: 'THYAO', level: 5 },
+    category: 'Shares',
   },
   {
     hisse: 'TSLA',
@@ -754,8 +803,120 @@ let stocks = [
     maxLevel: 15,
     disabled: true,
     unlockCondition: { hisse: 'APPL', level: 8 },
+    category: 'Shares',
+  },
+  {
+    hisse: 'MSFT',
+    img: 'assets/img/icons/mine/microsoft.png',
+    descr: 'Invest in Microsoft for strong technology sector returns.',
+    price: 500,
+    pph: 30,
+    purchased: 0,
+    priceIncrease: 1.15,
+    pphIncrease: 1.25,
+    maxLevel: 15,
+    disabled: true,
+    unlockCondition: { hisse: 'TSLA', level: 10 },
+    category: 'Shares',
+  },
+  {
+    hisse: 'GOLD',
+    img: 'assets/img/icons/mine/gold.png',
+    descr: 'Invest in gold for stability during market fluctuations.',
+    price: 600,
+    pph: 35,
+    purchased: 0,
+    priceIncrease: 1.2,
+    pphIncrease: 1.15,
+    maxLevel: 15,
+    disabled: true,
+    unlockCondition: { hisse: 'MSFT', level: 12 },
+    category: 'Commodities',
+  },
+  {
+    hisse: 'OIL',
+    img: 'assets/img/icons/mine/oil.png',
+    descr: 'Invest in oil for energy market returns.',
+    price: 650,
+    pph: 40,
+    purchased: 0,
+    priceIncrease: 1.2,
+    pphIncrease: 1.2,
+    maxLevel: 15,
+    disabled: true,
+    unlockCondition: { hisse: 'GOLD', level: 10 },
+    category: 'Commodities',
+  },
+  {
+    hisse: 'SILVER',
+    img: 'assets/img/icons/mine/silver.png',
+    descr: 'Invest in silver for a strong hedge against inflation.',
+    price: 550,
+    pph: 30,
+    purchased: 0,
+    priceIncrease: 1.2,
+    pphIncrease: 1.1,
+    maxLevel: 15,
+    disabled: true,
+    unlockCondition: { hisse: 'OIL', level: 8 },
+    category: 'Commodities',
+  },
+  {
+    hisse: 'NATGAS',
+    img: 'assets/img/icons/mine/natural-gas.png',
+    descr: 'Invest in natural gas for strong energy sector growth.',
+    price: 700,
+    pph: 45,
+    purchased: 0,
+    priceIncrease: 1.2,
+    pphIncrease: 1.2,
+    maxLevel: 15,
+    disabled: true,
+    unlockCondition: { hisse: 'SILVER', level: 7 },
+    category: 'Commodities',
+  },
+  {
+    hisse: 'COPPER',
+    img: 'assets/img/icons/mine/copper.png',
+    descr: 'Invest in copper for its essential industrial uses.',
+    price: 600,
+    pph: 35,
+    purchased: 0,
+    priceIncrease: 1.2,
+    pphIncrease: 1.15,
+    maxLevel: 15,
+    disabled: true,
+    unlockCondition: { hisse: 'NATGAS', level: 6 },
+    category: 'Commodities',
+  },
+  {
+    hisse: 'PLATINUM',
+    img: 'assets/img/icons/mine/platinum.png',
+    descr: 'Invest in platinum for high-value precious metal returns.',
+    price: 800,
+    pph: 50,
+    purchased: 0,
+    priceIncrease: 1.25,
+    pphIncrease: 1.3,
+    maxLevel: 15,
+    disabled: true,
+    unlockCondition: { hisse: 'COPPER', level: 5 },
+    category: 'Commodities',
   },
 ];
+
+const mineTabButtons = document.querySelectorAll('.mine-tab__btn');
+mineTabButtons.forEach((mineTabButton) => {
+  mineTabButton.addEventListener('click', (e) => {
+    mineTabButtons.forEach((mineTabButton) => {
+      mineTabButton.classList.remove('mine-tab__btn__active');
+    });
+    e.target.classList.add('mine-tab__btn__active');
+    loadStocks();
+    const category = e.target.textContent;
+    renderStockCards(category);
+  });
+});
 
 function loadStocks() {
   const savedStocks = localStorage.getItem('stocks');
@@ -784,56 +945,57 @@ function checkUnlockConditions() {
   saveStocks();
 }
 
-function renderStockCards() {
+function renderStockCards(category) {
   let str = '';
   stocks.forEach((stock, index) => {
-    const isDisabled = stock.disabled === true;
-    const disabledClass = isDisabled ? 'disabled' : '';
-    const disabledAttr = isDisabled ? 'aria-disabled="true"' : '';
+    if (category === stock.category) {
+      const isDisabled = stock.disabled === true;
+      const disabledClass = isDisabled ? 'disabled' : '';
+      const disabledAttr = isDisabled ? 'aria-disabled="true"' : '';
 
-    const {
-      unlockCondition,
-      hisse,
-      img,
-      descr,
-      price,
-      pph,
-      purchased,
-      maxLevel,
-    } = stock;
+      const {
+        unlockCondition,
+        hisse,
+        img,
+        descr,
+        price,
+        pph,
+        purchased,
+        maxLevel,
+      } = stock;
 
-    const unlockText =
-      isDisabled && unlockCondition
-        ? `Unlock after ${unlockCondition.hisse} reaches level ${unlockCondition.level}`
-        : '';
+      const unlockText =
+        isDisabled && unlockCondition
+          ? `Unlock after ${unlockCondition.hisse} reaches level ${unlockCondition.level}`
+          : '';
 
-    const maxLevelText = purchased >= maxLevel ? 'Max level reached' : '';
+      const maxLevelText = purchased >= maxLevel ? 'Max level reached' : '';
 
-    str += `<div class="mine-tab__card ${disabledClass}" data-index="${index}" ${disabledAttr}>
-              <div class="mine-tab__card-image">
-                  <h3 class="mine-tab__card-title">${hisse}</h3>
-                  <img src="${img}">
-              </div>
-              <div class="mine-tab__card-content">
-                  <p class="mine-tab__card-description">${descr}</p>
-                  <div class="mine-tab__card-details">
-                      <span class="mine-tab__card-price">Fee: ${price}</span>
-                      <span class="card-income">Profit: ${pph}</span>
-                      <p style="color: #bbb;"><span>lvl </span><span class="PerHour-level">${purchased}</span></p>
-                  </div>
-              </div>
-              <div class="mine-tab__card-unlock">
-                <img src="/assets/img/icons/mine/lock.svg">
-                <p>${unlockText}</p>
-                <p style="color: red;">${maxLevelText}</p>
-              </div>
-          </div>`;
+      str += `<div class="mine-tab__card ${disabledClass}" data-index="${index}" ${disabledAttr}>
+                <div class="mine-tab__card-image">
+                    <h3 class="mine-tab__card-title">${hisse}</h3>
+                    <img src="${img}">
+                </div>
+                <div class="mine-tab__card-content">
+                    <p class="mine-tab__card-description">${descr}</p>
+                    <div class="mine-tab__card-details">
+                        <span class="mine-tab__card-price">Fee: ${price}</span>
+                        <span class="card-income">Profit: ${pph}</span>
+                        <p style="color: #bbb;"><span>lvl </span><span class="PerHour-level">${purchased}</span></p>
+                    </div>
+                </div>
+                <div class="mine-tab__card-unlock">
+                  <img src="/assets/img/icons/mine/lock.svg">
+                  <p>${unlockText}</p>
+                  <p style="color: red;">${maxLevelText}</p>
+                </div>
+            </div>`;
+    }
   });
 
   const $cardContainer = document.querySelector('.mine-tab__grid');
   $cardContainer.innerHTML = str;
 
-  // Add event listener to each card to open the upgrade menu
   document.querySelectorAll('.mine-tab__card').forEach((card) => {
     card.addEventListener('click', (e) => {
       showCardsUpgradeMenu(card);
@@ -841,11 +1003,9 @@ function renderStockCards() {
   });
 }
 
-// Check unlock conditions before rendering stock cards
 checkUnlockConditions();
-renderStockCards();
+renderStockCards('Crypto');
 
-// Define upgrade menu elements
 const $cardsUpgradeMenu = document.querySelector('#cards-upgrade-menu');
 const $cardsUpgradeImg = document.querySelector('#cards-upgrade-img');
 const $cardsUpgradeTitle = document.querySelector('#cards-upgrade-title');
@@ -914,7 +1074,7 @@ function buyStock(index, cardElement) {
     showToast('success', 'Upgrade purchased!');
     $cardsUpgradeMenu.classList.remove('active');
     checkUnlockConditions();
-    renderStockCards();
+    renderStockCards(stock.category);
   } else {
     hideUpgradeMenu();
     showToast('error', 'Not enough coins!');

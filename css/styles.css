@@ -787,6 +787,29 @@ hr {
     width: 90%;
 }
 
+.mine-tab__tabs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+    background-color: #252F43;
+    padding: 5px;
+}
+
+.mine-tab__tabs .mine-tab__btn {
+    background-color: transparent;
+    border-radius: 10px;
+    font-size: 24px;
+    padding: 10px 25px;
+    color: #8b8e93;
+}
+
+.mine-tab__tabs .mine-tab__btn.mine-tab__btn__active {
+    color: white;
+    background-color: #04C98E;
+}
+
 .mine-tab__grid {
     display: flex;
     flex-wrap: wrap;
@@ -797,6 +820,7 @@ hr {
     justify-content: center;
     gap: 20px;
 }
+
 
 
 
@@ -825,6 +849,7 @@ hr {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
     transition: transform 0.2s;
     z-index: 10;
+    animation: appear 1s;
     position: relative;
 }
 
