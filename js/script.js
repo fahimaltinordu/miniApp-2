@@ -1,3 +1,5 @@
+localStorage.clear(); // DELETE THIS /////////////////////////////
+
 window.addEventListener('load', function () {
   setTimeout(loadingDelay, 2000);
 });
