@@ -440,6 +440,7 @@ hr {
     padding: 40px 20px 40px 20px;
     border-radius: 20px;
     width: 100%;
+    box-shadow: rgb(0 0 0) 0px 3px 8px;
 }
 
 .boost-menu__boost h3 {
@@ -474,18 +475,18 @@ hr {
 #energy-timer {
     position: absolute;
     color: #fff;
-    top: 50%;
-    left: 70%;
-
-    transform: translate(-50%, -50%);
+    top: 10px;
+    right: 15px;
+    /* transform: translate(-50%, -50%); */
     font-size: 24px;
     font-weight: 800;
 }
 
-.boost-menu__boost div h5 {
+.boost-menu__boost div h5:not(:first-child) {
     display: flex;
     align-items: center;
     font-weight: 800;
+    gap:5px;
 }
 
 .boost-menu__bosters__upgrade .boost-menu__boost {
@@ -621,15 +622,16 @@ hr {
 } */
 
 
-.upgrade-menu__content img {
+.upgrade-menu__content > img {
     height: 150px;
+    filter: drop-shadow(0 0 0.3rem black); 
 }
-
 
 .upgrade-menu__content h5 {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap:5px;
 }
 
 .upgrade-menu__content button {
