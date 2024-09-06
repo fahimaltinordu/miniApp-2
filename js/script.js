@@ -9,8 +9,10 @@ function loadingDelay() {
 
 let telegram_username = '';
 let telegram_userId = '';
+let telegram_userPhoto = '';
 const playerIcon = document.getElementById('player-icon');
 const playerName = document.getElementById('player-name');
+const userPhoto = document.getElementById("userPhoto");
 
 //Initialize Telegram Mini App
 if (window.Telegram && window.Telegram.WebApp) {
@@ -43,16 +45,18 @@ if (window.Telegram && window.Telegram.WebApp) {
       playerName.textContent = `${user.first_name}`; // Display the user's first name
       telegram_username = user.first_name;
       telegram_userId = user.id;
-      return telegram_username, telegram_userId;
+      telegram_userPhoto = user.username;
+      return telegram_username, telegram_userId, telegram_userPhoto;
     } else {
-      // playerIcon.src = "assets/img/nopic.png"; // Fallback image if no photo is available
       playerName.textContent = `No user`;
-      telegram_username = 'No user';
-      telegram_userId = 'Null';
-      return telegram_username, telegram_userId;
+      telegram_username = '#FreeDurov';
+      telegram_userId = '0';
+      telegram_userPhoto = "durov";
+      return telegram_username, telegram_userId, telegram_userPhoto;
     }
   }
-}
+} 
+
 //Initialize Telegram Mini App
 
 // Abbreviate Numbers
@@ -99,11 +103,12 @@ function vibrate() {
 // Vibrate setting ends ////////
 
 function openSettings() {
-  console.log(telegram_username, telegram_userId);
   Swal.fire({
-    title: `<strong style="font-size:1.25rem;text-decoration:underline">Settings</strong>`,
+    // title: `<strong style="font-size:1.25rem;text-decoration:underline">Settings</strong>`,
     html: `
       <div id="settings_container">
+        <img src="https://t.me/i/userpic/160/${telegram_userPhoto}.jpg" id="userPhoto" style="width:50px;height:50px;border-radius:50%;border:1px solid green;">
+        <hr >
         <div class="space-between">
           <span>${telegram_username}</span>
           <span>${telegram_userId} </span>
