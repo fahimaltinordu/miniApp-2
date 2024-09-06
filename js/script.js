@@ -372,37 +372,56 @@ const $upgradeDescription = document.querySelector('#upgrade-description');
 const $upgradeBtn = document.querySelector('#upgrade-button');
 const $upgradeCost = document.querySelector('#upgrade-cost');
 
-const $upgrades = document.querySelectorAll(
-  '.boost-menu__bosters__upgrade .boost-menu__boost'
-);
+// const $upgrades = document.querySelectorAll(
+//   '.boost-menu__bosters__upgrade .boost-menu__boost'
+// );
 
-const $energieUpgrade = document.querySelector('#energie-upgrade');
+const $energyUpgrade = document.querySelector('#energy-upgrade');
 const $tapUpgrade = document.querySelector('#tap-upgrade');
 
-for (let upgrade of $upgrades) {
-  upgrade.addEventListener('click', (e) => {
-    showUpgradeMenu(e.currentTarget);
-  });
-}
+// for (let upgrade of $upgrades) {
+//   upgrade.addEventListener('click', (e) => {
+//     showUpgradeMenu(e.currentTarget);
+//   });
+// }
 
-function showUpgradeMenu(upgrade) {
-  const imgSrc = upgrade.querySelector('img').src;
-  const title = upgrade.querySelector('h3').textContent;
-  const cost = upgrade.querySelector('span').textContent;
+$tapUpgrade.addEventListener("click", showUpgradeMenu);
+$energyUpgrade.addEventListener("click", showEnergyUpgradeMenu);
+
+
+function showUpgradeMenu() {
+  const imgSrc = $tapUpgrade.querySelector('img').src;
+  const title = $tapUpgrade.querySelector('h3').textContent;
+  const cost = $tapUpgrade.querySelector('span').textContent;
 
   $upgradeImg.src = imgSrc;
   $upgradeTitle.textContent = title;
-  $upgradeDescription.textContent = `Increase your ${title.toLowerCase()}.`;
+  $upgradeDescription.textContent = `Increase your ${title.toLowerCase()} +500.`;
   $upgradeCost.textContent = cost;
 
   $upgradeBtn.addEventListener('click', handleUpgradeClick);
 
-  function handleUpgradeClick() {
-    buyUpgrade(upgrade);
-    $upgradeBtn.removeEventListener('click', handleUpgradeClick);
-  }
+  $upgradeMenu.classList.add('active');
+}
+
+function showEnergyUpgradeMenu() {
+  const imgSrc = $energyUpgrade.querySelector('img').src;
+  const title = $energyUpgrade.querySelector('h3').textContent;
+  const cost = $energyUpgrade.querySelector('span').textContent;
+
+  $upgradeImg.src = imgSrc;
+  $upgradeTitle.textContent = title;
+  $upgradeDescription.textContent = `Increase your ${title.toLowerCase()} +500.`;
+  $upgradeCost.textContent = cost;
+
+  $upgradeBtn.addEventListener('click', handleUpgradeClick);
 
   $upgradeMenu.classList.add('active');
+}
+
+function handleUpgradeClick() {
+  buyUpgrade();
+  $upgradeBtn.removeEventListener('click', handleUpgradeClick);
 }
 
 function hideUpgradeMenu() {
@@ -543,7 +562,7 @@ function startRecoveryTimer(startTime) {
     } else {
       let minutes = Math.floor((remainingTime / 1000 / 60) % 60);
       let seconds = Math.floor((remainingTime / 1000) % 60);
-      $energyTimer.innerHTML = `${minutes} min<br> ${seconds} sec`;
+      $energyTimer.innerHTML = `${minutes}:${seconds}`;
       localStorage.setItem('remainingTime', remainingTime);
       localStorage.setItem('recoveryEndTime', startTime + recoveryTime);
     }
