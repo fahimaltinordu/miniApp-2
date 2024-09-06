@@ -274,6 +274,7 @@ hr {
     -webkit-user-drag: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    text-shadow: 1px 1px 2px #252f43;
 }
 
 .level-progress {
@@ -390,6 +391,7 @@ hr {
     text-align: center;
     font-size: 1.2rem;
     font-weight: 800;
+    text-shadow: 1px 1px 2px #252f43;
 }
 
 .boost-menu__close-btn,
@@ -482,7 +484,7 @@ hr {
     font-weight: 800;
 }
 
-.boost-menu__boost div h5:not(:first-child) {
+.boost-menu__boost div h5 {
     display: flex;
     align-items: center;
     font-weight: 800;
@@ -685,7 +687,7 @@ hr {
     text-align: center;
     font-size: 1.2rem;
     font-weight: 800;
-
+    text-shadow: 1px 1px 2px #252f43;
 }
 
 .menu-bar__nav {
@@ -800,10 +802,12 @@ hr {
     font-size: 2rem;
     text-transform: uppercase;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
     font-weight: 800;
     color: #ffffff;
     width: 90%;
+    text-shadow: 1px 1px 2px #252f43;
 }
 
 .mine-tab__tabs {
@@ -814,6 +818,7 @@ hr {
     border-radius: 10px;
     background-color: #252F43;
     padding: 5px;
+    margin-top:10px;
 }
 
 .mine-tab__tabs .mine-tab__btn {
@@ -1049,12 +1054,13 @@ hr {
 } */
 
 .earn__top-title {
-    font-size: 32px;
+    font-size: 1.5rem;
     font-weight: 700;
     line-height: 12px;
     margin-bottom: 12px;
     margin-top: 12px;
     text-align: center;
+    text-shadow: 1px 1px 2px #252f43;
 }
 
 .earn__section-container {
@@ -1082,7 +1088,7 @@ hr {
     align-items: center;
     width: 300px;
     border: 1px solid #444;
-    padding: 15px 20px;
+    padding: 15px 15px;
     border-radius: 4px;
     transition: transform 0.2s;
 }
@@ -1125,8 +1131,8 @@ hr {
 }
 
 .earn__item-btn .earn__item__check-btn {
-    margin-left: 80%;
-    padding: 5px 10px;
+    /* margin-left: 80%; */
+    padding: 5px 5px;
     border-radius: 3px;
     background-color: #04C98E;
     color: white;

@@ -58,7 +58,7 @@
             <div style="display: flex;justify-content: center;align-items: center;">
                 <h2 class="game__score">0</h2>
                 <span
-                    style="margin-left: 5px; align-self: baseline;color: white;font-weight: 500;font-size: 25px;">ENR</span>
+                    style="margin-left: 5px; align-self: baseline;color: white;font-weight: 500;font-size: 25px;text-shadow: 1px 1px 2px #252f43;">ENR</span>
             </div>
         </header>
 
@@ -83,12 +83,12 @@
 
         <div class="game__footer">
             <div class="energy">
-                <img style="height: 25px;" src="assets/img/icons/energie.png" alt="">
+                <img style="height: 25px;filter: drop-shadow(0 0 0.2rem black);" src="assets/img/icons/energie.png" alt="">
                 <p class="energy__value">1000</p> /
                 <p class="energy__max">1000</p>
             </div>
             <div onclick="toggleBoostMenu()" class="boost">
-                Boost <img style="height: 25px;" src="assets/img/icons/boost.png" alt="boost">
+                Boost <img style="height: 25px;filter: drop-shadow(0 0 0.2rem black);" src="assets/img/icons/boost.png" alt="boost">
             </div>
         </div>
 
@@ -145,6 +145,7 @@
         </div>
         <div id="mine" class="tab-content">
             <h2 class="mine-tab__title">Invest stocks!</h2>
+            <p>(Balance: <span class="mine-tab__balance"></span>) </p>
             <div class="mine-tab__tabs">
                 <button class="mine-tab__btn mine-tab__btn__active">Crypto</button>
                 <button class="mine-tab__btn">Commodities</button>
@@ -198,6 +199,7 @@
                     <img class="earn__img-responsive" src="assets/img/ENR.png">
                 </div>
             </div> -->
+            <img src="assets/img/logo-h.png" style="height:80px;filter: drop-shadow(0 0 0.2rem #000000);">
             <div class="earn__top-title" style="transform: translateZ(0px); opacity: 1;">Earn more coins</div>
 
             <div class="earn__sections">
@@ -247,11 +249,14 @@
                                     <div class="earn__item-reward">
                                         <img src="assets/img/ENR.png" style="height: 24px;" alt="coin">
                                         <span>+5,000</span>
-                                        <div class="earn__item-btn">
+                                        <!-- <div class="earn__item-btn">
                                             <button class="earn__item__check-btn">Check</button>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
+                            </div>
+                            <div class="earn__item-btn">
+                                <button class="earn__item__check-btn">Check</button>
                             </div>
     
                         </div>

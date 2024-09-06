@@ -148,6 +148,7 @@ function openSettings() {
 
 const $score = document.querySelector('.game__score');
 const $balance = document.querySelector('.boost-menu__balance');
+const $balanceMinetab = document.querySelector('.mine-tab__balance');
 const $circle = document.querySelector('.game__clicker-circle');
 const $mainImg = document.querySelector('.game__main-image');
 const $energy = document.querySelector('.energy__value');
@@ -184,6 +185,7 @@ function setScore(score) {
   localStorage.setItem('score', score);
   $score.textContent = String(score).replace(/(.)(?=(\d{3})+$)/g, '$1,');
   $balance.textContent = String(score).replace(/(.)(?=(\d{3})+$)/g, '$1,');
+  $balanceMinetab.textContent = String(score).replace(/(.)(?=(\d{3})+$)/g, '$1,');
 }
 
 // Level
@@ -315,8 +317,21 @@ setInterval(() => {
   }
 }, 2000);
 
+//blur the logo if Energy <= CoinsPerTap
+function checkBlur() {
+  if (getEnergy() >= getCoinsPerTap()) {
+    $mainImg.style.filter = "blur(0Px)";
+  }else {
+    $mainImg.style.filter = "blur(3Px)";
+  }
+}
+setInterval(() => {
+  checkBlur();
+}, 1000);
+
 $circle.addEventListener('click', (event) => {
   if (getEnergy() >= getCoinsPerTap()) {
+    $mainImg.style.filter = "blur(0Px)";
     // Vibration
     if (navigator.vibrate) {
       navigator.vibrate(xVibrate);
@@ -335,14 +350,14 @@ $circle.addEventListener('click', (event) => {
     setTimeout(() => {
       $circle.style.setProperty('--tiltX', `0deg`);
       $circle.style.setProperty('--tiltY', `0deg`);
-    }, 300);
+    }, 500);
 
     const coinsPerTap = getCoinsPerTap();
     const plusCoins = document.createElement('div');
     plusCoins.classList.add('plusCoins');
     plusCoins.textContent = '+' + coinsPerTap;
     plusCoins.style.left = `${event.clientX}px`;
-    plusCoins.style.top = `${event.clientY - 60}px`;
+    plusCoins.style.top = `${event.clientY - 80}px`;
 
     $circle.parentElement.appendChild(plusCoins);
 
@@ -353,7 +368,9 @@ $circle.addEventListener('click', (event) => {
 
     setTimeout(() => {
       plusCoins.remove();
-    }, 2000);
+    }, 500);
+  }else {
+    $mainImg.style.filter = "blur(3Px)";
   }
 });
 
@@ -396,7 +413,7 @@ function showUpgradeMenu() {
 
   $upgradeImg.src = imgSrc;
   $upgradeTitle.textContent = title;
-  $upgradeDescription.textContent = `Increase your ${title.toLowerCase()} +500.`;
+  $upgradeDescription.textContent = `Increase your ${title.toLowerCase()} +1.`;
   $upgradeCost.textContent = cost;
 
   $upgradeBtn.addEventListener('click', handleUpgradeClick);
@@ -529,7 +546,7 @@ function upgradeMultitap() {
     localStorage.setItem('multitapCost', multitapCost);
     document.querySelector('#multitap-cost').textContent = multitapCost;
   } else {
-    alert('Multitap upgrade is maxed out!');
+    showToast('error', 'Multitap upgrade is maxed out!');
   }
 }
 
@@ -1196,11 +1213,11 @@ function updateButtonState() {
     $checkBtn.style.display = 'none';
 
     const img = document.createElement('img');
-    img.src = '/assets/img/icons/earn/competed.png';
+    img.src = '/assets/img/icons/earn/completed.png';
     img.alt = 'Task completed';
     img.style.width = '30px';
     img.style.height = '30px';
-    img.style.marginLeft = '80%';
+    // img.style.marginLeft = '80%';
 
     $checkBtncontainer.appendChild(img);
   }
