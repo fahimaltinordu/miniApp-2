@@ -16,6 +16,11 @@ const userPhoto = document.getElementById("userPhoto");
 
 //Initialize Telegram Mini App
 if (window.Telegram && window.Telegram.WebApp) {
+  
+  document.querySelector(".earn__item__share-btn").addEventListener("click", ()=> {
+    TELEGRAM.shareToStory('https://telegra.ph/file/e194a37aed103485469b4.jpg', {text: 'follow @Fahim_BTX, This is photo story'});
+  })
+
   const playerInfo = document.querySelector('.player__info');
 
   // Initialize the Telegram Mini App
@@ -55,7 +60,7 @@ if (window.Telegram && window.Telegram.WebApp) {
       return telegram_username, telegram_userId, telegram_userPhoto;
     }
   }
-} 
+}
 
 //Initialize Telegram Mini App
 
@@ -107,7 +112,7 @@ function openSettings() {
     // title: `<strong style="font-size:1.25rem;text-decoration:underline">Settings</strong>`,
     html: `
       <div id="settings_container">
-        <img src="https://t.me/i/userpic/160/${telegram_userPhoto}.jpg" id="userPhoto" style="width:50px;height:50px;border-radius:50%;border:1px solid green;">
+        <img src="https://t.me/i/userpic/160/${telegram_userPhoto}.jpg" id="userPhoto" style="width:50px;height:50px;border-radius:50%;border:2px solid #04C98E;">
         <hr >
         <div class="space-between">
           <span>${telegram_username}</span>
@@ -326,7 +331,7 @@ setInterval(() => {
 function checkBlur() {
   if (getEnergy() >= getCoinsPerTap()) {
     $mainImg.style.filter = "blur(0Px)";
-  }else {
+  } else {
     $mainImg.style.filter = "blur(3Px)";
   }
 }
@@ -374,7 +379,7 @@ $circle.addEventListener('click', (event) => {
     setTimeout(() => {
       plusCoins.remove();
     }, 500);
-  }else {
+  } else {
     $mainImg.style.filter = "blur(3Px)";
   }
 });
@@ -671,13 +676,13 @@ function getCoinsPerHour() {
 //POPOVER per hour - without AbbreviateNum
 let clicked = false;
 $coinsPerHour.addEventListener('click', () => {
-  clicked = !clicked; 
+  clicked = !clicked;
   if (clicked) {
-    document.getElementById("perHourPopover").style.opacity="1";
-    document.getElementById("perHourPopover").style.visibility="visible";
+    document.getElementById("perHourPopover").style.opacity = "1";
+    document.getElementById("perHourPopover").style.visibility = "visible";
   } else {
-    document.getElementById("perHourPopover").style.opacity="0";
-    document.getElementById("perHourPopover").style.visibility="hidden";
+    document.getElementById("perHourPopover").style.opacity = "0";
+    document.getElementById("perHourPopover").style.visibility = "hidden";
   }
 });
 
