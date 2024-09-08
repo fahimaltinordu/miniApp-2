@@ -48,22 +48,44 @@ if (window.Telegram && window.Telegram.WebApp) {
 
   // SHARE STORY - Only premium users
   let shareBtn = document.querySelector(".earn__item__share-btn");
-  
+  function prepareForScreensoot() {
+      document.querySelector(".earn").style.display = "none";
+      document.querySelector(".info").style.display = "flex";
+      document.querySelector(".game__header").style.display = "flex";
+      document.querySelector(".game__clicker-circle").style.display = "flex";
+      document.querySelector(".level-progress").style.display = "block";
+      document.querySelector(".game__footer").style.display = "flex";
+  }
+  function backToOriginal() {
+      document.querySelector(".earn").style.display = "flex";
+      document.querySelector(".info").style.display = "none";
+      document.querySelector(".game__header").style.display = "none";
+      document.querySelector(".game__clicker-circle").style.display = "none";
+      document.querySelector(".level-progress").style.display = "none";
+      document.querySelector(".game__footer").style.display = "none";
+  }
   if (shareBtn.textContent === "Share") {
     shareBtn.addEventListener("click", ()=> {
+      prepareForScreensoot();
+      html2canvas(document.getElementById('capture')).then(function(canvas) {
+          // Convert canvas to data URL
+          const imgData = canvas.toDataURL('image/png');
+          console.log(imgData)
+      });
+      backToOriginal();
+
       if (user) {
-        if(user.is_premium){
-          TELEGRAM.shareToStory(storyLink, {
-            text: storyText,
-            widget_link: {
-                url: storyWidgetLink,
-                name: storyWidgetName
-            }
-          });
-          shareBtn.textContent="Claim"
-        } else {
-          TELEGRAM.showAlert('You are not able to complete this task, as Telegram stories have only been rolled out to Premium users');
-        }
+        TELEGRAM.shareToStory(imgData, {
+          text: storyText,
+        });
+        
+        shareBtn.textContent="Claim"
+          
+        // if(user.is_premium){
+
+        // } else {
+        //   TELEGRAM.showAlert('You are not able to complete this task, as Telegram stories have only been rolled out to Premium users');
+        // }
       } else {
         showToast('error', 'No user!');
       }
