@@ -72,7 +72,8 @@ if (window.Telegram && window.Telegram.WebApp) {
   } else if (shareBtn.textContent === "Claim") {
     shareBtn.addEventListener("click", ()=> {
       if (user) {
-        startFallingCoins()
+        startFallingCoins();
+        shareBtn.textContent="Claimed";
       } else {
         showToast('error', 'No user!');
       }
