@@ -48,46 +48,44 @@ if (window.Telegram && window.Telegram.WebApp) {
 
   // SHARE STORY - Only premium users
   let shareBtn = document.querySelector(".earn__item__share-btn");
+
+  shareBtn.addEventListener("click", ()=> {
   if (shareBtn.textContent === "Share") {
-    shareBtn.addEventListener("click", ()=> {
+    if (user) {
+      // if(user.is_premium){
+      //   TELEGRAM.shareToStory(storyLink, {
+      //     text: storyText,
+      //     widget_link: {
+      //         url: storyWidgetLink,
+      //         name: storyWidgetName
+      //     }
+      //   });
+      //   shareBtn.textContent="Claim"
+      // } else {
+      //   TELEGRAM.showAlert('You are not able to complete this task, as Telegram stories have only been rolled out to Premium users');
+      // }
+
+      TELEGRAM.shareToStory(storyLink, {
+        text: storyText,
+      });
       
-      if (user) {
-        // if(user.is_premium){
-        //   TELEGRAM.shareToStory(storyLink, {
-        //     text: storyText,
-        //     widget_link: {
-        //         url: storyWidgetLink,
-        //         name: storyWidgetName
-        //     }
-        //   });
-        //   shareBtn.textContent="Claim"
-        // } else {
-        //   TELEGRAM.showAlert('You are not able to complete this task, as Telegram stories have only been rolled out to Premium users');
-        // }
+      shareBtn.textContent="Claim"
 
-        TELEGRAM.shareToStory(storyLink, {
-          text: storyText,
-        });
-        
-        shareBtn.textContent="Claim"
-
-      } else {
-        showToast('error', 'No user!');
-      }
-  
-    });
+    } else {
+      showToast('error', 'No user!');
+    }
   } else if (shareBtn.textContent === "Claim") {
-    shareBtn.addEventListener("click", ()=> {
       if (user) {
+        addCoins(5000);
         startFallingCoins();
         shareBtn.textContent="Claimed";
       } else {
         showToast('error', 'No user!');
       }
-  
-    });
+      
   } 
-
+  });
+  
   // Settings
   TELEGRAM.setHeaderColor('#252F43');
   TELEGRAM.expand(); // Expand the app to 100% height on the user's phone
