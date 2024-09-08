@@ -31,65 +31,69 @@
         </div>
     </div>
 
-    <div class="info">
-        <div id="player-info" class="player__info">
-            <img id="player-icon" class="player__icon" src="" alt="player icon">
-            <p id="player-name" class="player__name"></p>
-        </div>
-
-        <div class="info__container">
-            <h6 class="info__title">Earn per tap</h6>
-            <div>
-                <img src="assets/img/ENR.png" alt=""><span id="tap">1
-                </span>
-            </div>
-        </div>
-
-        <div class="info__container">
-            <h6 class="info__title">Profit per hour</h6>
-            <div>
-                <img src="assets/img/ENR.png" alt=""><span id="perHour">0</span>
-                <p id="perHourPopover">0</p>
-            </div>
-        </div>
-    </div>
+    
     <div class="game">
-        <header class="game__header">
-            <!-- <img src="assets/img/ENR.png" alt=""> -->
-            <div style="display: flex;justify-content: center;align-items: center;">
-                <h2 class="game__score">0</h2>
-                <span
-                    style="margin-left: 5px; align-self: baseline;color: white;font-weight: 500;font-size: 25px;text-shadow: 1px 1px 2px #252f43;">ENR</span>
+        <div class="game-main">
+            <div class="info">
+                <div id="player-info" class="player__info">
+                    <img id="player-icon" class="player__icon" src="" alt="player icon">
+                    <p id="player-name" class="player__name"></p>
+                </div>
+        
+                <div class="info__container">
+                    <h6 class="info__title">Earn per tap</h6>
+                    <div>
+                        <img src="assets/img/ENR.png" alt=""><span id="tap">1
+                        </span>
+                    </div>
+                </div>
+        
+                <div class="info__container">
+                    <h6 class="info__title">Profit per hour</h6>
+                    <div>
+                        <img src="assets/img/ENR.png" alt=""><span id="perHour">0</span>
+                        <p id="perHourPopover">0</p>
+                    </div>
+                </div>
             </div>
-        </header>
-
-        <div class="game__clicker-circle">
-            <img class="game__main-image" src="assets/img/ENR.png" alt="main-image">
-        </div>
-
-        <div class="level-progress">
-            <div class="level-progress__info">
-                <p class="level-progress__name">Lvl name</p>
-                <p class="level-progress__text">Level <span class="level-progress__current-level">0</span> / <span
-                        class="level-progress__max-level">10</span></p>
-                <p>
-                    <img style="height:15px;margin-right:5px;" src="assets/img/icons/coins.png" alt="">
-                    <span id="to-lvl-up">10.0k</span>
-                </p>
+            
+            <header class="game__header">
+                <!-- <img src="assets/img/ENR.png" alt=""> -->
+                <div style="display: flex;justify-content: center;align-items: center;">
+                    <h2 class="game__score">0</h2>
+                    <span
+                        style="margin-left: 5px; align-self: baseline;color: white;font-weight: 500;font-size: 25px;text-shadow: 1px 1px 2px #252f43;">ENR</span>
+                </div>
+            </header>
+    
+            <div class="game__clicker-circle">
+                <img class="game__main-image" src="assets/img/ENR.png" alt="main-image">
             </div>
-            <div class="level-progress__bar">
-                <progress class="level-progress__fill" max="1000" value="0" id="level-progress"></progress>
+    
+            <div class="level-progress">
+                <div class="level-progress__info">
+                    <p class="level-progress__name">Lvl name</p>
+                    <p class="level-progress__text">Level <span class="level-progress__current-level">0</span> / <span
+                            class="level-progress__max-level">10</span></p>
+                    <p>
+                        <img style="height:15px;margin-right:5px;" src="assets/img/icons/coins.png" alt="">
+                        <span id="to-lvl-up">10.0k</span>
+                    </p>
+                </div>
+                <div class="level-progress__bar">
+                    <progress class="level-progress__fill" max="1000" value="0" id="level-progress"></progress>
+                </div>
             </div>
-        </div>
-
-        <div class="game__footer">
-            <div class="energy">
-                <img style="height: 25px;filter: drop-shadow(0 0 0.2rem black);" src="assets/img/icons/energie.png" alt="">
-                <p class="energy__value">1000</p> /
-                <p class="energy__max">1000</p>
-            </div>
-            <div onclick="toggleBoostMenu()" class="boost">
-                Boost <img style="height: 25px;filter: drop-shadow(0 0 0.2rem black);" src="assets/img/icons/boost.png" alt="boost">
+    
+            <div class="game__footer">
+                <div class="energy">
+                    <img style="height: 25px;filter: drop-shadow(0 0 0.2rem black);" src="assets/img/icons/energie.png" alt="">
+                    <p class="energy__value">1000</p> /
+                    <p class="energy__max">1000</p>
+                </div>
+                <div onclick="toggleBoostMenu()" class="boost">
+                    Boost <img style="height: 25px;filter: drop-shadow(0 0 0.2rem black);" src="assets/img/icons/boost.png" alt="boost">
+                </div>
             </div>
         </div>
 

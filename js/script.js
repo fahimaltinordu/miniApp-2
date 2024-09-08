@@ -48,31 +48,30 @@ if (window.Telegram && window.Telegram.WebApp) {
 
   // SHARE STORY - Only premium users
   let shareBtn = document.querySelector(".earn__item__share-btn");
-  function prepareForScreensoot() {
-      document.querySelector(".earn").style.display = "none";
-      document.querySelector(".info").style.display = "flex";
-      document.querySelector(".game__header").style.display = "flex";
-      document.querySelector(".game__clicker-circle").style.display = "flex";
-      document.querySelector(".level-progress").style.display = "block";
-      document.querySelector(".game__footer").style.display = "flex";
-  }
-  function backToOriginal() {
-      document.querySelector(".earn").style.display = "flex";
-      document.querySelector(".info").style.display = "none";
-      document.querySelector(".game__header").style.display = "none";
-      document.querySelector(".game__clicker-circle").style.display = "none";
-      document.querySelector(".level-progress").style.display = "none";
-      document.querySelector(".game__footer").style.display = "none";
-  }
   if (shareBtn.textContent === "Share") {
     shareBtn.addEventListener("click", ()=> {
-      prepareForScreensoot();
-      html2canvas(document.getElementById('capture')).then(function(canvas) {
-          // Convert canvas to data URL
-          const imgData = canvas.toDataURL('image/png');
-          console.log(imgData)
-      });
-      backToOriginal();
+        html2canvas(capture, {
+            onclone: function (clonedDoc) {
+              clonedDoc.querySelector('.game').style.display = 'flex';
+              clonedDoc.querySelector('#earn').style.display = 'none';
+              clonedDoc.querySelector('#friends').style.display = 'none';
+              clonedDoc.querySelector('#mine').style.display = 'none';
+              clonedDoc.querySelector('.header').style.display = 'flex';
+              clonedDoc.querySelector('.info').style.display = 'flex';
+              clonedDoc.querySelector('.game__header').style.display = 'flex';
+              clonedDoc.querySelector('.game__clicker-circle').style.display = 'flex';
+              clonedDoc.querySelector('.level-progress').style.display = 'block';
+              clonedDoc.querySelector('.game__footer').style.display = 'flex';
+            }
+        }).then(async (canvas)=>{
+            const imgData = await canvas.toDataURL('image/png');
+            console.log(imgData)
+        })
+      // html2canvas(document.getElementById('capture')).then(function(canvas) {
+      //     // Convert canvas to data URL
+      //     const imgData = canvas.toDataURL('image/png');
+      //     console.log(imgData)
+      // });
 
       if (user) {
         TELEGRAM.shareToStory(imgData, {
