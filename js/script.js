@@ -4,6 +4,8 @@ localStorage.clear(); // DELETE THIS /////////////////////////////
 //story
 let storyLink = "https://blogs.airdropalert.com/wp-content/uploads/2024/06/Tap-2-Earn-Games.png";
 let storyText = "join #EnergyFi, invest stocks, tap & earn $ENR";
+let storyWidgetLink = " https://t.me/EnergyFi_testApp_bot/EnergyFi";
+let storyWidgetName = "@energyFi_tap";
 //socialMedia
 let TelegramLink = "https://t.me/EnergyFi_org";
 let TwitterLink = "https://twitter.com/EnergyFi_org";
@@ -32,11 +34,6 @@ if (window.Telegram && window.Telegram.WebApp) {
   // Initialize the Telegram Mini App
   const TELEGRAM = window.Telegram.WebApp;
 
-  // SHARE STORY 
-  document.querySelector(".earn__item__share-btn").addEventListener("click", ()=> {
-    TELEGRAM.shareToStory(storyLink, {text: storyText});
-  }); 
-
   // Notify Telegram that the web app is ready
   TELEGRAM.ready();
 
@@ -47,6 +44,42 @@ if (window.Telegram && window.Telegram.WebApp) {
   playerInfo.style.display = 'flex';
   // const { first_name, last_name, username } = window.Telegram.WebApp.initDataUnsafe.user;
   const user = TELEGRAM.initDataUnsafe.user;
+  console.log(user)
+
+  // SHARE STORY - Only premium users
+  let shareBtn = document.querySelector(".earn__item__share-btn");
+  
+  if (shareBtn.textContent === "Share") {
+    shareBtn.addEventListener("click", ()=> {
+      if (user) {
+        if(user.is_premium){
+          TELEGRAM.shareToStory(storyLink, {
+            text: storyText,
+            widget_link: {
+                url: storyWidgetLink,
+                name: storyWidgetName
+            }
+          });
+          shareBtn.textContent="Claim"
+        } else {
+          TELEGRAM.showAlert('You are not able to complete this task, as Telegram stories have only been rolled out to Premium users');
+        }
+      } else {
+        showToast('error', 'No user!');
+      }
+  
+    });
+  } else if (shareBtn.textContent === "Claim") {
+    shareBtn.addEventListener("click", ()=> {
+      if (user) {
+        startFallingCoins();
+        shareBtn.textContent="Claimed";
+      } else {
+        showToast('error', 'No user!');
+      }
+  
+    });
+  } 
 
   // Settings
   TELEGRAM.setHeaderColor('#252F43');
