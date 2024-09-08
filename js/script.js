@@ -2,7 +2,7 @@ localStorage.clear(); // DELETE THIS /////////////////////////////
 
 //CONFIG
 //story
-let storyLink = "https://blogs.airdropalert.com/wp-content/uploads/2024/06/Tap-2-Earn-Games.png";
+let storyLink = "https://mini-app-2.vercel.app/assets/img/5976773169836572554.jpg";
 let storyText = "join #EnergyFi, invest stocks, tap & earn $ENR";
 let storyWidgetLink = " https://t.me/EnergyFi_testApp_bot/EnergyFi";
 let storyWidgetName = "@energyFi_tap";
@@ -50,41 +50,27 @@ if (window.Telegram && window.Telegram.WebApp) {
   let shareBtn = document.querySelector(".earn__item__share-btn");
   if (shareBtn.textContent === "Share") {
     shareBtn.addEventListener("click", ()=> {
-        html2canvas(capture, {
-            onclone: function (clonedDoc) {
-              clonedDoc.querySelector('.game').style.display = 'flex';
-              clonedDoc.querySelector('#earn').style.display = 'none';
-              clonedDoc.querySelector('#friends').style.display = 'none';
-              clonedDoc.querySelector('#mine').style.display = 'none';
-              clonedDoc.querySelector('.header').style.display = 'flex';
-              clonedDoc.querySelector('.info').style.display = 'flex';
-              clonedDoc.querySelector('.game__header').style.display = 'flex';
-              clonedDoc.querySelector('.game__clicker-circle').style.display = 'flex';
-              clonedDoc.querySelector('.level-progress').style.display = 'block';
-              clonedDoc.querySelector('.game__footer').style.display = 'flex';
-            }
-        }).then(async (canvas)=>{
-            const imgData = await canvas.toDataURL('image/png');
-            console.log(imgData)
-        })
-      // html2canvas(document.getElementById('capture')).then(function(canvas) {
-      //     // Convert canvas to data URL
-      //     const imgData = canvas.toDataURL('image/png');
-      //     console.log(imgData)
-      // });
-
+      
       if (user) {
-        TELEGRAM.shareToStory(imgData, {
+        // if(user.is_premium){
+        //   TELEGRAM.shareToStory(storyLink, {
+        //     text: storyText,
+        //     widget_link: {
+        //         url: storyWidgetLink,
+        //         name: storyWidgetName
+        //     }
+        //   });
+        //   shareBtn.textContent="Claim"
+        // } else {
+        //   TELEGRAM.showAlert('You are not able to complete this task, as Telegram stories have only been rolled out to Premium users');
+        // }
+
+        TELEGRAM.shareToStory(storyLink, {
           text: storyText,
         });
         
         shareBtn.textContent="Claim"
-          
-        // if(user.is_premium){
 
-        // } else {
-        //   TELEGRAM.showAlert('You are not able to complete this task, as Telegram stories have only been rolled out to Premium users');
-        // }
       } else {
         showToast('error', 'No user!');
       }

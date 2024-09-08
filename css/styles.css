@@ -331,7 +331,7 @@ hr {
 
 
 .game__clicker-circle {
-    /* position: relative; */
+    position: relative;
     padding: 20px;
     display: flex;
     justify-content: center;
