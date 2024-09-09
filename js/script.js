@@ -46,6 +46,45 @@ if (window.Telegram && window.Telegram.WebApp) {
   const user = TELEGRAM.initDataUnsafe.user;
   console.log(user)
 
+
+  //STAR PAYMENT 
+ function starPayment() {
+      const invoiceUrl = "https://t.me/$j4RuD3LOWEnbBgAA5o-hIxwq1GM";
+
+      TELEGRAM.openInvoice(invoiceUrl, (status) => {
+        if (status === 'success') {
+          console.log('Invoice payment successful!');
+          addFrens(1);
+        } else {
+          console.error('Error opening invoice:', status);
+        }
+      });
+    // Send a request to the server to create a new invoice
+    // fetch('https://5bd9-2a09-bac1-7a80-10-00-246-7e.ngrok-free.app/send_invoice', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json', // Specify the Content-Type as application/json
+    //     'ngrok-skip-browser-warning': 'any_value',
+    //   },
+    //   body: JSON.stringify({ chat_id: chatId }),
+    // })
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     // Use the invoice link from the response to open the invoice
+    //     // const invoiceUrl = data.invoice_url;
+    //     const invoiceUrl = "https://t.me/$j4RuD3LOWEnbBgAA5o-hIxwq1GM";
+    //     TELEGRAM.openInvoice(invoiceUrl, (status) => {
+    //       if (status === 'success') {
+    //         console.log('Invoice payment successful!');
+    //       } else {
+    //         console.error('Error opening invoice:', status);
+    //       }
+    //     });
+    //   })
+    //   .catch(error => console.error('Error creating invoice:', error)); // Log errors
+  }
+
+
   // SHARE STORY - Only premium users
   let shareBtn = document.querySelector(".earn__item__share-btn");
 
@@ -204,6 +243,7 @@ function openSettings() {
 }
 
 const $score = document.querySelector('.game__score');
+const $friendCount = document.querySelector('#friendCount');
 const $balance = document.querySelector('.boost-menu__balance');
 const $balanceMinetab = document.querySelector('.mine-tab__balance');
 const $circle = document.querySelector('.game__clicker-circle');
@@ -216,6 +256,7 @@ const $perTap = document.querySelector('#tap');
 function start() {
   setVibrate(getVibrate());
   setScore(getScore());
+  setReferral(getReferral());
   setEnergy(getEnergy());
   setMaxEnergy(getMaxEnergy());
   updateLevel();
@@ -234,8 +275,23 @@ function addCoins(coins) {
   updateLevel();
 }
 
+function addFrens(frens) {
+  setReferral(getReferral() + frens);
+}
+
+//Friends 
+
+function getReferral() {
+  return Number(localStorage.getItem('frens')) || 0;
+}
+
 function getScore() {
   return Number(localStorage.getItem('score')) || 0;
+}
+
+function setReferral(frens) {
+  localStorage.setItem('frens', frens);
+  $friendCount.textContent = `You have ${Number(frens)} fake friend`;
 }
 
 function setScore(score) {
