@@ -2,15 +2,15 @@ localStorage.clear(); // DELETE THIS /////////////////////////////
 
 //CONFIG
 //story
-let storyLink = "https://mini-app-2.vercel.app/assets/img/5976773169836572554.jpg";
-let storyText = "join #EnergyFi, invest stocks, tap & earn $ENR";
-let storyWidgetLink = " https://t.me/EnergyFi_testApp_bot/EnergyFi";
-let storyWidgetName = "@energyFi_tap";
+let storyLink =
+  'https://mini-app-2.vercel.app/assets/img/5976773169836572554.jpg';
+let storyText = 'join #EnergyFi, invest stocks, tap & earn $ENR';
+let storyWidgetLink = ' https://t.me/EnergyFi_testApp_bot/EnergyFi';
+let storyWidgetName = '@energyFi_tap';
 //socialMedia
-let TelegramLink = "https://t.me/EnergyFi_org";
-let TwitterLink = "https://twitter.com/EnergyFi_org";
-let GithubLink = "https://github.com/fahimaltinordu/miniApp-2";
-
+let TelegramLink = 'https://t.me/EnergyFi_org';
+let TwitterLink = 'https://twitter.com/EnergyFi_org';
+let GithubLink = 'https://github.com/fahimaltinordu/miniApp-2';
 
 window.addEventListener('load', function () {
   setTimeout(loadingDelay, 2000);
@@ -24,11 +24,10 @@ let telegram_userId = '';
 let telegram_userPhoto = '';
 const playerIcon = document.getElementById('player-icon');
 const playerName = document.getElementById('player-name');
-const userPhoto = document.getElementById("userPhoto");
+const userPhoto = document.getElementById('userPhoto');
 
 //Initialize Telegram Mini App
 if (window.Telegram && window.Telegram.WebApp) {
-  
   const playerInfo = document.querySelector('.player__info');
 
   // Initialize the Telegram Mini App
@@ -44,21 +43,20 @@ if (window.Telegram && window.Telegram.WebApp) {
   playerInfo.style.display = 'flex';
   // const { first_name, last_name, username } = window.Telegram.WebApp.initDataUnsafe.user;
   const user = TELEGRAM.initDataUnsafe.user;
-  console.log(user)
+  console.log(user);
 
+  //STAR PAYMENT
+  function starPayment() {
+    const invoiceUrl = 'https://t.me/$j4RuD3LOWEnbBgAA5o-hIxwq1GM';
 
-  //STAR PAYMENT 
- function starPayment() {
-      const invoiceUrl = "https://t.me/$j4RuD3LOWEnbBgAA5o-hIxwq1GM";
-
-      TELEGRAM.openInvoice(invoiceUrl, (status) => {
-        if (status === 'success') {
-          console.log('Invoice payment successful!');
-          addFrens(1);
-        } else {
-          console.error('Error opening invoice:', status);
-        }
-      });
+    TELEGRAM.openInvoice(invoiceUrl, (status) => {
+      if (status === 'success') {
+        console.log('Invoice payment successful!');
+        addFrens(1);
+      } else {
+        console.error('Error opening invoice:', status);
+      }
+    });
     // Send a request to the server to create a new invoice
     // fetch('https://5bd9-2a09-bac1-7a80-10-00-246-7e.ngrok-free.app/send_invoice', {
     //   method: 'POST',
@@ -84,47 +82,44 @@ if (window.Telegram && window.Telegram.WebApp) {
     //   .catch(error => console.error('Error creating invoice:', error)); // Log errors
   }
 
-
   // SHARE STORY - Only premium users
-  let shareBtn = document.querySelector(".earn__item__share-btn");
+  let shareBtn = document.querySelector('.earn__item__share-btn');
 
-  shareBtn.addEventListener("click", ()=> {
-  if (shareBtn.textContent === "Share") {
-    if (user) {
-      // if(user.is_premium){
-      //   TELEGRAM.shareToStory(storyLink, {
-      //     text: storyText,
-      //     widget_link: {
-      //         url: storyWidgetLink,
-      //         name: storyWidgetName
-      //     }
-      //   });
-      //   shareBtn.textContent="Claim"
-      // } else {
-      //   TELEGRAM.showAlert('You are not able to complete this task, as Telegram stories have only been rolled out to Premium users');
-      // }
-
-      TELEGRAM.shareToStory(storyLink, {
-        text: storyText,
-      });
-      
-      shareBtn.textContent="Claim"
-
-    } else {
-      showToast('error', 'No user!');
-    }
-  } else if (shareBtn.textContent === "Claim") {
+  shareBtn.addEventListener('click', () => {
+    if (shareBtn.textContent === 'Share') {
       if (user) {
-        addCoins(5000);
-        startFallingCoins();
-        shareBtn.textContent="Claimed";
+        // if(user.is_premium){
+        //   TELEGRAM.shareToStory(storyLink, {
+        //     text: storyText,
+        //     widget_link: {
+        //         url: storyWidgetLink,
+        //         name: storyWidgetName
+        //     }
+        //   });
+        //   shareBtn.textContent="Claim"
+        // } else {
+        //   TELEGRAM.showAlert('You are not able to complete this task, as Telegram stories have only been rolled out to Premium users');
+        // }
+
+        TELEGRAM.shareToStory(storyLink, {
+          text: storyText,
+        });
+
+        shareBtn.textContent = 'Claim';
       } else {
         showToast('error', 'No user!');
       }
-      
-  } 
+    } else if (shareBtn.textContent === 'Claim') {
+      if (user) {
+        addCoins(5000);
+        startFallingCoins();
+        shareBtn.textContent = 'Claimed';
+      } else {
+        showToast('error', 'No user!');
+      }
+    }
   });
-  
+
   // Settings
   TELEGRAM.setHeaderColor('#252F43');
   TELEGRAM.expand(); // Expand the app to 100% height on the user's phone
@@ -143,7 +138,7 @@ if (window.Telegram && window.Telegram.WebApp) {
       playerName.textContent = `No user`;
       telegram_username = '#FreeDurov';
       telegram_userId = '0';
-      telegram_userPhoto = "durov";
+      telegram_userPhoto = 'durov';
       return telegram_username, telegram_userId, telegram_userPhoto;
     }
   }
@@ -279,7 +274,7 @@ function addFrens(frens) {
   setReferral(getReferral() + frens);
 }
 
-//Friends 
+//Friends
 
 function getReferral() {
   return Number(localStorage.getItem('frens')) || 0;
@@ -298,7 +293,10 @@ function setScore(score) {
   localStorage.setItem('score', score);
   $score.textContent = String(score).replace(/(.)(?=(\d{3})+$)/g, '$1,');
   $balance.textContent = String(score).replace(/(.)(?=(\d{3})+$)/g, '$1,');
-  $balanceMinetab.textContent = String(score).replace(/(.)(?=(\d{3})+$)/g, '$1,');
+  $balanceMinetab.textContent = String(score).replace(
+    /(.)(?=(\d{3})+$)/g,
+    '$1,'
+  );
 }
 
 // Level
@@ -433,9 +431,9 @@ setInterval(() => {
 //blur the logo if Energy <= CoinsPerTap
 function checkBlur() {
   if (getEnergy() >= getCoinsPerTap()) {
-    $mainImg.style.filter = "blur(0Px)";
+    $mainImg.style.filter = 'blur(0Px)';
   } else {
-    $mainImg.style.filter = "blur(3Px)";
+    $mainImg.style.filter = 'blur(3Px)';
   }
 }
 setInterval(() => {
@@ -444,7 +442,7 @@ setInterval(() => {
 
 $circle.addEventListener('click', (event) => {
   if (getEnergy() >= getCoinsPerTap()) {
-    $mainImg.style.filter = "blur(0Px)";
+    $mainImg.style.filter = 'blur(0Px)';
     // Vibration
     if (navigator.vibrate) {
       navigator.vibrate(xVibrate);
@@ -483,7 +481,7 @@ $circle.addEventListener('click', (event) => {
       plusCoins.remove();
     }, 500);
   } else {
-    $mainImg.style.filter = "blur(3Px)";
+    $mainImg.style.filter = 'blur(3Px)';
   }
 });
 
@@ -515,9 +513,8 @@ const $tapUpgrade = document.querySelector('#tap-upgrade');
 //   });
 // }
 
-$tapUpgrade.addEventListener("click", showUpgradeMenu);
-$energyUpgrade.addEventListener("click", showEnergyUpgradeMenu);
-
+$tapUpgrade.addEventListener('click', showUpgradeMenu);
+$energyUpgrade.addEventListener('click', showEnergyUpgradeMenu);
 
 function showUpgradeMenu() {
   const imgSrc = $tapUpgrade.querySelector('img').src;
@@ -781,11 +778,11 @@ let clicked = false;
 $coinsPerHour.addEventListener('click', () => {
   clicked = !clicked;
   if (clicked) {
-    document.getElementById("perHourPopover").style.opacity = "1";
-    document.getElementById("perHourPopover").style.visibility = "visible";
+    document.getElementById('perHourPopover').style.opacity = '1';
+    document.getElementById('perHourPopover').style.visibility = 'visible';
   } else {
-    document.getElementById("perHourPopover").style.opacity = "0";
-    document.getElementById("perHourPopover").style.visibility = "hidden";
+    document.getElementById('perHourPopover').style.opacity = '0';
+    document.getElementById('perHourPopover').style.visibility = 'hidden';
   }
 });
 
@@ -799,6 +796,7 @@ function startCoinAccumulation() {
 
   coinsIntervalId = setInterval(() => {
     accumulatedCoins += getCoinsPerHour() / 3600;
+
     if (accumulatedCoins >= 1) {
       addCoins(Math.floor(accumulatedCoins));
       accumulatedCoins -= Math.floor(accumulatedCoins);
@@ -807,10 +805,11 @@ function startCoinAccumulation() {
 }
 
 function updateCoinsPerHour(coins) {
-  setCoinsPerHour(Number(getCoinsPerHour()) + coins);
+  const newCoinsPerHour = Number(getCoinsPerHour()) + coins;
+  setCoinsPerHour(newCoinsPerHour);
+
   startCoinAccumulation();
 }
-
 if (getCoinsPerHour() > 0) {
   startCoinAccumulation();
 }
@@ -1228,7 +1227,7 @@ function buyStock(index, cardElement) {
     const currentCoinsPerHour = Number(getCoinsPerHour());
     const additionalCoinsPerHour = Number(stock.pph);
 
-    setCoinsPerHour(currentCoinsPerHour + additionalCoinsPerHour);
+    updateCoinsPerHour(currentCoinsPerHour + additionalCoinsPerHour);
 
     stock.purchased += 1;
 
