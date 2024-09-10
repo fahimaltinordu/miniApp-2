@@ -1227,7 +1227,7 @@ function buyStock(index, cardElement) {
     const currentCoinsPerHour = Number(getCoinsPerHour());
     const additionalCoinsPerHour = Number(stock.pph);
 
-    updateCoinsPerHour(currentCoinsPerHour + additionalCoinsPerHour);
+    updateCoinsPerHour(additionalCoinsPerHour);
 
     stock.purchased += 1;
 
