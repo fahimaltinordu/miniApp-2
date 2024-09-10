@@ -270,11 +270,11 @@ function addCoins(coins) {
   updateLevel();
 }
 
+//Friends
+
 function addFrens(frens) {
   setReferral(getReferral() + frens);
 }
-
-//Friends
 
 function getReferral() {
   return Number(localStorage.getItem('frens')) || 0;
@@ -897,7 +897,7 @@ let stocks = [
     pphIncrease: 1.25,
     maxLevel: 15,
     disabled: true,
-    unlockCondition: { hisse: 'TSLA', level: 10 },
+    friendCondition: 2,
     category: 'Shares',
   },
 
@@ -969,7 +969,7 @@ let stocks = [
     pphIncrease: 1.3,
     maxLevel: 15,
     disabled: true,
-    unlockCondition: { hisse: 'ADA', level: 5 },
+    friendCondition: 1,
     category: 'Crypto',
   },
   {
@@ -1101,6 +1101,8 @@ function saveStocks() {
 loadStocks();
 
 function checkUnlockConditions() {
+  const friendsCount = getReferral();
+
   stocks.forEach((stock) => {
     if (stock.unlockCondition) {
       const requiredStock = stocks.find(
@@ -1110,7 +1112,13 @@ function checkUnlockConditions() {
         stock.disabled = false;
       }
     }
+
+    // Check if the stock requires a certain number of friends to unlock
+    if (stock.friendCondition && friendsCount >= stock.friendCondition) {
+      stock.disabled = false;
+    }
   });
+
   saveStocks();
 }
 
@@ -1136,6 +1144,8 @@ function renderStockCards(category) {
       const unlockText =
         isDisabled && unlockCondition
           ? `Unlock after ${unlockCondition.hisse} reaches level ${unlockCondition.level}`
+          : isDisabled && stock.friendCondition
+          ? `Unlock after inviting ${stock.friendCondition} friends`
           : '';
 
       const maxLevelText = purchased >= maxLevel ? 'Max level reached' : '';
