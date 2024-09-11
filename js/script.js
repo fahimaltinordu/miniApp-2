@@ -12,12 +12,10 @@ let TelegramLink = 'https://t.me/EnergyFi_org';
 let TwitterLink = 'https://twitter.com/EnergyFi_org';
 let GithubLink = 'https://github.com/fahimaltinordu/miniApp-2';
 //cloudflare
-const c_url = "https://sweet-lake-5572.fahimaltinordu-yedek.workers.dev";
+const c_url = 'https://sweet-lake-5572.fahimaltinordu-yedek.workers.dev';
 //createInvoice
-const apiKey = "7513220093:AAFogDDXxV-lWOMUva4Kzhw0LE8gI7tA93A" //bot token
-const adsgram_blockId = "2808"; //adsgram blockID
-
-
+const apiKey = '7513220093:AAFogDDXxV-lWOMUva4Kzhw0LE8gI7tA93A'; //bot token
+const adsgram_blockId = '2808'; //adsgram blockID
 
 window.addEventListener('load', function () {
   setTimeout(loadingDelay, 2000);
@@ -53,65 +51,67 @@ if (window.Telegram && window.Telegram.WebApp) {
   console.log(user);
 
   //STAR PAYMENT
-  const payWithStar = document.querySelector(".pay_with_star");
+  const payWithStar = document.querySelector('.pay_with_star');
   async function starPaymentFetch(_title, _description, _prices) {
-
     const fetchResult = {
-        success: false,
-        data: null,
-        error: false
+      success: false,
+      data: null,
+      error: false,
     };
 
-    const request ={
-        title: _title,
-        description: _description,
-        payload: "product_payload",
-        currency: "XTR",
-        prices: _prices
-      };
+    const request = {
+      title: _title,
+      description: _description,
+      payload: 'product_payload',
+      currency: 'XTR',
+      prices: _prices,
+    };
 
     const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(request)
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(request),
     };
 
-    try {        
-        const url = `https://api.telegram.org/bot${apiKey}/createInvoiceLink`;
+    try {
+      const url = `https://api.telegram.org/bot${apiKey}/createInvoiceLink`;
 
-        await fetch(url, options).then(response => response.json()).then(data => {
-            if(data.ok){
-                fetchResult.success = true;
-                fetchResult.data = data.result;
-            }else{
-                fetchResult.success = false;
-                fetchResult.error = data;
-            }
+      await fetch(url, options)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.ok) {
+            fetchResult.success = true;
+            fetchResult.data = data.result;
+          } else {
+            fetchResult.success = false;
+            fetchResult.error = data;
+          }
         });
-
-
-    } catch (err) { fetchResult.success = false; fetchResult.error = true; fetchResult.data = err; }
+    } catch (err) {
+      fetchResult.success = false;
+      fetchResult.error = true;
+      fetchResult.data = err;
+    }
 
     return fetchResult;
   }
 
-  payWithStar.addEventListener('click', async () =>{
-    console.log("button clicked")
-    const prices = [{label:"Pay 2 star", amount:"2"}];
-    const result = await starPaymentFetch("ENR-friend", "1 friend", prices);
-    console.log(result.data)
+  payWithStar.addEventListener('click', async () => {
+    console.log('button clicked');
+    const prices = [{ label: 'Pay 2 star', amount: '2' }];
+    const result = await starPaymentFetch('ENR-friend', '1 friend', prices);
+    console.log(result.data);
     if (result.success) {
       // TELEGRAM.openInvoice(result.data)
       openInvoiceLink(result.data);
     }
   });
 
-
   function openInvoiceLink(invoiceUrl) {
     TELEGRAM.openInvoice(invoiceUrl, (status) => {
-      console.log(status)
+      console.log(status);
       if (status === 'success') {
         console.log('Invoice payment successful!');
         addFrens(1);
@@ -385,54 +385,33 @@ function updateLevel() {
 
   $currentLvlName.textContent = levelNames[level] || 'Core';
 
-  if (score > 50000000 && level < 10) {
-    // 50M-100M
-    level = 10;
-    nextLevelScore = 1000000000;
-  } else if (score > 25000000 && level < 9) {
-    //25M-50M
-    level = 9;
-    nextLevelScore = 50000000;
-  } else if (score > 10000000 && level < 8) {
-    //10M-25M
-    level = 8;
-    nextLevelScore = 25000000;
-  } else if (score > 5000000 && level < 7) {
-    //5M-10M
-    level = 7;
-    nextLevelScore = 10000000;
-  } else if (score > 1000000 && level < 6) {
-    //1M-5M
-    level = 6;
-    nextLevelScore = 5000000;
-  } else if (score > 500000 && level < 5) {
-    //500k-1M
-    level = 5;
-    nextLevelScore = 1000000;
-  } else if (score > 250000 && level < 4) {
-    //250k-500k
-    level = 4;
-    nextLevelScore = 500000;
-  } else if (score > 100000 && level < 3) {
-    //100k-250k
-    level = 3;
-    nextLevelScore = 250000;
-  } else if (score > 50000 && level < 2) {
-    //50k-100k
-    level = 2;
-    nextLevelScore = 100000;
-  } else if (score > 10000 && level < 1) {
-    //10k-50k
-    level = 1;
-    nextLevelScore = 50000;
-  } else if (level === 0) {
-    //0-10k
+  const levelThresholds = [
+    { level: 10, score: 50000000, nextLevelScore: 1000000000 },
+    { level: 9, score: 25000000, nextLevelScore: 50000000 },
+    { level: 8, score: 10000000, nextLevelScore: 25000000 },
+    { level: 7, score: 5000000, nextLevelScore: 10000000 },
+    { level: 6, score: 1000000, nextLevelScore: 5000000 },
+    { level: 5, score: 500000, nextLevelScore: 1000000 },
+    { level: 4, score: 250000, nextLevelScore: 500000 },
+    { level: 3, score: 100000, nextLevelScore: 250000 },
+    { level: 2, score: 50000, nextLevelScore: 100000 },
+    { level: 1, score: 10000, nextLevelScore: 50000 },
+  ];
+
+  levelThresholds.some(
+    ({ level: lvl, score: lvlScore, nextLevelScore: nls }) => {
+      if (score > lvlScore && level < lvl) {
+        level = lvl;
+        nextLevelScore = nls;
+        return true;
+      }
+      return false;
+    }
+  );
+
+  if (level === 0) {
     nextLevelScore = 10000;
   }
-
-  // else {
-  //   nextLevelScore = level === 1 ? 5000 : 10000;
-  // }
 
   setCurrentLevel(level);
   setnextLevelScore(nextLevelScore);
@@ -1465,14 +1444,16 @@ function setPreviousDay(day) {
 $claimDailyRewardBtn.addEventListener('click', () => {
   ////// ADSGRAM /////
   const AdController = window.Adsgram.init({ blockId: adsgram_blockId });
-      AdController.show().then((result) => {
-          getDailyReward(); //distribute reward after watch the video
-          console.log(result);
-      }).catch((result) => {
-          showToast('error', 'No ads!');
-          getDailyReward(); //distribute although no ads or any other error
-          console.log(result);
-      })
+  AdController.show()
+    .then((result) => {
+      getDailyReward(); //distribute reward after watch the video
+      console.log(result);
+    })
+    .catch((result) => {
+      showToast('error', 'No ads!');
+      getDailyReward(); //distribute although no ads or any other error
+      console.log(result);
+    });
 });
 
 function getDailyReward() {
