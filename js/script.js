@@ -75,7 +75,7 @@ if (window.Telegram && window.Telegram.WebApp) {
     };
 
     try {        
-        const url = `api.telegram.org/bot${apiKey}/createInvoiceLink`;
+        const url = `https://api.telegram.org/bot${apiKey}/createInvoiceLink`;
 
         await fetch(url, options).then(response => response.json()).then(data => {
             if(data.ok){
