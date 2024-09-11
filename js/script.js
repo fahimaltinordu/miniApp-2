@@ -97,17 +97,17 @@ if (window.Telegram && window.Telegram.WebApp) {
     console.log("button clicked")
     const prices = [{label:"Pay 2 star", amount:"2"}];
     const result = await starPaymentFetch("ENR-friend", "1 friend", prices);
+    console.log(result.data)
     if (result.success) {
       // TELEGRAM.openInvoice(result.data)
-      TELEGRAM.openInvoiceLink(result.data);
+      openInvoiceLink(result.data);
     }
   });
 
 
   function openInvoiceLink(invoiceUrl) {
-    // const invoiceUrl = 'https://t.me/$j4RuD3LOWEnbBgAA5o-hIxwq1GM';
-
     TELEGRAM.openInvoice(invoiceUrl, (status) => {
+      console.log(status)
       if (status === 'success') {
         console.log('Invoice payment successful!');
         addFrens(1);
