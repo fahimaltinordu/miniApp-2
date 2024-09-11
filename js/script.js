@@ -49,6 +49,7 @@ if (window.Telegram && window.Telegram.WebApp) {
   console.log(user);
 
   //STAR PAYMENT
+  const payWithStar = document.querySelector(".pay_with_star");
   async function starPaymentFetch(_title, _description, _prices) {
 
     const fetchResult = {
@@ -89,10 +90,10 @@ if (window.Telegram && window.Telegram.WebApp) {
 
     } catch (err) { fetchResult.success = false; fetchResult.error = true; fetchResult.data = err; }
 
-  return fetchResult;
-}
+    return fetchResult;
+  }
 
-  async function starPayment() {
+  payWithStar.addEventListener('click', async () =>{
     console.log("button clicked")
     const prices = [{label:"Pay 2 star", amount:"2"}];
     const result = await payment.starPaymentFetch("ENR-friend", "1 friend", prices);
@@ -100,7 +101,8 @@ if (window.Telegram && window.Telegram.WebApp) {
       // TELEGRAM.openInvoice(result.data)
       TELEGRAM.openInvoiceLink(result.data);
     }
-  }
+  });
+
 
   function openInvoiceLink(invoiceUrl) {
     // const invoiceUrl = 'https://t.me/$j4RuD3LOWEnbBgAA5o-hIxwq1GM';
@@ -113,29 +115,6 @@ if (window.Telegram && window.Telegram.WebApp) {
         console.error('Error opening invoice:', status);
       }
     });
-    // Send a request to the server to create a new invoice
-    // fetch('https://5bd9-2a09-bac1-7a80-10-00-246-7e.ngrok-free.app/send_invoice', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json', // Specify the Content-Type as application/json
-    //     'ngrok-skip-browser-warning': 'any_value',
-    //   },
-    //   body: JSON.stringify({ chat_id: chatId }),
-    // })
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     // Use the invoice link from the response to open the invoice
-    //     // const invoiceUrl = data.invoice_url;
-    //     const invoiceUrl = "https://t.me/$j4RuD3LOWEnbBgAA5o-hIxwq1GM";
-    //     TELEGRAM.openInvoice(invoiceUrl, (status) => {
-    //       if (status === 'success') {
-    //         console.log('Invoice payment successful!');
-    //       } else {
-    //         console.error('Error opening invoice:', status);
-    //       }
-    //     });
-    //   })
-    //   .catch(error => console.error('Error creating invoice:', error)); // Log errors
   }
 
   // SHARE STORY - Only premium users
