@@ -14,7 +14,11 @@ let GithubLink = 'https://github.com/fahimaltinordu/miniApp-2';
 //cloudflare
 const c_url = "https://sweet-lake-5572.fahimaltinordu-yedek.workers.dev";
 //createInvoice
-const apiKey = "7513220093:AAFogDDXxV-lWOMUva4Kzhw0LE8gI7tA93A"
+const apiKey = "7513220093:AAFogDDXxV-lWOMUva4Kzhw0LE8gI7tA93A" //bot token
+const adsgram_blockId = "2808"; //adsgram blockID
+
+
+
 window.addEventListener('load', function () {
   setTimeout(loadingDelay, 2000);
 });
@@ -178,8 +182,7 @@ if (window.Telegram && window.Telegram.WebApp) {
     }
   }
 }
-
-//Initialize Telegram Mini App
+//Initialize Telegram Mini App END
 
 // Abbreviate Numbers
 var prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E'];
@@ -1460,6 +1463,19 @@ function setPreviousDay(day) {
 }
 
 $claimDailyRewardBtn.addEventListener('click', () => {
+  ////// ADSGRAM /////
+  const AdController = window.Adsgram.init({ blockId: adsgram_blockId });
+      AdController.show().then((result) => {
+          getDailyReward(); //distribute reward after watch the video
+          console.log(result);
+      }).catch((result) => {
+          showToast('error', 'No ads!');
+          getDailyReward(); //distribute although no ads or any other error
+          console.log(result);
+      })
+});
+
+function getDailyReward() {
   const currentDay = getPreviousDay();
   const reward = parseInt(
     $dailyRewardDays[currentDay - 1].querySelector('.popup__day-coins')
@@ -1480,7 +1496,7 @@ $claimDailyRewardBtn.addEventListener('click', () => {
   }
 
   initializeDailyRewards();
-});
+}
 
 $dailyRewardBtn.addEventListener('click', () => {
   initializeDailyRewards();
