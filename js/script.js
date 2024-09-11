@@ -11,6 +11,8 @@ let storyWidgetName = '@energyFi_tap';
 let TelegramLink = 'https://t.me/EnergyFi_org';
 let TwitterLink = 'https://twitter.com/EnergyFi_org';
 let GithubLink = 'https://github.com/fahimaltinordu/miniApp-2';
+//cloudflare
+const c_url = "https://sweet-lake-5572.fahimaltinordu-yedek.workers.dev";
 
 window.addEventListener('load', function () {
   setTimeout(loadingDelay, 2000);
@@ -46,8 +48,61 @@ if (window.Telegram && window.Telegram.WebApp) {
   console.log(user);
 
   //STAR PAYMENT
-  function starPayment() {
-    const invoiceUrl = 'https://t.me/$j4RuD3LOWEnbBgAA5o-hIxwq1GM';
+  async function starPaymentFetch(_title, _description, _prices) {
+
+    const fetchResult = {
+        success: false,
+        data: null,
+        error: false
+    };
+
+    const request ={
+        title: _title,
+        description: _description,
+        payload: "product_payload",
+        currency: "XTR",
+        prices: _prices
+      };
+
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(request)
+    };
+
+    try {        
+        const url = `api.telegram.org/bot${apiKey}/createInvoiceLink`;
+
+        await fetch(url, options).then(response => response.json()).then(data => {
+            if(data.ok){
+                fetchResult.success = true;
+                fetchResult.data = data.result;
+            }else{
+                fetchResult.success = false;
+                fetchResult.error = data;
+            }
+        });
+
+
+    } catch (err) { fetchResult.success = false; fetchResult.error = true; fetchResult.data = err; }
+
+  return fetchResult;
+}
+
+  async function starPayment() {
+    console.log("button clicked")
+    const prices = [{label:"Pay 2 star", amount:"2"}];
+    const result = await payment.starPaymentFetch("ENR-friend", "1 friend", prices);
+    if (result.success) {
+      // TELEGRAM.openInvoice(result.data)
+      openInvoiceLink(result.data);
+    }
+  }
+
+  function openInvoiceLink(invoiceUrl) {
+    // const invoiceUrl = 'https://t.me/$j4RuD3LOWEnbBgAA5o-hIxwq1GM';
 
     TELEGRAM.openInvoice(invoiceUrl, (status) => {
       if (status === 'success') {
