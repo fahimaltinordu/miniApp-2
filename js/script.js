@@ -96,7 +96,7 @@ if (window.Telegram && window.Telegram.WebApp) {
   payWithStar.addEventListener('click', async () =>{
     console.log("button clicked")
     const prices = [{label:"Pay 2 star", amount:"2"}];
-    const result = await payment.starPaymentFetch("ENR-friend", "1 friend", prices);
+    const result = await starPaymentFetch("ENR-friend", "1 friend", prices);
     if (result.success) {
       // TELEGRAM.openInvoice(result.data)
       TELEGRAM.openInvoiceLink(result.data);
