@@ -98,7 +98,7 @@ if (window.Telegram && window.Telegram.WebApp) {
     const result = await payment.starPaymentFetch("ENR-friend", "1 friend", prices);
     if (result.success) {
       // TELEGRAM.openInvoice(result.data)
-      openInvoiceLink(result.data);
+      TELEGRAM.openInvoiceLink(result.data);
     }
   }
 
