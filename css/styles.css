@@ -1068,7 +1068,6 @@ hr {
     height: 35px;
     padding:5px 10px;
     border-radius:7px;
-    margin-bottom:10px;
     background-color:#252f43;
     color:white;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -1078,6 +1077,7 @@ hr {
 }
 #friends #friendCount {
     color:#c4eb00;
+    margin-top:10px;
 }
 .earn__top-title {
     font-size: 1.5rem;
@@ -1158,7 +1158,7 @@ hr {
 
 .earn__item-btn .earn__item__check-btn{
     /* margin-left: 80%; */
-    padding: 5px 5px;
+    padding: 7px 7px;
     border-radius: 3px;
     background-color: #04C98E;
     color: white;
@@ -1166,11 +1166,17 @@ hr {
 }
 .earn__item-btn .earn__item__share-btn{
     /* margin-left: 80%; */
-    padding: 5px 5px;
+    padding: 7px 7px;
     border-radius: 3px;
     background-color: #04C98E;
     color: white;
     transition: 0.3s ease-in-out;
+}
+.earn__item__share-btn:active {
+    transform: scale(.9);
+}
+.earn__item__check-btn:active {
+    transform: scale(.9);
 }
 
 .earn__item-btn button svg {
