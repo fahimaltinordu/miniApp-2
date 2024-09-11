@@ -13,7 +13,8 @@ let TwitterLink = 'https://twitter.com/EnergyFi_org';
 let GithubLink = 'https://github.com/fahimaltinordu/miniApp-2';
 //cloudflare
 const c_url = "https://sweet-lake-5572.fahimaltinordu-yedek.workers.dev";
-
+//createInvoice
+const apiKey = "7513220093:AAFogDDXxV-lWOMUva4Kzhw0LE8gI7tA93A"
 window.addEventListener('load', function () {
   setTimeout(loadingDelay, 2000);
 });
