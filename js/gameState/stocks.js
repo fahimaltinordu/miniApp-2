@@ -1,9 +1,13 @@
-import { getReferral } from './referrals.js';
-import { showToast } from './utils.js';
-import { hideUpgradeMenu, showCardsUpgradeMenu } from './upgrades.js';
+import { getReferral } from '../user/referrals.js';
+import { showToast } from '../utils/utils.js';
+import {
+  hideUpgradeMenu,
+  showCardsUpgradeMenu,
+  getCoinsPerHour,
+  updateCoinsPerHour,
+} from '../features/upgrades.js';
 import { getScore, setScore } from './gameState.js';
-import { getCoinsPerHour, updateCoinsPerHour } from './upgrades.js';
-import { updateLevel } from './level.js';
+import { updateLevel } from '../features/level.js';
 
 export let stocks = [
   // Shares
@@ -277,6 +281,57 @@ mineTabButtons.forEach((mineTabButton) => {
     renderStockCards(category);
   });
 });
+const $cardsUpgradeMenu = document.querySelector('#cards-upgrade-menu');
+
+export function buyStock(index, cardElement) {
+  const stock = stocks[index];
+  const currentBalance = getScore();
+
+  if (stock.purchased >= stock.maxLevel) {
+    showToast('info', 'Max level reached for this stock!');
+    return;
+  }
+
+  const cost = stock.price;
+
+  if (currentBalance >= cost) {
+    setScore(currentBalance - cost);
+
+    const currentCoinsPerHour = Number(getCoinsPerHour());
+    const additionalCoinsPerHour = Number(stock.pph);
+
+    updateCoinsPerHour(additionalCoinsPerHour);
+
+    stock.purchased += 1;
+
+    // Increase the stock price and income
+    stock.price = Math.ceil(stock.price * stock.priceIncrease);
+    stock.pph = Math.ceil(stock.pph * stock.pphIncrease);
+
+    saveStocks();
+    updateLevel();
+    updateStockCardUI(cardElement, stock);
+
+    hideUpgradeMenu();
+    showToast('success', 'Upgrade purchased!');
+    $cardsUpgradeMenu.classList.remove('active');
+    checkUnlockConditions();
+    renderStockCards(stock.category);
+  } else {
+    hideUpgradeMenu();
+    showToast('error', 'Not enough coins!');
+  }
+}
+
+function updateStockCardUI(cardElement, stock) {
+  cardElement.querySelector(
+    '.mine-tab__card-price'
+  ).textContent = `Fee: ${stock.price}`;
+  cardElement.querySelector(
+    '.card-income'
+  ).textContent = `Profit: ${stock.pph}`;
+  cardElement.querySelector('.PerHour-level').textContent = stock.purchased;
+}
 
 export function loadStocks() {
   const savedStocks = localStorage.getItem('stocks');
@@ -285,7 +340,7 @@ export function loadStocks() {
   }
 }
 
-function saveStocks() {
+export function saveStocks() {
   localStorage.setItem('stocks', JSON.stringify(stocks));
 }
 

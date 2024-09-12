@@ -1,7 +1,15 @@
-import { showToast, AbbreviateNum } from './utils.js';
-import { stocks } from './stocks.js';
-import { getScore } from './gameState.js';
+import { showToast, AbbreviateNum } from '../utils/utils.js';
+import { stocks, buyStock } from '../gameState/stocks.js';
+import {
+  setScore,
+  getScore,
+  addCoins,
+  setMaxEnergy,
+  getMaxEnergy,
+} from '../gameState/gameState.js';
+
 import { updateLevel } from './level.js';
+
 const $boostMenu = document.querySelector('.boost-menu');
 
 export function toggleBoostMenu() {
@@ -47,56 +55,6 @@ function showUpgradeMenu() {
 }
 function canUpgradeMultitap() {
   return multitapPurchases < 8;
-}
-
-function buyStock(index, cardElement) {
-  const stock = stocks[index];
-  const currentBalance = getScore();
-
-  if (stock.purchased >= stock.maxLevel) {
-    showToast('info', 'Max level reached for this stock!');
-    return;
-  }
-
-  const cost = stock.price;
-
-  if (currentBalance >= cost) {
-    setScore(currentBalance - cost);
-
-    const currentCoinsPerHour = Number(getCoinsPerHour());
-    const additionalCoinsPerHour = Number(stock.pph);
-
-    updateCoinsPerHour(additionalCoinsPerHour);
-
-    stock.purchased += 1;
-
-    // Increase the stock price and income
-    stock.price = Math.ceil(stock.price * stock.priceIncrease);
-    stock.pph = Math.ceil(stock.pph * stock.pphIncrease);
-
-    saveStocks();
-    updateLevel();
-    updateStockCardUI(cardElement, stock);
-
-    hideUpgradeMenu();
-    showToast('success', 'Upgrade purchased!');
-    $cardsUpgradeMenu.classList.remove('active');
-    checkUnlockConditions();
-    renderStockCards(stock.category);
-  } else {
-    hideUpgradeMenu();
-    showToast('error', 'Not enough coins!');
-  }
-}
-
-function updateStockCardUI(cardElement, stock) {
-  cardElement.querySelector(
-    '.mine-tab__card-price'
-  ).textContent = `Fee: ${stock.price}`;
-  cardElement.querySelector(
-    '.card-income'
-  ).textContent = `Profit: ${stock.pph}`;
-  cardElement.querySelector('.PerHour-level').textContent = stock.purchased;
 }
 
 function buyUpgrade(upgrade) {
@@ -250,6 +208,20 @@ export function updateCoinsPerHour(coins) {
 
   startCoinAccumulation();
 }
-if (getCoinsPerHour() > 0) {
-  startCoinAccumulation();
+let accumulatedCoins = 0;
+let coinsIntervalId = null;
+
+export function startCoinAccumulation() {
+  if (coinsIntervalId) {
+    clearInterval(coinsIntervalId);
+  }
+
+  coinsIntervalId = setInterval(() => {
+    accumulatedCoins += getCoinsPerHour() / 3600;
+
+    if (accumulatedCoins >= 1) {
+      addCoins(Math.floor(accumulatedCoins));
+      accumulatedCoins -= Math.floor(accumulatedCoins);
+    }
+  }, 1000);
 }

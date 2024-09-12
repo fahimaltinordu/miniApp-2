@@ -1,4 +1,4 @@
-import { getCurrentLevel, updateImage } from './level.js';
+import { getCurrentLevel, updateImage } from '../features/level.js';
 
 export function updateProfile(TELEGRAM, user, playerName) {
   console.log(playerName);

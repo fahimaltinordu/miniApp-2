@@ -1,5 +1,5 @@
-import { showToast, startFallingCoins } from './utils.js';
-import { addCoins } from './gameState.js';
+import { showToast, startFallingCoins } from '../utils/utils.js';
+import { addCoins } from '../gameState/gameState.js';
 
 const $dailyRewardBtn = document.querySelector('#dailyRewardBtn');
 const $dailyRewardPopup = document.querySelector('#dailyRewardPopup');
