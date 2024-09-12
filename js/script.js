@@ -1,3 +1,24 @@
+import './dailyRewards.js';
+import { initializeDailyRewards } from './dailyRewards.js';
+import { AbbreviateNum } from './utils.js';
+import { setScore, getScore, addCoins } from './gameState.js';
+import { updateLevel, getnextLevelScore, setnextLevelScore } from './level.js';
+import { setVibrate, getVibrate, vibrate, active } from './vibrate.js';
+import {
+  toggleBoostMenu,
+  hideUpgradeMenu,
+  getCoinsPerHour,
+  setCoinsPerHour,
+  getCoinsPerTap,
+  setCoinsPerTap,
+} from './upgrades.js';
+import { getReferral, setReferral } from './referrals.js';
+import {
+  loadStocks,
+  checkUnlockConditions,
+  renderStockCards,
+} from './stocks.js';
+
 localStorage.clear(); // DELETE THIS /////////////////////////////
 
 //CONFIG
@@ -8,9 +29,9 @@ let storyText = 'join #EnergyFi, invest stocks, tap & earn $ENR';
 let storyWidgetLink = ' https://t.me/EnergyFi_testApp_bot/EnergyFi';
 let storyWidgetName = '@energyFi_tap';
 //socialMedia
-let TelegramLink = 'https://t.me/EnergyFi_org';
-let TwitterLink = 'https://twitter.com/EnergyFi_org';
-let GithubLink = 'https://github.com/fahimaltinordu/miniApp-2';
+const TelegramLink = 'https://t.me/EnergyFi_org';
+const TwitterLink = 'https://twitter.com/EnergyFi_org';
+const GithubLink = 'https://github.com/fahimaltinordu/miniApp-2';
 //cloudflare
 const c_url = 'https://sweet-lake-5572.fahimaltinordu-yedek.workers.dev';
 //createInvoice
@@ -23,88 +44,36 @@ window.addEventListener('load', function () {
 function loadingDelay() {
   document.getElementById('loading').style.display = 'none';
 }
+// main.js
 
-let telegram_username = '';
-let telegram_userId = '';
-let telegram_userPhoto = '';
-const playerIcon = document.getElementById('player-icon');
-const playerName = document.getElementById('player-name');
-const userPhoto = document.getElementById('userPhoto');
+import { initializeTelegramApp } from './telegram.js';
+import { starPaymentFetch } from './payment.js';
+import { setupShareButton } from './share.js';
+import { updateProfile } from './profile.js';
 
-//Initialize Telegram Mini App
-if (window.Telegram && window.Telegram.WebApp) {
-  const playerInfo = document.querySelector('.player__info');
+const TELEGRAM = initializeTelegramApp();
 
-  // Initialize the Telegram Mini App
-  const TELEGRAM = window.Telegram.WebApp;
-
-  // Notify Telegram that the web app is ready
-  TELEGRAM.ready();
-
-  TELEGRAM.disableVerticalSwipes(); // disable vertical swipes
-  TELEGRAM.enableClosingConfirmation(); // enables confirmation dialog while closing app
-
-  // Show the block only if the app is running within Telegram
-  playerInfo.style.display = 'flex';
-  // const { first_name, last_name, username } = window.Telegram.WebApp.initDataUnsafe.user;
+if (TELEGRAM) {
   const user = TELEGRAM.initDataUnsafe.user;
-  console.log(user);
+  const playerName = document.getElementById('player-name');
+  console.log(playerName);
 
-  //STAR PAYMENT
+  // Update profile
+  const profileData = updateProfile(TELEGRAM, user, playerName);
+
+  // Payment
   const payWithStar = document.querySelector('.pay_with_star');
-  async function starPaymentFetch(_title, _description, _prices) {
-    const fetchResult = {
-      success: false,
-      data: null,
-      error: false,
-    };
-
-    const request = {
-      title: _title,
-      description: _description,
-      payload: 'product_payload',
-      currency: 'XTR',
-      prices: _prices,
-    };
-
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(request),
-    };
-
-    try {
-      const url = `https://api.telegram.org/bot${apiKey}/createInvoiceLink`;
-
-      await fetch(url, options)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.ok) {
-            fetchResult.success = true;
-            fetchResult.data = data.result;
-          } else {
-            fetchResult.success = false;
-            fetchResult.error = data;
-          }
-        });
-    } catch (err) {
-      fetchResult.success = false;
-      fetchResult.error = true;
-      fetchResult.data = err;
-    }
-
-    return fetchResult;
-  }
-
   payWithStar.addEventListener('click', async () => {
     console.log('button clicked');
     const prices = [{ label: 'Pay 2 star', amount: '2' }];
-    const result = await starPaymentFetch('ENR-friend', '1 friend', prices);
+    const result = await starPaymentFetch(
+      'YOUR_API_KEY',
+      'ENR-friend',
+      '1 friend',
+      prices
+    );
     console.log(result.data);
     if (result.success) {
-      // TELEGRAM.openInvoice(result.data)
       openInvoiceLink(result.data);
     }
   });
@@ -121,111 +90,22 @@ if (window.Telegram && window.Telegram.WebApp) {
     });
   }
 
-  // SHARE STORY - Only premium users
-  let shareBtn = document.querySelector('.earn__item__share-btn');
-
-  shareBtn.addEventListener('click', () => {
-    if (shareBtn.textContent === 'Share') {
-      if (user) {
-        // if(user.is_premium){
-        //   TELEGRAM.shareToStory(storyLink, {
-        //     text: storyText,
-        //     widget_link: {
-        //         url: storyWidgetLink,
-        //         name: storyWidgetName
-        //     }
-        //   });
-        //   shareBtn.textContent="Claim"
-        // } else {
-        //   TELEGRAM.showAlert('You are not able to complete this task, as Telegram stories have only been rolled out to Premium users');
-        // }
-
-        TELEGRAM.shareToStory(storyLink, {
-          text: storyText,
-        });
-
-        shareBtn.textContent = 'Claim';
-      } else {
-        showToast('error', 'No user!');
-      }
-    } else if (shareBtn.textContent === 'Claim') {
-      if (user) {
-        addCoins(5000);
-        startFallingCoins();
-        shareBtn.textContent = 'Claimed';
-      } else {
-        showToast('error', 'No user!');
-      }
-    }
-  });
-
-  // Settings
-  TELEGRAM.setHeaderColor('#252F43');
-  TELEGRAM.expand(); // Expand the app to 100% height on the user's phone
-
-  function updateProfile() {
-    // Display user information in the element
-    let level = getCurrentLevel();
-    updateImage(level);
-    if (user) {
-      playerName.textContent = `${user.first_name}`; // Display the user's first name
-      telegram_username = user.first_name;
-      telegram_userId = user.id;
-      telegram_userPhoto = user.username;
-      return telegram_username, telegram_userId, telegram_userPhoto;
-    } else {
-      playerName.textContent = `No user`;
-      telegram_username = '#FreeDurov';
-      telegram_userId = '0';
-      telegram_userPhoto = 'durov';
-      return telegram_username, telegram_userId, telegram_userPhoto;
-    }
-  }
+  // Setup share button
+  setupShareButton(TELEGRAM, user);
 }
 //Initialize Telegram Mini App END
 
-// Abbreviate Numbers
-var prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E'];
+let telegram_username = '';
+let telegram_userId = '';
+let telegram_userPhoto = '';
+const playerIcon = document.getElementById('player-icon');
+const playerName = document.getElementById('player-name');
+const userPhoto = document.getElementById('userPhoto');
 
-function AbbreviateNum(number) {
-  var num = (Math.log10(number) / 3) | 0;
-  if (num == 0) return number;
-  var prefix = prefixes[num];
-  var scale = Math.pow(10, num * 3);
-  var scaled = number / scale;
-  return scaled.toFixed(1) + prefix;
-}
-// Abbreviate Numbers ends
-
-// Vibrate setting ////////
-function getVibrate() {
-  return Number(localStorage.getItem('Vibrate')) || 0;
-}
-function setVibrate(Vibrate) {
-  localStorage.setItem('Vibrate', Vibrate);
-}
-let xVibrate = getVibrate();
-let active = false;
-
-function vibrate() {
-  active = !active;
-  if (active) {
-    xVibrate = 200;
-    setVibrate(xVibrate);
-    document.getElementById('vibrateButton').textContent = 'ON';
-    if (navigator.vibrate) {
-      navigator.vibrate(xVibrate);
-    }
-  } else {
-    xVibrate = 0;
-    setVibrate(xVibrate);
-    document.getElementById('vibrateButton').textContent = 'OFF';
-    if (navigator.vibrate) {
-      navigator.vibrate(xVibrate);
-    }
-  }
-}
-// Vibrate setting ends ////////
+const $openSettingsbtn = document.querySelector('.openSettingsbtn');
+$openSettingsbtn.addEventListener('click', () => {
+  openSettings();
+});
 
 function openSettings() {
   Swal.fire({
@@ -240,7 +120,7 @@ function openSettings() {
         <hr >
         <div class="space-between">
           <span>Vibration </span>
-          <button id="vibrateButton" onclick="vibrate()"></button>
+          <button id="vibrateButton"></button>
         </div>
         <hr >
         <div id="social">
@@ -265,18 +145,21 @@ function openSettings() {
     showCloseButton: true,
     showConfirmButton: false,
   });
+  vibrateButton = document.getElementById('vibrateButton');
+  vibrateButton.addEventListener('click', () => {
+    vibrate();
+  });
   console.log(getVibrate());
   if (getVibrate() === 0) {
-    document.getElementById('vibrateButton').textContent = 'OFF';
+    vibrateButton.textContent = 'OFF';
     active = false;
   } else if (getVibrate() === 200) {
-    document.getElementById('vibrateButton').textContent = 'ON';
+    vibrateButton.textContent = 'ON';
     active = true;
   }
 }
 
 const $score = document.querySelector('.game__score');
-const $friendCount = document.querySelector('#friendCount');
 const $balance = document.querySelector('.boost-menu__balance');
 const $balanceMinetab = document.querySelector('.mine-tab__balance');
 const $circle = document.querySelector('.game__clicker-circle');
@@ -284,7 +167,6 @@ const $mainImg = document.querySelector('.game__main-image');
 const $energy = document.querySelector('.energy__value');
 const $maxEnergy = document.querySelector('.energy__max');
 const $toLvlUp = document.querySelector('#to-lvl-up');
-const $perTap = document.querySelector('#tap');
 
 function start() {
   setVibrate(getVibrate());
@@ -299,143 +181,6 @@ function start() {
   restoreRecoveryState();
   initializeDailyRewards();
   renderStockCards('Crypto');
-}
-
-//Coins and Score
-
-function addCoins(coins) {
-  setScore(getScore() + coins);
-  updateLevel();
-}
-
-//Friends
-
-function addFrens(frens) {
-  setReferral(getReferral() + frens);
-}
-
-function getReferral() {
-  return Number(localStorage.getItem('frens')) || 0;
-}
-
-function getScore() {
-  return Number(localStorage.getItem('score')) || 0;
-}
-
-function setReferral(frens) {
-  localStorage.setItem('frens', frens);
-  $friendCount.textContent = `You have ${Number(frens)} fake friend`;
-}
-
-function setScore(score) {
-  localStorage.setItem('score', score);
-  $score.textContent = String(score).replace(/(.)(?=(\d{3})+$)/g, '$1,');
-  $balance.textContent = String(score).replace(/(.)(?=(\d{3})+$)/g, '$1,');
-  $balanceMinetab.textContent = String(score).replace(
-    /(.)(?=(\d{3})+$)/g,
-    '$1,'
-  );
-}
-
-// Level
-const $currentLvlName = document.querySelector('.level-progress__name');
-const $currentLvl = document.querySelector('.level-progress__current-level');
-
-function getCurrentLevel() {
-  return Number(localStorage.getItem('level')) || 0;
-}
-
-function setCurrentLevel(level) {
-  localStorage.setItem('level', level);
-  $currentLvl.textContent = level;
-}
-const progressBar = document.getElementById('level-progress');
-
-function updateProgressBar(currentScore, maxScore) {
-  progressBar.max = maxScore;
-  progressBar.value = currentScore;
-}
-
-function getnextLevelScore() {
-  return Number(localStorage.getItem('nextLevelScore')) || 0;
-}
-function setnextLevelScore(nextLevelScore) {
-  localStorage.setItem('nextLevelScore', nextLevelScore);
-  $toLvlUp.textContent = AbbreviateNum(nextLevelScore);
-}
-
-function updateLevel() {
-  const score = getScore();
-  let level = getCurrentLevel();
-  let nextLevelScore = getnextLevelScore();
-
-  const levelNames = [
-    'Core', // Level 0
-    'Windmill', // Level 1
-    'Volcanic', // Level 2
-    'Stellar', // Level 3
-    'Plasma', // Level 4
-    'Photon', // Level 5
-    'Neutron', // Level 6
-    'Solar', // Level 7
-    'Nexus', // Level 8
-    'Quantum', // Level 9
-    'Mystic', // Level 10
-  ];
-
-  $currentLvlName.textContent = levelNames[level] || 'Core';
-
-  const levelThresholds = [
-    { level: 10, score: 50000000, nextLevelScore: 1000000000 },
-    { level: 9, score: 25000000, nextLevelScore: 50000000 },
-    { level: 8, score: 10000000, nextLevelScore: 25000000 },
-    { level: 7, score: 5000000, nextLevelScore: 10000000 },
-    { level: 6, score: 1000000, nextLevelScore: 5000000 },
-    { level: 5, score: 500000, nextLevelScore: 1000000 },
-    { level: 4, score: 250000, nextLevelScore: 500000 },
-    { level: 3, score: 100000, nextLevelScore: 250000 },
-    { level: 2, score: 50000, nextLevelScore: 100000 },
-    { level: 1, score: 10000, nextLevelScore: 50000 },
-  ];
-
-  levelThresholds.some(
-    ({ level: lvl, score: lvlScore, nextLevelScore: nls }) => {
-      if (score > lvlScore && level < lvl) {
-        level = lvl;
-        nextLevelScore = nls;
-        return true;
-      }
-      return false;
-    }
-  );
-
-  if (level === 0) {
-    nextLevelScore = 10000;
-  }
-
-  setCurrentLevel(level);
-  setnextLevelScore(nextLevelScore);
-  updateProgressBar(score, nextLevelScore);
-  $toLvlUp.textContent = AbbreviateNum(nextLevelScore);
-  updateImage(level);
-  updateProfile();
-}
-
-function updateImage(level) {
-  const levelsImages = {
-    0: 'assets/img/levels/lvl0.png',
-    1: 'assets/img/levels/lvl1.png',
-    2: 'assets/img/levels/lvl2.png',
-    3: 'assets/img/levels/lvl3.png',
-    4: 'assets/img/levels/lvl4.png',
-    5: 'assets/img/levels/lvl5.png',
-    6: 'assets/img/levels/lvl6.png',
-    7: 'assets/img/levels/lvl7.png',
-    8: 'assets/img/levels/lvl8.png',
-    9: 'assets/img/levels/lvl9.png',
-    10: 'assets/img/levels/lvl10.png',
-  };
-  playerIcon.setAttribute('src', levelsImages[level]);
 }
 
 // Energy regenerator
@@ -504,131 +249,21 @@ $circle.addEventListener('click', (event) => {
 
 // Upgrades
 
-const $boostMenu = document.querySelector('.boost-menu');
+const $boostBtn = document.querySelector('.boost');
+const $boostCloseBtn = document.querySelector('.boost-menu__close-btn');
 
-function toggleBoostMenu() {
-  $boostMenu.classList.toggle('active');
-}
+$boostBtn.addEventListener('click', () => {
+  toggleBoostMenu();
+});
+$boostCloseBtn.addEventListener('click', () => {
+  toggleBoostMenu();
+});
 
-const $upgradeMenu = document.querySelector('#upgrade-menu');
-const $upgradeImg = document.querySelector('#upgrade-img');
-const $upgradeTitle = document.querySelector('#upgrade-title');
-const $upgradeDescription = document.querySelector('#upgrade-description');
-const $upgradeBtn = document.querySelector('#upgrade-button');
-const $upgradeCost = document.querySelector('#upgrade-cost');
-
-// const $upgrades = document.querySelectorAll(
-//   '.boost-menu__bosters__upgrade .boost-menu__boost'
-// );
-
-const $energyUpgrade = document.querySelector('#energy-upgrade');
-const $tapUpgrade = document.querySelector('#tap-upgrade');
-
-// for (let upgrade of $upgrades) {
-//   upgrade.addEventListener('click', (e) => {
-//     showUpgradeMenu(e.currentTarget);
-//   });
-// }
-
-$tapUpgrade.addEventListener('click', showUpgradeMenu);
-$energyUpgrade.addEventListener('click', showEnergyUpgradeMenu);
-
-function showUpgradeMenu() {
-  const imgSrc = $tapUpgrade.querySelector('img').src;
-  const title = $tapUpgrade.querySelector('h3').textContent;
-  const cost = $tapUpgrade.querySelector('span').textContent;
-
-  $upgradeImg.src = imgSrc;
-  $upgradeTitle.textContent = title;
-  $upgradeDescription.textContent = `Increase your ${title.toLowerCase()} +1.`;
-  $upgradeCost.textContent = cost;
-
-  $upgradeBtn.addEventListener('click', handleUpgradeClick);
-
-  $upgradeMenu.classList.add('active');
-}
-
-function showEnergyUpgradeMenu() {
-  const imgSrc = $energyUpgrade.querySelector('img').src;
-  const title = $energyUpgrade.querySelector('h3').textContent;
-  const cost = $energyUpgrade.querySelector('span').textContent;
-
-  $upgradeImg.src = imgSrc;
-  $upgradeTitle.textContent = title;
-  $upgradeDescription.textContent = `Increase your ${title.toLowerCase()} +500.`;
-  $upgradeCost.textContent = cost;
-
-  $upgradeBtn.addEventListener('click', handleUpgradeClick);
-
-  $upgradeMenu.classList.add('active');
-}
-
-function handleUpgradeClick() {
-  buyUpgrade();
-  $upgradeBtn.removeEventListener('click', handleUpgradeClick);
-}
-
-function hideUpgradeMenu() {
-  $cardsUpgradeMenu.classList.remove('active');
-  $upgradeMenu.classList.remove('active');
-}
-
-function getCoinsPerTap() {
-  return parseInt(localStorage.getItem('coinsPerTap')) || 1;
-}
-
-function setCoinsPerTap(coins) {
-  localStorage.setItem('coinsPerTap', coins);
-  $perTap.textContent = coins;
-}
-
-function buyUpgrade(upgrade) {
-  const currentBalance = getScore();
-  const cost = Number($upgradeCost.textContent);
-  const upgradeName = $upgradeTitle.textContent.toLowerCase();
-
-  if (upgradeName === 'multitap') {
-    if (canUpgradeMultitap() && cost <= currentBalance) {
-      upgradeMultitap();
-      setScore(currentBalance - cost);
-
-      showToast('success', 'Upgrade purchased!');
-    } else if (cost > currentBalance) {
-      showToast('error', 'Not enough coins!');
-    } else if (!canUpgradeMultitap()) {
-      showToast('error', 'Multitap upgrade is maxed out!');
-    }
-  } else if (upgradeName === 'max energy') {
-    if (cost <= currentBalance) {
-      upgradeMaxEnergy();
-      setScore(currentBalance - cost);
-      showToast('success', 'Upgrade purchased!');
-    } else {
-      showToast('error', 'Not enough coins!');
-    }
-  }
-
-  updateLevel();
+const $closeUpgBtn = document.querySelector('.close-upgrade-menu-btn');
+console.log($closeUpgBtn);
+$closeUpgBtn.addEventListener('click', () => {
   hideUpgradeMenu();
-}
-
-function canUpgradeMultitap() {
-  return multitapPurchases < 8;
-}
-
-// Message
-
-function showToast(icon, title) {
-  Swal.fire({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 2000,
-    timerProgressBar: true,
-    icon: icon,
-    title: title,
-  });
-}
+});
 
 // Energie
 
@@ -650,38 +285,6 @@ function setEnergy(energy) {
   localStorage.setItem('energy', energy);
   $energy.textContent = energy;
 }
-let maxEnergyCost = Number(localStorage.getItem('maxEnergyCost')) || 1000;
-
-function upgradeMaxEnergy() {
-  setMaxEnergy(getMaxEnergy() + 500);
-  maxEnergyCost += 1000;
-  localStorage.setItem('maxEnergyCost', maxEnergyCost);
-  document.querySelector('#max-energy-cost').textContent = maxEnergyCost;
-}
-let multitapPurchases = Number(localStorage.getItem('multitapPurchases')) || 0;
-let multitapCost = Number(localStorage.getItem('multitapCost')) || 1000;
-
-document.querySelector('#max-energy-cost').textContent = maxEnergyCost;
-document.querySelector('#multitap-cost').textContent = multitapCost;
-
-function upgradeMultitap() {
-  if (canUpgradeMultitap()) {
-    setCoinsPerTap(getCoinsPerTap() + 1);
-    multitapPurchases++;
-    multitapCost += 1000;
-    localStorage.setItem('multitapPurchases', multitapPurchases);
-    localStorage.setItem('multitapCost', multitapCost);
-    document.querySelector('#multitap-cost').textContent = multitapCost;
-  } else {
-    showToast('error', 'Multitap upgrade is maxed out!');
-  }
-}
-
-window.addEventListener('click', function (event) {
-  if (event.target === $upgradeMenu || event.target === $cardsUpgradeMenu) {
-    hideUpgradeMenu();
-  }
-});
 
 const $energyBoost = document.querySelector('.boost-menu__boost__energy');
 const $energyLimit = document.querySelector('#energy-limit');
@@ -778,20 +381,10 @@ $barItems.forEach((barItem) => {
   });
 });
 
-const $coinsPerHour = document.querySelector('#perHour');
-const $coinsPerHourPopover = document.querySelector('#perHourPopover');
-function setCoinsPerHour(coins) {
-  localStorage.setItem('coinsPerHour', coins);
-  $coinsPerHour.textContent = AbbreviateNum(coins);
-  $coinsPerHourPopover.innerHTML = coins;
-}
-
-function getCoinsPerHour() {
-  return localStorage.getItem('coinsPerHour') ?? 0;
-}
-
 //POPOVER per hour - without AbbreviateNum
 let clicked = false;
+const $coinsPerHour = document.querySelector('#perHour');
+const $coinsPerHourPopover = document.querySelector('#perHourPopover');
 $coinsPerHour.addEventListener('click', () => {
   clicked = !clicked;
   if (clicked) {
@@ -821,504 +414,9 @@ function startCoinAccumulation() {
   }, 1000);
 }
 
-function updateCoinsPerHour(coins) {
-  const newCoinsPerHour = Number(getCoinsPerHour()) + coins;
-  setCoinsPerHour(newCoinsPerHour);
-
-  startCoinAccumulation();
-}
-if (getCoinsPerHour() > 0) {
-  startCoinAccumulation();
-}
-
-let stocks = [
-  // Shares
-  {
-    hisse: 'APPL',
-    img: 'assets/img/icons/mine/stocks/shares/apple.png',
-    descr: 'Invest in Apple stocks to increase your wealth.',
-    price: 100,
-    pph: 7.5,
-    purchased: 0,
-    priceIncrease: 1.15,
-    pphIncrease: 1.1,
-    maxLevel: 15,
-    disabled: false,
-    unlockCondition: null,
-    category: 'Shares',
-  },
-  {
-    hisse: 'KCHOL',
-    img: 'assets/img/icons/mine/stocks/shares/kchol.png',
-    descr: 'Invest in Koç Holding for diversified industrial exposure.',
-    price: 250,
-    pph: 20,
-    purchased: 0,
-    priceIncrease: 1.15,
-    pphIncrease: 1.1,
-    maxLevel: 15,
-    disabled: true,
-    unlockCondition: { hisse: 'XRP', level: 6 },
-    category: 'Shares',
-  },
-  {
-    hisse: 'THYAO',
-    img: 'assets/img/icons/mine/stocks/shares/turkish-airlines.png',
-    descr: 'Invest in Turkish Airlines for aviation sector growth.',
-    price: 350,
-    pph: 20,
-    purchased: 0,
-    priceIncrease: 1.15,
-    pphIncrease: 1.1,
-    maxLevel: 15,
-    disabled: true,
-    unlockCondition: { hisse: 'KCHOL', level: 7 },
-    category: 'Shares',
-  },
-  {
-    hisse: 'TCELL',
-    img: 'assets/img/icons/mine/stocks/shares/tcell.png',
-    descr: 'Invest in Turkcell for telecommunications expansion.',
-    price: 300,
-    pph: 20,
-    purchased: 0,
-    priceIncrease: 1.15,
-    pphIncrease: 1.1,
-    maxLevel: 15,
-    disabled: true,
-    unlockCondition: { hisse: 'THYAO', level: 5 },
-    category: 'Shares',
-  },
-  {
-    hisse: 'TSLA',
-    img: 'assets/img/icons/mine/stocks/shares/tesla.png',
-    descr: 'Invest in Tesla for innovation in electric vehicles.',
-    price: 400,
-    pph: 25,
-    purchased: 0,
-    priceIncrease: 1.15,
-    pphIncrease: 1.4,
-    maxLevel: 15,
-    disabled: true,
-    unlockCondition: { hisse: 'APPL', level: 8 },
-    category: 'Shares',
-  },
-  {
-    hisse: 'MSFT',
-    img: 'assets/img/icons/mine/stocks/shares/microsoft.png',
-    descr: 'Invest in Microsoft for strong technology sector returns.',
-    price: 500,
-    pph: 30,
-    purchased: 0,
-    priceIncrease: 1.15,
-    pphIncrease: 1.25,
-    maxLevel: 15,
-    disabled: true,
-    friendCondition: 2,
-    category: 'Shares',
-  },
-
-  // Crypto
-  {
-    hisse: 'BTC',
-    img: 'assets/img/icons/mine/stocks/crypto/bitcoin.png',
-    descr: 'Invest in Bitcoin for digital currency gains.',
-    price: 150,
-    pph: 8,
-    purchased: 0,
-    priceIncrease: 1.15,
-    pphIncrease: 1.3,
-    maxLevel: 15,
-    disabled: false,
-    unlockCondition: null,
-    category: 'Crypto',
-  },
-  {
-    hisse: 'ETH',
-    img: 'assets/img/icons/mine/stocks/crypto/ethereum.png',
-    descr: 'Invest in Ethereum for digital currency gains.',
-    price: 170,
-    pph: 10,
-    purchased: 0,
-    priceIncrease: 1.15,
-    pphIncrease: 1.1,
-    maxLevel: 15,
-    disabled: true,
-    unlockCondition: { hisse: 'BTC', level: 5 },
-    category: 'Crypto',
-  },
-  {
-    hisse: 'XRP',
-    img: 'assets/img/icons/mine/stocks/crypto/ripple.png',
-    descr: 'Invest in Ripple for digital currency gains.',
-    price: 200,
-    pph: 15,
-    purchased: 0,
-    priceIncrease: 1.15,
-    pphIncrease: 1.1,
-    maxLevel: 15,
-    disabled: true,
-    unlockCondition: { hisse: 'ETH', level: 4 },
-    category: 'Crypto',
-  },
-  {
-    hisse: 'ADA',
-    img: 'assets/img/icons/mine/stocks/crypto/cardano.png',
-    descr: 'Invest in Cardano for smart contract innovation.',
-    price: 180,
-    pph: 12,
-    purchased: 0,
-    priceIncrease: 1.15,
-    pphIncrease: 1.2,
-    maxLevel: 15,
-    disabled: true,
-    unlockCondition: { hisse: 'XRP', level: 6 },
-    category: 'Crypto',
-  },
-  {
-    hisse: 'SOL',
-    img: 'assets/img/icons/mine/stocks/crypto/solana.png',
-    descr: 'Invest in Solana for fast and scalable blockchain solutions.',
-    price: 220,
-    pph: 18,
-    purchased: 0,
-    priceIncrease: 1.15,
-    pphIncrease: 1.3,
-    maxLevel: 15,
-    disabled: true,
-    friendCondition: 1,
-    category: 'Crypto',
-  },
-  {
-    hisse: 'DOT',
-    img: 'assets/img/icons/mine/stocks/crypto/polkadot.png',
-    descr: 'Invest in Polkadot for cross-chain blockchain solutions.',
-    price: 250,
-    pph: 20,
-    purchased: 0,
-    priceIncrease: 1.15,
-    pphIncrease: 1.2,
-    maxLevel: 15,
-    disabled: true,
-    unlockCondition: { hisse: 'SOL', level: 7 },
-    category: 'Crypto',
-  },
-
-  // Commodities
-  {
-    hisse: 'GOLD',
-    img: 'assets/img/icons/mine/stocks/commodities/gold.png',
-    descr: 'Invest in gold for stability during market fluctuations.',
-    price: 600,
-    pph: 35,
-    purchased: 0,
-    priceIncrease: 1.2,
-    pphIncrease: 1.15,
-    maxLevel: 15,
-    disabled: true,
-    unlockCondition: { hisse: 'MSFT', level: 12 },
-    category: 'Commodities',
-  },
-  {
-    hisse: 'OIL',
-    img: 'assets/img/icons/mine/stocks/commodities/oil.png',
-    descr: 'Invest in oil for energy market returns.',
-    price: 650,
-    pph: 40,
-    purchased: 0,
-    priceIncrease: 1.2,
-    pphIncrease: 1.2,
-    maxLevel: 15,
-    disabled: true,
-    unlockCondition: { hisse: 'GOLD', level: 10 },
-    category: 'Commodities',
-  },
-  {
-    hisse: 'SILVER',
-    img: 'assets/img/icons/mine/stocks/commodities/silver.png',
-    descr: 'Invest in silver for a strong hedge against inflation.',
-    price: 550,
-    pph: 30,
-    purchased: 0,
-    priceIncrease: 1.2,
-    pphIncrease: 1.1,
-    maxLevel: 15,
-    disabled: true,
-    unlockCondition: { hisse: 'OIL', level: 8 },
-    category: 'Commodities',
-  },
-  {
-    hisse: 'NATGAS',
-    img: 'assets/img/icons/mine/stocks/commodities/natural-gas.png',
-    descr: 'Invest in natural gas for strong energy sector growth.',
-    price: 700,
-    pph: 45,
-    purchased: 0,
-    priceIncrease: 1.2,
-    pphIncrease: 1.2,
-    maxLevel: 15,
-    disabled: true,
-    unlockCondition: { hisse: 'SILVER', level: 7 },
-    category: 'Commodities',
-  },
-  {
-    hisse: 'COPPER',
-    img: 'assets/img/icons/mine/stocks/commodities/copper.png',
-    descr: 'Invest in copper for its essential industrial uses.',
-    price: 600,
-    pph: 35,
-    purchased: 0,
-    priceIncrease: 1.2,
-    pphIncrease: 1.15,
-    maxLevel: 15,
-    disabled: true,
-    unlockCondition: { hisse: 'NATGAS', level: 6 },
-    category: 'Commodities',
-  },
-  {
-    hisse: 'PLATINUM',
-    img: 'assets/img/icons/mine/stocks/commodities/platinum.png',
-    descr: 'Invest in platinum for high-value precious metal returns.',
-    price: 800,
-    pph: 50,
-    purchased: 0,
-    priceIncrease: 1.25,
-    pphIncrease: 1.3,
-    maxLevel: 15,
-    disabled: true,
-    unlockCondition: { hisse: 'COPPER', level: 5 },
-    category: 'Commodities',
-  },
-];
-
-const mineTabButtons = document.querySelectorAll('.mine-tab__btn');
-mineTabButtons.forEach((mineTabButton) => {
-  mineTabButton.addEventListener('click', (e) => {
-    mineTabButtons.forEach((mineTabButton) => {
-      mineTabButton.classList.remove('mine-tab__btn__active');
-    });
-    e.target.classList.add('mine-tab__btn__active');
-    loadStocks();
-    const category = e.target.textContent;
-    renderStockCards(category);
-  });
-});
-
-function loadStocks() {
-  const savedStocks = localStorage.getItem('stocks');
-  if (savedStocks) {
-    stocks = JSON.parse(savedStocks);
-  }
-}
-
-function saveStocks() {
-  localStorage.setItem('stocks', JSON.stringify(stocks));
-}
-
 loadStocks();
-
-function checkUnlockConditions() {
-  const friendsCount = getReferral();
-
-  stocks.forEach((stock) => {
-    if (stock.unlockCondition) {
-      const requiredStock = stocks.find(
-        (s) => s.hisse === stock.unlockCondition.hisse
-      );
-      if (requiredStock.purchased >= stock.unlockCondition.level) {
-        stock.disabled = false;
-      }
-    }
-
-    // Check if the stock requires a certain number of friends to unlock
-    if (stock.friendCondition && friendsCount >= stock.friendCondition) {
-      stock.disabled = false;
-    }
-  });
-
-  saveStocks();
-}
-
-function renderStockCards(category) {
-  let str = '';
-  stocks.forEach((stock, index) => {
-    if (category === stock.category) {
-      const isDisabled = stock.disabled === true;
-      const disabledClass = isDisabled ? 'disabled' : '';
-      const disabledAttr = isDisabled ? 'aria-disabled="true"' : '';
-
-      const {
-        unlockCondition,
-        hisse,
-        img,
-        descr,
-        price,
-        pph,
-        purchased,
-        maxLevel,
-      } = stock;
-
-      const unlockText =
-        isDisabled && unlockCondition
-          ? `Unlock after ${unlockCondition.hisse} reaches level ${unlockCondition.level}`
-          : isDisabled && stock.friendCondition
-          ? `Unlock after inviting ${stock.friendCondition} friends`
-          : '';
-
-      const maxLevelText = purchased >= maxLevel ? 'Max level reached' : '';
-
-      str += `<div class="mine-tab__card ${disabledClass}" data-index="${index}" ${disabledAttr}>
-                <div class="mine-tab__card-image">
-                    <h3 class="mine-tab__card-title">${hisse}</h3>
-                    <img src="${img}">
-                </div>
-                <div class="mine-tab__card-content">
-                    <p class="mine-tab__card-description">${descr}</p>
-                    <div class="mine-tab__card-details">
-                        <span class="mine-tab__card-price">Fee: ${price}</span>
-                        <span class="card-income">Profit: ${pph}</span>
-                        <p style="color: #bbb;"><span>lvl </span><span class="PerHour-level">${purchased}</span></p>
-                    </div>
-                </div>
-                <div class="mine-tab__card-unlock">
-                  <img src="/assets/img/icons/mine/lock.svg">
-                  <p>${unlockText}</p>
-                  <p style="color: red;">${maxLevelText}</p>
-                </div>
-            </div>`;
-    }
-  });
-
-  const $cardContainer = document.querySelector('.mine-tab__grid');
-  $cardContainer.innerHTML = str;
-
-  document.querySelectorAll('.mine-tab__card').forEach((card) => {
-    card.addEventListener('click', (e) => {
-      showCardsUpgradeMenu(card);
-    });
-  });
-}
-
 checkUnlockConditions();
 renderStockCards('Crypto');
-
-const $cardsUpgradeMenu = document.querySelector('#cards-upgrade-menu');
-const $cardsUpgradeImg = document.querySelector('#cards-upgrade-img');
-const $cardsUpgradeTitle = document.querySelector('#cards-upgrade-title');
-const $cardsUpgradeDescription = document.querySelector(
-  '#cards-upgrade-description'
-);
-const $cardsUpgradeBtn = document.querySelector('#cards-upgrade-button');
-const $cardsUpgradeCost = document.querySelector('#cards-upgrade-cost');
-const $cardsUpgradeIncome = document.querySelector('#cards-upgrade-income');
-
-function showCardsUpgradeMenu(card) {
-  const index = card.dataset.index;
-  const stock = stocks[index];
-  const { hisse, descr, price, pph, purchased, maxLevel } = stock;
-
-  if (purchased >= maxLevel) {
-    $cardsUpgradeBtn.disabled = true;
-    $cardsUpgradeBtn.textContent = 'Max Level Reached';
-  } else {
-    $cardsUpgradeBtn.disabled = false;
-    $cardsUpgradeBtn.textContent = 'Buy Upgrade';
-  }
-
-  $cardsUpgradeImg.src = card.querySelector('img').src;
-  $cardsUpgradeTitle.textContent = hisse;
-  $cardsUpgradeDescription.textContent = descr;
-  $cardsUpgradeCost.textContent = `Fee: ${price}`;
-  $cardsUpgradeIncome.textContent = `PPH: ${pph}`;
-
-  $cardsUpgradeBtn.onclick = function () {
-    buyStock(index, card);
-  };
-
-  $cardsUpgradeMenu.classList.add('active');
-}
-function buyStock(index, cardElement) {
-  const stock = stocks[index];
-  const currentBalance = getScore();
-
-  if (stock.purchased >= stock.maxLevel) {
-    showToast('info', 'Max level reached for this stock!');
-    return;
-  }
-
-  const cost = stock.price;
-
-  if (currentBalance >= cost) {
-    setScore(currentBalance - cost);
-
-    const currentCoinsPerHour = Number(getCoinsPerHour());
-    const additionalCoinsPerHour = Number(stock.pph);
-
-    updateCoinsPerHour(additionalCoinsPerHour);
-
-    stock.purchased += 1;
-
-    // Increase the stock price and income
-    stock.price = Math.ceil(stock.price * stock.priceIncrease);
-    stock.pph = Math.ceil(stock.pph * stock.pphIncrease);
-
-    saveStocks();
-    updateLevel();
-    updateStockCardUI(cardElement, stock);
-
-    hideUpgradeMenu();
-    showToast('success', 'Upgrade purchased!');
-    $cardsUpgradeMenu.classList.remove('active');
-    checkUnlockConditions();
-    renderStockCards(stock.category);
-  } else {
-    hideUpgradeMenu();
-    showToast('error', 'Not enough coins!');
-  }
-}
-
-function updateStockCardUI(cardElement, stock) {
-  cardElement.querySelector(
-    '.mine-tab__card-price'
-  ).textContent = `Fee: ${stock.price}`;
-  cardElement.querySelector(
-    '.card-income'
-  ).textContent = `Profit: ${stock.pph}`;
-  cardElement.querySelector('.PerHour-level').textContent = stock.purchased;
-}
-
-function parseNumber(value) {
-  return Number(value.replace(/[^0-9.-]+/g, ''));
-}
-
-const container = document.querySelector('body');
-
-function createCoin() {
-  const coin = document.createElement('div');
-  coin.classList.add('coin-fall');
-  coin.style.left = Math.random() * window.innerWidth + 'px';
-  coin.style.animationDuration = 2 + 's';
-  container.appendChild(coin);
-
-  setTimeout(() => {
-    coin.remove();
-  }, 2000);
-}
-
-let intervalId = null;
-
-function startFallingCoins() {
-  if (intervalId !== null) {
-    clearInterval(intervalId);
-    intervalId = null;
-  }
-  intervalId = setInterval(createCoin, 200);
-
-  setTimeout(() => {
-    clearInterval(intervalId);
-    intervalId = null;
-  }, 3000);
-}
 
 //Earn section
 
@@ -1361,131 +459,5 @@ function updateButtonState() {
     $checkBtncontainer.appendChild(img);
   }
 }
-
-const $dailyRewardBtn = document.querySelector('#dailyRewardBtn');
-const $dailyRewardPopup = document.querySelector('#dailyRewardPopup');
-const $popupCloseBtn = document.querySelector('#popupCloseBtn');
-const $claimDailyRewardBtn = document.querySelector('#popupClaimBtn');
-const $dailyRewardDays = document.querySelectorAll('.popup__day');
-
-const today = new Date().toISOString().slice(0, 10);
-
-function initializeDailyRewards() {
-  const lastRewardDate = localStorage.getItem('lastRewardDate');
-  let previousDay = parseInt(localStorage.getItem('previousDay')) || 1;
-
-  // Remove the current and completed status from all reward days
-  $dailyRewardDays.forEach((day) =>
-    day.classList.remove('popup__day__current', 'popup__day__completed')
-  );
-
-  if (!lastRewardDate || lastRewardDate !== today) {
-    if (lastRewardDate) {
-      // Calculate the number of days since the last reward
-      const daysSinceLastReward = Math.floor(
-        (new Date(today) - new Date(lastRewardDate)) / (1000 * 60 * 60 * 24)
-      );
-      previousDay = Math.min(
-        previousDay + daysSinceLastReward,
-        $dailyRewardDays.length
-      );
-    } else {
-      // If this is the user's first visit
-      previousDay = 1;
-    }
-
-    // Update the previous day in localStorage
-    setPreviousDay(previousDay);
-  }
-
-  // Ensure previousDay does not exceed the number of available days
-  if (previousDay > $dailyRewardDays.length) {
-    previousDay = 1;
-    setPreviousDay(previousDay);
-  }
-
-  // Update the display of reward days in the popup
-  const currentRewardDayNum = getPreviousDay();
-  const $currentRewardDay = $dailyRewardDays[currentRewardDayNum - 1];
-  if ($currentRewardDay) {
-    $currentRewardDay.classList.add('popup__day__current');
-
-    for (let i = 0; i < currentRewardDayNum - 1; i++) {
-      $dailyRewardDays[i].classList.add('popup__day__completed');
-    }
-  }
-
-  updateClaimButtonStatus();
-}
-
-function updateClaimButtonStatus() {
-  const lastRewardDate = localStorage.getItem('lastRewardDate');
-
-  // Disable the claim button if today's reward has already been claimed
-  if (lastRewardDate === today) {
-    $claimDailyRewardBtn.setAttribute('disabled', 'true');
-  } else {
-    $claimDailyRewardBtn.removeAttribute('disabled');
-  }
-}
-
-function setLastRewardDate(date) {
-  localStorage.setItem('lastRewardDate', date);
-}
-
-function getPreviousDay() {
-  return parseInt(localStorage.getItem('previousDay')) || 1;
-}
-
-function setPreviousDay(day) {
-  localStorage.setItem('previousDay', day);
-}
-
-$claimDailyRewardBtn.addEventListener('click', () => {
-  ////// ADSGRAM /////
-  const AdController = window.Adsgram.init({ blockId: adsgram_blockId });
-  AdController.show()
-    .then((result) => {
-      getDailyReward(); //distribute reward after watch the video
-      console.log(result);
-    })
-    .catch((result) => {
-      showToast('error', 'No ads!');
-      getDailyReward(); //distribute although no ads or any other error
-      console.log(result);
-    });
-});
-
-function getDailyReward() {
-  const currentDay = getPreviousDay();
-  const reward = parseInt(
-    $dailyRewardDays[currentDay - 1].querySelector('.popup__day-coins')
-      .textContent
-  );
-
-  addCoins(reward);
-  startFallingCoins();
-
-  setLastRewardDate(today); // Update the last reward date immediately
-  $dailyRewardDays[currentDay - 1].classList.add('popup__day__completed');
-
-  const nextDay = currentDay + 1;
-  if (nextDay > $dailyRewardDays.length) {
-    setPreviousDay(1);
-  } else {
-    setPreviousDay(nextDay);
-  }
-
-  initializeDailyRewards();
-}
-
-$dailyRewardBtn.addEventListener('click', () => {
-  initializeDailyRewards();
-  $dailyRewardPopup.style.display = 'flex'; // Show the popup after initializing
-});
-
-$popupCloseBtn.addEventListener('click', () => {
-  $dailyRewardPopup.style.display = 'none';
-});
 
 start();

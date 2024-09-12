@@ -27,7 +27,7 @@
             <p id="tonAddress"></p>
             <div id="connectWallet" onclick="connectWallet()"><img src="assets/img/wallet-icon.svg" height="40px"
                     alt=""></div>
-            <div onclick="openSettings()"><img src="assets/img/settings-icon.svg" height="40px" alt=""></div>
+            <div class="openSettingsbtn"><img src="assets/img/settings-icon.svg" height="40px" alt=""></div>
         </div>
     </div>
 
@@ -91,7 +91,7 @@
                 <p class="energy__value">1000</p> /
                 <p class="energy__max">1000</p>
             </div>
-            <div onclick="toggleBoostMenu()" class="boost">
+            <div class="boost">
                 Boost <img style="height: 25px;filter: drop-shadow(0 0 0.2rem black);" src="assets/img/icons/boost.png"
                     alt="boost">
             </div>
@@ -162,7 +162,7 @@
             </div>
             <div id="cards-upgrade-menu" class="upgrade-menu">
                 <div class="upgrade-menu__content">
-                    <button class="close-btn" onclick="hideUpgradeMenu()">&times;</button>
+                    <button class="close-btn">&times;</button>
                     <img id="cards-upgrade-img" src="" alt="Upgrade Image">
                     <h3 class="upgrade-menu__title" id="cards-upgrade-title"></h3>
                     <p class="upgrade-menu__description" id="cards-upgrade-description"></p>
@@ -383,7 +383,7 @@
 
     <div class="boost-menu">
         <div class="boost-menu__controls">
-            <button onclick="toggleBoostMenu()" class="boost-menu__close-btn">
+            <button class="boost-menu__close-btn">
                 <img src="assets/img/icons/back-arrow.png" alt="back arrow">
             </button>
         </div>
@@ -452,7 +452,7 @@
 
                 <div id="upgrade-menu" class="upgrade-menu">
                     <div class="upgrade-menu__content">
-                        <button class="close-btn" onclick="hideUpgradeMenu()">&times;</button>
+                        <button class="close-btn close-upgrade-menu-btn">&times;</button>
                         <img id="upgrade-img" src="" alt="Upgrade Image">
                         <h3 class="upgrade-menu__title" id="upgrade-title"></h3>
                         <p class="upgrade-menu__description" id="upgrade-description"></p>
@@ -467,7 +467,7 @@
     </div>
 
 
-    <script src="js/script.js"></script>
+    <script type="module" src="js/script.js"></script>
     <script src="js/tonconnect.js"></script>
 
 </body>
