@@ -32,7 +32,7 @@ import {
   renderStockCards,
 } from './gameState/stocks.js';
 
-// localStorage.clear(); // DELETE THIS /////////////////////////////
+localStorage.clear(); // DELETE THIS /////////////////////////////
 
 //CONFIG
 //story
