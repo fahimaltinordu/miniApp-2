@@ -1,9 +1,21 @@
-import './dailyRewards.js';
-import { initializeDailyRewards } from './dailyRewards.js';
-import { AbbreviateNum } from './utils.js';
-import { setScore, getScore, addCoins } from './gameState.js';
-import { updateLevel, getnextLevelScore, setnextLevelScore } from './level.js';
-import { setVibrate, getVibrate, vibrate, active } from './vibrate.js';
+import { initializeDailyRewards } from './features/dailyRewards.js';
+import {
+  setScore,
+  getScore,
+  addCoins,
+  setEnergy,
+  getEnergy,
+  setMaxEnergy,
+  getMaxEnergy,
+} from './gameState/gameState.js';
+import { restoreRecoveryState } from './gameState/energyRecovery.js';
+import {
+  updateLevel,
+  getnextLevelScore,
+  setnextLevelScore,
+} from './features/level.js';
+import { setVibrate, getVibrate, vibrate, active } from './utils/vibrate.js';
+import { updateButtonState } from './features/earnTasks.js';
 import {
   toggleBoostMenu,
   hideUpgradeMenu,
@@ -11,15 +23,16 @@ import {
   setCoinsPerHour,
   getCoinsPerTap,
   setCoinsPerTap,
-} from './upgrades.js';
-import { getReferral, setReferral } from './referrals.js';
+  startCoinAccumulation,
+} from './features/upgrades.js';
+import { getReferral, setReferral } from './user/referrals.js';
 import {
   loadStocks,
   checkUnlockConditions,
   renderStockCards,
-} from './stocks.js';
+} from './gameState/stocks.js';
 
-localStorage.clear(); // DELETE THIS /////////////////////////////
+// localStorage.clear(); // DELETE THIS /////////////////////////////
 
 //CONFIG
 //story
@@ -46,10 +59,10 @@ function loadingDelay() {
 }
 // main.js
 
-import { initializeTelegramApp } from './telegram.js';
-import { starPaymentFetch } from './payment.js';
-import { setupShareButton } from './share.js';
-import { updateProfile } from './profile.js';
+import { initializeTelegramApp } from './integrations/telegram.js';
+import { starPaymentFetch } from './integrations/payment.js';
+import { setupShareButton } from './features/earnTasks.js';
+import { updateProfile } from './user/profile.js';
 
 const TELEGRAM = initializeTelegramApp();
 
@@ -159,14 +172,8 @@ function openSettings() {
   }
 }
 
-const $score = document.querySelector('.game__score');
-const $balance = document.querySelector('.boost-menu__balance');
-const $balanceMinetab = document.querySelector('.mine-tab__balance');
 const $circle = document.querySelector('.game__clicker-circle');
 const $mainImg = document.querySelector('.game__main-image');
-const $energy = document.querySelector('.energy__value');
-const $maxEnergy = document.querySelector('.energy__max');
-const $toLvlUp = document.querySelector('#to-lvl-up');
 
 function start() {
   setVibrate(getVibrate());
@@ -265,84 +272,9 @@ $closeUpgBtn.addEventListener('click', () => {
   hideUpgradeMenu();
 });
 
-// Energie
-
-function getMaxEnergy() {
-  const maxEnergy = localStorage.getItem('maxEnergy');
-  return maxEnergy === null ? 1000 : Number(maxEnergy);
+if (getCoinsPerHour() > 0) {
+  startCoinAccumulation();
 }
-function setMaxEnergy(maxEnergy) {
-  localStorage.setItem('maxEnergy', maxEnergy);
-  $maxEnergy.textContent = maxEnergy;
-}
-
-function getEnergy() {
-  const energy = localStorage.getItem('energy');
-  return energy === null ? 1000 : Number(energy);
-}
-
-function setEnergy(energy) {
-  localStorage.setItem('energy', energy);
-  $energy.textContent = energy;
-}
-
-const $energyBoost = document.querySelector('.boost-menu__boost__energy');
-const $energyLimit = document.querySelector('#energy-limit');
-const $energyTimer = document.querySelector('#energy-timer');
-let energyBoostLimit = 1;
-let recoveryTime = 60 * 60 * 1000; // 60 min in milliseconds
-let recoveryInterval;
-let remainingTime = recoveryTime;
-
-function startRecoveryTimer(startTime) {
-  recoveryInterval = setInterval(() => {
-    let elapsedTime = Date.now() - startTime;
-    remainingTime = recoveryTime - elapsedTime;
-
-    if (remainingTime <= 0) {
-      energyBoostLimit = 1;
-      $energyLimit.textContent = energyBoostLimit;
-      $energyBoost.classList.remove('disabled');
-      $energyTimer.textContent = '';
-      clearInterval(recoveryInterval);
-      localStorage.removeItem('recoveryEndTime');
-    } else {
-      let minutes = Math.floor((remainingTime / 1000 / 60) % 60);
-      let seconds = Math.floor((remainingTime / 1000) % 60);
-      $energyTimer.innerHTML = `${minutes}:${seconds}`;
-      localStorage.setItem('remainingTime', remainingTime);
-      localStorage.setItem('recoveryEndTime', startTime + recoveryTime);
-    }
-  }, 1000);
-}
-
-function restoreRecoveryState() {
-  let recoveryEndTime = localStorage.getItem('recoveryEndTime');
-  if (recoveryEndTime) {
-    let timeLeft = recoveryEndTime - Date.now();
-    if (timeLeft > 0) {
-      energyBoostLimit = 0;
-      $energyLimit.textContent = energyBoostLimit;
-      $energyBoost.classList.add('disabled');
-      recoveryTime = timeLeft;
-      startRecoveryTimer(Date.now() - (recoveryTime - timeLeft));
-    } else {
-      localStorage.removeItem('recoveryEndTime');
-      localStorage.removeItem('remainingTime');
-    }
-  }
-}
-
-$energyBoost.addEventListener('click', () => {
-  if (energyBoostLimit > 0) {
-    setEnergy(getMaxEnergy());
-    energyBoostLimit--;
-    $energyLimit.textContent = energyBoostLimit;
-    $energyBoost.classList.add('disabled');
-    let startTime = Date.now();
-    startRecoveryTimer(startTime);
-  }
-});
 
 // Menu bar / swiching tabs
 
@@ -396,68 +328,11 @@ $coinsPerHour.addEventListener('click', () => {
   }
 });
 
-let accumulatedCoins = 0;
-let coinsIntervalId = null;
-
-function startCoinAccumulation() {
-  if (coinsIntervalId) {
-    clearInterval(coinsIntervalId);
-  }
-
-  coinsIntervalId = setInterval(() => {
-    accumulatedCoins += getCoinsPerHour() / 3600;
-
-    if (accumulatedCoins >= 1) {
-      addCoins(Math.floor(accumulatedCoins));
-      accumulatedCoins -= Math.floor(accumulatedCoins);
-    }
-  }, 1000);
-}
-
 loadStocks();
 checkUnlockConditions();
 renderStockCards('Crypto');
 
 //Earn section
-
-const $checkBtn = document.querySelector('.earn__item__check-btn');
-const $checkBtncontainer = $checkBtn.parentElement;
-
-let isWalletConnected = localStorage.getItem('isWalletConnected') === 'true';
-
 updateButtonState();
-
-$checkBtn.addEventListener('click', () => {
-  checkWalletConnection();
-});
-
-function checkWalletConnection() {
-  isWalletConnected = localStorage.getItem('status') == 1;
-
-  if (isWalletConnected) {
-    addCoins(5000);
-    startFallingCoins();
-    localStorage.setItem('isWalletConnected', 'true');
-    updateButtonState();
-    showToast('success', 'Wallet connected successfully!');
-  } else {
-    showToast('error', 'You have not connected your wallet.');
-  }
-}
-
-function updateButtonState() {
-  if (localStorage.getItem('isWalletConnected') === 'true') {
-    $checkBtn.style.display = 'none';
-
-    const img = document.createElement('img');
-    img.src = '/assets/img/icons/earn/completed.png';
-    img.alt = 'Task completed';
-    img.style.width = '30px';
-    img.style.height = '30px';
-    // img.style.marginLeft = '80%';
-
-    $checkBtncontainer.appendChild(img);
-  }
-}
 
 start();

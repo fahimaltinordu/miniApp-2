@@ -1,6 +1,6 @@
-import { AbbreviateNum } from './utils.js';
-import { getScore } from './gameState.js';
-import { updateProfile } from './profile.js';
+import { AbbreviateNum } from '../utils/utils.js';
+import { getScore } from '../gameState/gameState.js';
+import { updateProfile } from '../user/profile.js';
 
 // Level
 const $currentLvlName = document.querySelector('.level-progress__name');
