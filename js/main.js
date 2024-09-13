@@ -41,11 +41,11 @@ localStorage.clear(); // DELETE THIS /////////////////////////////
 
 ///////////////////////////////  CONFIG START  /////////////////////////////
 //story
-let storyLink =
+export let storyLink =
   'https://mini-app-2.vercel.app/assets/img/5976773169836572554.jpg';
-let storyText = 'join #EnergyFi, invest stocks, tap & earn $ENR';
-let storyWidgetLink = ' https://t.me/EnergyFi_testApp_bot/EnergyFi';
-let storyWidgetName = '@energyFi_tap';
+export let storyText = 'join #EnergyFi, invest stocks, tap & earn $ENR';
+export let storyWidgetLink = ' https://t.me/EnergyFi_testApp_bot/EnergyFi';
+export let storyWidgetName = '@energyFi_tap';
 //socialMedia
 const TelegramLink = 'https://t.me/EnergyFi_org';
 const TwitterLink = 'https://twitter.com/EnergyFi_org';
@@ -75,70 +75,27 @@ function loadingDelay() {
 // main.js
 
 const TELEGRAM = initializeTelegramApp();
+export let playerName = document.getElementById('player-name');
 
 if (TELEGRAM) {
   const user = TELEGRAM.initDataUnsafe.user;
-  const playerName = document.getElementById('player-name');
-  console.log(playerName);
-
+  
   // Update profile
-  const profileData = updateProfile(TELEGRAM, user, playerName);
-
-  // Payment
-  const payWithStar = document.querySelector('.pay_with_star');
-  payWithStar.addEventListener('click', async () => {
-    console.log('button clicked');
-    const prices = [{ label: invoiceAmountLabel, amount: invoiceAmount }];
-    const result = await starPaymentFetch(
-      apiKey,
-      invoiceTitle,
-      invoiceDescription,
-      prices
-    );
-    console.log(result.data);
-    if (result.success) {
-      openInvoiceLink(result.data);
-    }
+  let  profileData = updateProfile(TELEGRAM, user);
+  const $openSettingsbtn = document.querySelector('.openSettingsbtn');
+  $openSettingsbtn.addEventListener('click', () => {
+    openSettings();
   });
-
-  function openInvoiceLink(invoiceUrl) {
-    TELEGRAM.openInvoice(invoiceUrl, (status) => {
-      console.log(status);
-      if (status === 'success') {
-        console.log('Invoice payment successful!');
-        addFrens(1);
-      } else {
-        console.error('Error opening invoice:', status);
-      }
-    });
-  }
-
-  // Setup share button
-  setupShareButton(TELEGRAM, user);
-}
-//Initialize Telegram Mini App END
-
-let telegram_username = '';
-let telegram_userId = '';
-let telegram_userPhoto = '';
-const playerIcon = document.getElementById('player-icon');
-// const playerName = document.getElementById('player-name');
-const userPhoto = document.getElementById('userPhoto');
-
-const $openSettingsbtn = document.querySelector('.openSettingsbtn');
-$openSettingsbtn.addEventListener('click', () => {
-  openSettings();
-});
 
 function openSettings() {
   Swal.fire({
     html: `
       <div id="settings_container">
-        <img src="https://t.me/i/userpic/160/${telegram_userPhoto}.jpg" id="userPhoto" style="width:50px;height:50px;border-radius:50%;border:2px solid #04C98E;">
+        <img src="https://t.me/i/userpic/160/${profileData.telegram_userPhoto}.jpg" id="userPhoto" style="width:50px;height:50px;border-radius:50%;border:2px solid #04C98E;">
         <hr >
         <div class="space-between">
-          <span>${telegram_username}</span>
-          <span>${telegram_userId} </span>
+          <span>${profileData.telegram_username}</span>
+          <span>${profileData.telegram_userId} </span>
         </div>
         <hr >
         <div class="space-between">
@@ -181,6 +138,51 @@ function openSettings() {
     active = true;
   }
 }
+  // Payment
+  const payWithStar = document.querySelector('.pay_with_star');
+  payWithStar.addEventListener('click', async () => {
+    console.log('button clicked');
+    const prices = [{ label: invoiceAmountLabel, amount: invoiceAmount }];
+    const result = await starPaymentFetch(
+      apiKey,
+      invoiceTitle,
+      invoiceDescription,
+      prices
+    );
+    console.log(result.data);
+    if (result.success) {
+      openInvoiceLink(result.data);
+    }
+  });
+
+  function openInvoiceLink(invoiceUrl) {
+    TELEGRAM.openInvoice(invoiceUrl, (status) => {
+      console.log(status);
+      if (status === 'success') {
+        console.log('Invoice payment successful!');
+        addFrens(1);
+      } else {
+        console.error('Error opening invoice:', status);
+      }
+    });
+  }
+
+  // Setup share button
+  setupShareButton(TELEGRAM, user);
+}
+//Initialize Telegram Mini App END
+
+
+
+// let telegram_username = '';
+// let telegram_userId = '';
+// let telegram_userPhoto = '';
+
+const playerIcon = document.getElementById('player-icon');
+// const playerName = document.getElementById('player-name');
+const userPhoto = document.getElementById('userPhoto');
+
+
 
 const $circle = document.querySelector('.game__clicker-circle');
 const $mainImg = document.querySelector('.game__main-image');

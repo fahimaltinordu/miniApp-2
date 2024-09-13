@@ -1,6 +1,6 @@
 import { showToast, startFallingCoins } from '../utils/utils.js';
 import { addCoins } from '../gameState/gameState.js';
-import {walletConnectyReward, shareStoryReward} from "../main.js";
+import {walletConnectyReward, shareStoryReward, storyLink, storyText, storyWidgetLink, storyWidgetName} from "../main.js";
 const $checkBtn = document.querySelector('.earn__item__check-btn');
 const $checkBtncontainer = $checkBtn.parentElement;
 
