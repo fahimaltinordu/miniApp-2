@@ -14,7 +14,7 @@ import {
   getnextLevelScore,
   setnextLevelScore,
 } from './features/level.js';
-import { setVibrate, getVibrate, vibrate, active } from './utils/vibrate.js';
+import { setVibrate, getVibrate, vibrate, xVibrate, active } from './utils/vibrate.js';
 import { updateButtonState } from './features/earnTasks.js';
 import {
   toggleBoostMenu,
@@ -31,6 +31,11 @@ import {
   checkUnlockConditions,
   renderStockCards,
 } from './gameState/stocks.js';
+
+import { initializeTelegramApp } from './integrations/telegram.js';
+import { starPaymentFetch } from './integrations/payment.js';
+import { setupShareButton } from './features/earnTasks.js';
+import { updateProfile } from './user/profile.js';
 
 localStorage.clear(); // DELETE THIS /////////////////////////////
 
@@ -50,9 +55,9 @@ const c_url = 'https://sweet-lake-5572.fahimaltinordu-yedek.workers.dev';
 //createInvoice
 const apiKey = '7513220093:AAFogDDXxV-lWOMUva4Kzhw0LE8gI7tA93A'; //bot token
 const invoiceTitle = 'ENR-friend';
-const invoiceDescription = '1 friend'; 
+const invoiceDescription = 'invite 1 friend'; 
 const invoiceAmount = 2;
-const invoiceAmountLabel = "2 stars"
+const invoiceAmountLabel = `${invoiceAmount} stars`
 //adsgram blockID     
 export const adsgram_blockId = '2808';
 //share story
@@ -68,11 +73,6 @@ function loadingDelay() {
   document.getElementById('loading').style.display = 'none';
 }
 // main.js
-
-import { initializeTelegramApp } from './integrations/telegram.js';
-import { starPaymentFetch } from './integrations/payment.js';
-import { setupShareButton } from './features/earnTasks.js';
-import { updateProfile } from './user/profile.js';
 
 const TELEGRAM = initializeTelegramApp();
 
@@ -168,7 +168,7 @@ function openSettings() {
     showCloseButton: true,
     showConfirmButton: false,
   });
-  vibrateButton = document.getElementById('vibrateButton');
+  let vibrateButton = document.getElementById('vibrateButton');
   vibrateButton.addEventListener('click', () => {
     vibrate();
   });
