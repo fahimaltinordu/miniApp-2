@@ -10,16 +10,16 @@ export function updateProfile(TELEGRAM, user, playerName) {
     if (user) {
       playerName.textContent = `${user.first_name}`;
       return {
-        username: user.first_name,
-        userId: user.id,
-        userPhoto: user.username,
+        telegram_username: user.first_name,
+        telegram_userId: user.id,
+        telegram_userPhoto: user.username,
       };
     } else {
       playerName.textContent = `No user`;
       return {
-        username: '#FreeDurov',
-        userId: '0',
-        userPhoto: 'durov',
+        telegram_username: '#FreeDurov',
+        telegram_userId: '0',
+        telegram_userPhoto: 'durov',
       };
     }
   } else {

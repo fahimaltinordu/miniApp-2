@@ -34,7 +34,7 @@ import {
 
 localStorage.clear(); // DELETE THIS /////////////////////////////
 
-//CONFIG
+///////////////////////////////  CONFIG START  /////////////////////////////
 //story
 let storyLink =
   'https://mini-app-2.vercel.app/assets/img/5976773169836572554.jpg';
@@ -49,7 +49,15 @@ const GithubLink = 'https://github.com/fahimaltinordu/miniApp-2';
 const c_url = 'https://sweet-lake-5572.fahimaltinordu-yedek.workers.dev';
 //createInvoice
 const apiKey = '7513220093:AAFogDDXxV-lWOMUva4Kzhw0LE8gI7tA93A'; //bot token
-const adsgram_blockId = '2808'; //adsgram blockID
+const invoiceTitle = 'ENR-friend';
+const invoiceDescription = '1 friend'; 
+const invoiceAmount = 2;
+const invoiceAmountLabel = "2 ENR"
+//adsgram blockID     
+const adsgram_blockId = '2808';
+//share story
+const shareStoryReward = 5000; 
+///////////////////////////////  CONFIG END  /////////////////////////////
 
 window.addEventListener('load', function () {
   setTimeout(loadingDelay, 2000);
@@ -78,11 +86,11 @@ if (TELEGRAM) {
   const payWithStar = document.querySelector('.pay_with_star');
   payWithStar.addEventListener('click', async () => {
     console.log('button clicked');
-    const prices = [{ label: 'Pay 2 star', amount: '2' }];
+    const prices = [{ label: invoiceAmountLabel, amount: invoiceAmount }];
     const result = await starPaymentFetch(
-      'YOUR_API_KEY',
-      'ENR-friend',
-      '1 friend',
+      apiKey,
+      invoiceTitle,
+      invoiceDescription,
       prices
     );
     console.log(result.data);
@@ -112,7 +120,7 @@ let telegram_username = '';
 let telegram_userId = '';
 let telegram_userPhoto = '';
 const playerIcon = document.getElementById('player-icon');
-const playerName = document.getElementById('player-name');
+// const playerName = document.getElementById('player-name');
 const userPhoto = document.getElementById('userPhoto');
 
 const $openSettingsbtn = document.querySelector('.openSettingsbtn');
