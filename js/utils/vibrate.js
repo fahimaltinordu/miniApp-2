@@ -4,7 +4,7 @@ export function getVibrate() {
 export function setVibrate(Vibrate) {
   localStorage.setItem('Vibrate', Vibrate);
 }
-let xVibrate = getVibrate();
+export let xVibrate = getVibrate();
 export let active = false;
 
 export function vibrate() {
