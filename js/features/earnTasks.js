@@ -1,4 +1,6 @@
-import { showToast } from '../utils/utils.js';
+import { showToast, startFallingCoins } from '../utils/utils.js';
+import { addCoins } from '../gameState/gameState.js';
+import {walletConnectyReward, shareStoryReward} from "../main.js";
 const $checkBtn = document.querySelector('.earn__item__check-btn');
 const $checkBtncontainer = $checkBtn.parentElement;
 
@@ -12,7 +14,7 @@ function checkWalletConnection() {
   isWalletConnected = localStorage.getItem('status') == 1;
 
   if (isWalletConnected) {
-    addCoins(5000);
+    addCoins(walletConnectyReward);
     startFallingCoins();
     localStorage.setItem('isWalletConnected', 'true');
     updateButtonState();

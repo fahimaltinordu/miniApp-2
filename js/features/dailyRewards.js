@@ -1,5 +1,6 @@
 import { showToast, startFallingCoins } from '../utils/utils.js';
 import { addCoins } from '../gameState/gameState.js';
+import {adsgram_blockId} from "../main.js";
 
 const $dailyRewardBtn = document.querySelector('#dailyRewardBtn');
 const $dailyRewardPopup = document.querySelector('#dailyRewardPopup');
@@ -72,7 +73,6 @@ function setPreviousDay(day) {
 function setLastRewardDate(date) {
   localStorage.setItem('lastRewardDate', date);
 }
-const adsgram_blockId = '2808';
 
 $claimDailyRewardBtn.addEventListener('click', () => {
   ////// ADSGRAM /////

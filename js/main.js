@@ -52,11 +52,13 @@ const apiKey = '7513220093:AAFogDDXxV-lWOMUva4Kzhw0LE8gI7tA93A'; //bot token
 const invoiceTitle = 'ENR-friend';
 const invoiceDescription = '1 friend'; 
 const invoiceAmount = 2;
-const invoiceAmountLabel = "2 ENR"
+const invoiceAmountLabel = "2 stars"
 //adsgram blockID     
-const adsgram_blockId = '2808';
+export const adsgram_blockId = '2808';
 //share story
-const shareStoryReward = 5000; 
+export const shareStoryReward = 5000; 
+//wallet connect
+export const walletConnectyReward = 5000; 
 ///////////////////////////////  CONFIG END  /////////////////////////////
 
 window.addEventListener('load', function () {
