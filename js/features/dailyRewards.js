@@ -73,7 +73,18 @@ function setLastRewardDate(date) {
   localStorage.setItem('lastRewardDate', date);
 }
 
-$claimDailyRewardBtn.addEventListener('click', getDailyReward);
+$claimDailyRewardBtn.addEventListener('click', () => {
+  ////// ADSGRAM /////
+  const AdController = window.Adsgram.init({ blockId: adsgram_blockId });
+      AdController.show().then((result) => {
+          getDailyReward(); //distribute reward after watch the video
+          console.log(result);
+      }).catch((result) => {
+          showToast('error', 'No ads!');
+          getDailyReward(); //distribute although no ads or any other error
+          console.log(result);
+      })
+});
 
 function getDailyReward() {
   const currentDay = getPreviousDay();
