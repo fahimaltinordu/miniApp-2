@@ -1,3 +1,12 @@
+import {
+  setScore,
+  getScore,
+  addCoins,
+  setEnergy,
+  getEnergy,
+  setMaxEnergy,
+  getMaxEnergy,
+} from './gameState.js';
 const $energyBoost = document.querySelector('.boost-menu__boost__energy');
 const $energyLimit = document.querySelector('#energy-limit');
 const $energyTimer = document.querySelector('#energy-timer');
