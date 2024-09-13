@@ -49,7 +49,7 @@ export function setupShareButton(TELEGRAM, user) {
       }
     } else if (shareBtn.textContent === 'Claim') {
       if (user) {
-        addCoins(5000);
+        addCoins(shareStoryReward);
         startFallingCoins();
         shareBtn.textContent = 'Claimed';
       } else {
