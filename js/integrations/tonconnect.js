@@ -33,7 +33,7 @@ function setAddress(address) {
     document.getElementById("tonAddress").textContent = sliceAddress(getAddress(), 3, 3);
 }
 function getWalletStatus() {
-    const status = localStorage.getItem('status');
+    let status = localStorage.getItem('status');
     return status === null ? 0 : Number(status);
 }
 function setWalletStatus(status) {
