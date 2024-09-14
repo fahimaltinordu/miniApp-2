@@ -76,7 +76,7 @@ function loadingDelay() {
 // main.js
 
 const TELEGRAM = initializeTelegramApp();
-export let playerName = document.getElementById('player-name');
+// export let playerName = document.getElementById('player-name');
 
 if (TELEGRAM) {
   const user = TELEGRAM.initDataUnsafe.user;

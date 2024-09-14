@@ -1,7 +1,7 @@
 import { getCurrentLevel, updateImage } from '../features/level.js';
-import {playerName} from "../main.js";
+// import {playerName} from "../main.js";
 export function updateProfile(TELEGRAM, user) {
-
+  let playerName = document.getElementById('player-name');
   let level = getCurrentLevel();
   updateImage(level);
 
