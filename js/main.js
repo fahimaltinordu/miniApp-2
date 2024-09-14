@@ -1,4 +1,4 @@
-// localStorage.clear(); // DELETE THIS /////////////////////////////
+localStorage.clear(); // DELETE THIS /////////////////////////////
 import { initializeDailyRewards } from './features/dailyRewards.js';
 import {
   setScore,
@@ -15,7 +15,13 @@ import {
   getnextLevelScore,
   setnextLevelScore,
 } from './features/level.js';
-import { setVibrate, getVibrate, vibrate, xVibrate, checkVibrate } from './utils/vibrate.js';
+import {
+  setVibrate,
+  getVibrate,
+  vibrate,
+  xVibrate,
+  checkVibrate,
+} from './utils/vibrate.js';
 import { updateButtonState } from './features/earnTasks.js';
 import {
   toggleBoostMenu,
@@ -38,8 +44,6 @@ import { starPaymentFetch } from './integrations/payment.js';
 import { setupShareButton } from './features/earnTasks.js';
 import { updateProfile } from './user/profile.js';
 
-
-
 ///////////////////////////////  CONFIG START  /////////////////////////////
 //story
 export let storyLink =
@@ -56,15 +60,15 @@ const c_url = 'https://sweet-lake-5572.fahimaltinordu-yedek.workers.dev';
 //createInvoice
 const apiKey = '7513220093:AAFogDDXxV-lWOMUva4Kzhw0LE8gI7tA93A'; //bot token
 const invoiceTitle = 'ENR-friend';
-const invoiceDescription = 'invite 1 friend'; 
+const invoiceDescription = 'invite 1 friend';
 const invoiceAmount = 2;
-const invoiceAmountLabel = `${invoiceAmount} stars`
-//adsgram blockID     
+const invoiceAmountLabel = `${invoiceAmount} stars`;
+//adsgram blockID
 export const adsgram_blockId = '2808';
 //share story
-export const shareStoryReward = 5000; 
+export const shareStoryReward = 5000;
 //wallet connect
-export const walletConnectyReward = 5000; 
+export const walletConnectyReward = 5000;
 ///////////////////////////////  CONFIG END  /////////////////////////////
 
 window.addEventListener('load', function () {
@@ -80,15 +84,19 @@ const TELEGRAM = initializeTelegramApp();
 export let playerName = document.getElementById('player-name');
 if (TELEGRAM) {
   const user = TELEGRAM.initDataUnsafe.user;
-  
+
   // Update profile
-  let  profileData = updateProfile(TELEGRAM, user);
+  let profileData = updateProfile(TELEGRAM, user);
 
   playerName.textContent = profileData.playerName_textContent;
 
   const $openSettingsbtn = document.querySelector('.openSettingsbtn');
   $openSettingsbtn.addEventListener('click', () => {
-    openSettings(profileData.telegram_userPhoto, profileData.telegram_username, profileData.telegram_userId);
+    openSettings(
+      profileData.telegram_userPhoto,
+      profileData.telegram_username,
+      profileData.telegram_userId
+    );
   });
 
   // Payment
@@ -163,7 +171,7 @@ function openSettings(a, b, c) {
     showCloseButton: true,
     showConfirmButton: false,
   });
-  
+
   let vibrateButton = document.getElementById('vibrateButton');
   vibrateButton.addEventListener('click', () => {
     vibrate();
@@ -179,8 +187,6 @@ function openSettings(a, b, c) {
 const playerIcon = document.getElementById('player-icon');
 // const playerName = document.getElementById('player-name');
 const userPhoto = document.getElementById('userPhoto');
-
-
 
 const $circle = document.querySelector('.game__clicker-circle');
 const $mainImg = document.querySelector('.game__main-image');
@@ -284,7 +290,6 @@ const $closeCardBtn = document.querySelector('#close-btn__card');
 $closeCardBtn.addEventListener('click', () => {
   hideUpgradeMenu();
 });
-
 
 if (getCoinsPerHour() > 0) {
   startCoinAccumulation();

@@ -1,6 +1,13 @@
 import { showToast, startFallingCoins } from '../utils/utils.js';
 import { addCoins } from '../gameState/gameState.js';
-import {walletConnectyReward, shareStoryReward, storyLink, storyText, storyWidgetLink, storyWidgetName} from "../main.js";
+import {
+  walletConnectyReward,
+  shareStoryReward,
+  storyLink,
+  storyText,
+  storyWidgetLink,
+  storyWidgetName,
+} from '../main.js';
 const $checkBtn = document.querySelector('.earn__item__check-btn');
 const $checkBtncontainer = $checkBtn.parentElement;
 
@@ -16,6 +23,7 @@ function checkWalletConnection() {
   if (isWalletConnected) {
     addCoins(walletConnectyReward);
     startFallingCoins();
+    updateLevel();
     localStorage.setItem('isWalletConnected', 'true');
     updateButtonState();
     showToast('success', 'Wallet connected successfully!');
@@ -54,6 +62,7 @@ export function setupShareButton(TELEGRAM, user) {
         addCoins(shareStoryReward);
         startFallingCoins();
         shareBtn.textContent = 'Claimed';
+        updateLevel();
       } else {
         showToast('error', 'No user!');
       }
