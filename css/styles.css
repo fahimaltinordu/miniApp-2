@@ -96,7 +96,7 @@ body {
     justify-content: space-between;
     position: fixed;
     top: 0;
-    left:0;
+    left: 0;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     padding: 10px;
 }
@@ -215,20 +215,20 @@ hr {
     display: flex;
     justify-content: center;
     align-items: center;
-    position:relative;
+    position: relative;
 }
 
 #perHourPopover {
-    opacity:0;
+    opacity: 0;
     visibility: hidden;
-    position:absolute;
+    position: absolute;
     top: 30px;
     left: 34%;
     background-color: #252F43;
     width: 50px;
-    padding:2px 0px;
-    border-radius:2px;
-    transition:visibility 0.3s linear,opacity 0.3s linear;
+    padding: 2px 0px;
+    border-radius: 2px;
+    transition: visibility 0.3s linear, opacity 0.3s linear;
 }
 
 .info__container img {
@@ -369,13 +369,14 @@ hr {
     align-items: center;
     width: 100%;
 }
+
 .game-main {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    position:fixed;
-    top:50%;
+    position: fixed;
+    top: 50%;
     transform: translateY(-50%);
 }
 
@@ -498,7 +499,7 @@ hr {
     display: flex;
     align-items: center;
     font-weight: 800;
-    gap:5px;
+    gap: 5px;
 }
 
 .boost-menu__bosters__upgrade .boost-menu__boost {
@@ -634,16 +635,16 @@ hr {
 } */
 
 
-.upgrade-menu__content > img {
+.upgrade-menu__content>img {
     height: 150px;
-    filter: drop-shadow(0 0 0.3rem black); 
+    filter: drop-shadow(0 0 0.3rem black);
 }
 
 .upgrade-menu__content h5 {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap:5px;
+    gap: 5px;
 }
 
 .upgrade-menu__content button {
@@ -828,7 +829,7 @@ hr {
     border-radius: 10px;
     background-color: #252F43;
     padding: 5px;
-    margin-top:10px;
+    margin-top: 10px;
 }
 
 .mine-tab__tabs .mine-tab__btn {
@@ -1066,19 +1067,22 @@ hr {
 /* FRIENDS TAB */
 #friends button {
     height: 35px;
-    padding:5px 10px;
-    border-radius:7px;
-    background-color:#252f43;
-    color:white;
+    padding: 5px 10px;
+    border-radius: 7px;
+    background-color: #252f43;
+    color: white;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
+
 #friends button:active {
     transform: scale(.9);
 }
+
 #friends #friendCount {
-    color:#c4eb00;
-    margin-top:10px;
+    color: #c4eb00;
+    margin-top: 10px;
 }
+
 .earn__top-title {
     font-size: 1.5rem;
     font-weight: 700;
@@ -1156,7 +1160,7 @@ hr {
     transition: 0.3s ease-in-out;
 }
 
-.earn__item-btn .earn__item__check-btn{
+.earn__item-btn .earn__item__check-btn {
     /* margin-left: 80%; */
     padding: 7px 7px;
     border-radius: 3px;
@@ -1164,7 +1168,8 @@ hr {
     color: white;
     transition: 0.3s ease-in-out;
 }
-.earn__item-btn .earn__item__share-btn{
+
+.earn__item-btn .earn__item__share-btn {
     /* margin-left: 80%; */
     padding: 7px 7px;
     border-radius: 3px;
@@ -1172,9 +1177,11 @@ hr {
     color: white;
     transition: 0.3s ease-in-out;
 }
+
 .earn__item__share-btn:active {
     transform: scale(.9);
 }
+
 .earn__item__check-btn:active {
     transform: scale(.9);
 }
@@ -1324,6 +1331,11 @@ hr {
     background: #157866;
 }
 
+#tap-upgrade.disabled,
+#energy-upgrade.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
 
 @media (max-width: 720px) {
     .popup__image {
