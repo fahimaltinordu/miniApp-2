@@ -76,13 +76,16 @@ function loadingDelay() {
 // main.js
 
 const TELEGRAM = initializeTelegramApp();
-// export let playerName = document.getElementById('player-name');
 
 if (TELEGRAM) {
   const user = TELEGRAM.initDataUnsafe.user;
   
   // Update profile
   let  profileData = updateProfile(TELEGRAM, user);
+
+  let playerName = document.getElementById('player-name');
+  playerName.textContent = profileData.playerName_textContent;
+
   const $openSettingsbtn = document.querySelector('.openSettingsbtn');
   $openSettingsbtn.addEventListener('click', () => {
     openSettings(profileData.telegram_userPhoto, profileData.telegram_username, profileData.telegram_userId);
