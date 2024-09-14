@@ -25,3 +25,14 @@ export function vibrate() {
     }
   }
 }
+export function checkVibrate(){
+  console.log(getVibrate());
+  if (getVibrate() === 0) {
+    vibrateButton.textContent = 'OFF';
+    active = false;
+  } else if (getVibrate() === 200) {
+    vibrateButton.textContent = 'ON';
+    active = true;
+  }
+}
+
