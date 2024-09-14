@@ -31,6 +31,7 @@ import {
   getCoinsPerTap,
   setCoinsPerTap,
   startCoinAccumulation,
+  markAsMaxLevel,
 } from './features/upgrades.js';
 import { getReferral, setReferral } from './user/referrals.js';
 import {

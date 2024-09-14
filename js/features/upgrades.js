@@ -7,98 +7,119 @@ import {
   setMaxEnergy,
   getMaxEnergy,
 } from '../gameState/gameState.js';
-
 import { updateLevel } from './level.js';
 
+const MAX_ENERGY_LEVEL = 10;
+const MAX_MULTITAP_LEVEL = 8;
+
 const $boostMenu = document.querySelector('.boost-menu');
-
-export function toggleBoostMenu() {
-  $boostMenu.classList.toggle('active');
-}
-
 const $upgradeMenu = document.querySelector('#upgrade-menu');
 const $upgradeImg = document.querySelector('#upgrade-img');
 const $upgradeTitle = document.querySelector('#upgrade-title');
 const $upgradeDescription = document.querySelector('#upgrade-description');
 const $upgradeBtn = document.querySelector('#upgrade-button');
 const $upgradeCost = document.querySelector('#upgrade-cost');
-
-// const $upgrades = document.querySelectorAll(
-//   '.boost-menu__bosters__upgrade .boost-menu__boost'
-// );
-
 const $energyUpgrade = document.querySelector('#energy-upgrade');
 const $tapUpgrade = document.querySelector('#tap-upgrade');
+const $cardsUpgradeMenu = document.querySelector('#cards-upgrade-menu');
+const $cardsUpgradeImg = document.querySelector('#cards-upgrade-img');
+const $cardsUpgradeTitle = document.querySelector('#cards-upgrade-title');
+const $cardsUpgradeDescription = document.querySelector(
+  '#cards-upgrade-description'
+);
+const $cardsUpgradeBtn = document.querySelector('#cards-upgrade-button');
+const $cardsUpgradeCost = document.querySelector('#cards-upgrade-cost');
+const $cardsUpgradeIncome = document.querySelector('#cards-upgrade-income');
+const $perTap = document.querySelector('#tap');
+const $coinsPerHour = document.querySelector('#perHour');
+const $coinsPerHourPopover = document.querySelector('#perHourPopover');
 
-// for (let upgrade of $upgrades) {
-//   upgrade.addEventListener('click', (e) => {
-//     showUpgradeMenu(e.currentTarget);
-//   });
-// }
-
-$tapUpgrade.addEventListener('click', showUpgradeMenu);
-$energyUpgrade.addEventListener('click', showEnergyUpgradeMenu);
-
-function showUpgradeMenu() {
-  const imgSrc = $tapUpgrade.querySelector('img').src;
-  const title = $tapUpgrade.querySelector('h3').textContent;
-  const cost = $tapUpgrade.querySelector('span').textContent;
-
-  $upgradeImg.src = imgSrc;
-  $upgradeTitle.textContent = title;
-  $upgradeDescription.textContent = `Increase your ${title.toLowerCase()} +1.`;
-  $upgradeCost.textContent = cost;
-
-  $upgradeBtn.addEventListener('click', handleUpgradeClick);
-
-  $upgradeMenu.classList.add('active');
-}
-function canUpgradeMultitap() {
-  return multitapPurchases < 8;
-}
-
-function buyUpgrade(upgrade) {
-  const currentBalance = getScore();
-  const cost = Number($upgradeCost.textContent);
-  const upgradeName = $upgradeTitle.textContent.toLowerCase();
-
-  if (upgradeName === 'multitap') {
-    if (canUpgradeMultitap() && cost <= currentBalance) {
-      upgradeMultitap();
-      setScore(currentBalance - cost);
-
-      showToast('success', 'Upgrade purchased!');
-    } else if (cost > currentBalance) {
-      showToast('error', 'Not enough coins!');
-    } else if (!canUpgradeMultitap()) {
-      showToast('error', 'Multitap upgrade is maxed out!');
-    }
-  } else if (upgradeName === 'max energy') {
-    if (cost <= currentBalance) {
-      upgradeMaxEnergy();
-      setScore(currentBalance - cost);
-      showToast('success', 'Upgrade purchased!');
-    } else {
-      showToast('error', 'Not enough coins!');
-    }
-  }
-
-  updateLevel();
-  hideUpgradeMenu();
-}
-
-function upgradeMaxEnergy() {
-  setMaxEnergy(getMaxEnergy() + 500);
-  maxEnergyCost += 1000;
-  localStorage.setItem('maxEnergyCost', maxEnergyCost);
-  document.querySelector('#max-energy-cost').textContent = maxEnergyCost;
-}
-let maxEnergyCost = Number(localStorage.getItem('maxEnergyCost')) || 1000;
 let multitapPurchases = Number(localStorage.getItem('multitapPurchases')) || 0;
+let maxEnergyPurchases =
+  Number(localStorage.getItem('maxEnergyPurchases')) || 0;
 let multitapCost = Number(localStorage.getItem('multitapCost')) || 1000;
+let maxEnergyCost = Number(localStorage.getItem('maxEnergyCost')) || 1000;
 
 document.querySelector('#max-energy-cost').textContent = maxEnergyCost;
 document.querySelector('#multitap-cost').textContent = multitapCost;
+
+function updateUpgradesState() {
+  if (!canUpgradeMaxEnergy()) {
+    markAsMaxLevel($energyUpgrade);
+  }
+  if (!canUpgradeMultitap()) {
+    markAsMaxLevel($tapUpgrade);
+  }
+}
+
+updateUpgradesState();
+
+$tapUpgrade.addEventListener('click', () =>
+  showUpgradeMenu($tapUpgrade, 'multitap')
+);
+$energyUpgrade.addEventListener('click', () =>
+  showUpgradeMenu($energyUpgrade, 'energy')
+);
+
+function showUpgradeMenu(upgradeElement, type) {
+  let imgSrc, title, cost, description;
+
+  title = upgradeElement.querySelector('h3').textContent;
+
+  if (type === 'energy') {
+    if (!canUpgradeMaxEnergy()) {
+      return;
+    }
+    description = `Increase your ${title.toLowerCase()} +500.`;
+  } else if (type === 'multitap') {
+    if (!canUpgradeMultitap()) {
+      return;
+    }
+    description = `Increase your ${title.toLowerCase()} +1.`;
+  }
+
+  imgSrc = upgradeElement.querySelector('img').src;
+  cost = upgradeElement.querySelector('span').textContent;
+
+  $upgradeImg.src = imgSrc;
+  $upgradeTitle.textContent = title;
+  $upgradeDescription.textContent = description;
+  $upgradeCost.textContent = cost;
+
+  $upgradeBtn.addEventListener('click', handleUpgradeClick);
+  $upgradeMenu.classList.add('active');
+}
+
+export function markAsMaxLevel(upgradeElement) {
+  upgradeElement.disabled = true;
+  upgradeElement.querySelector('span').textContent = 'Max Level';
+  upgradeElement.classList.add('disabled');
+}
+
+function canUpgradeMultitap() {
+  return multitapPurchases < MAX_MULTITAP_LEVEL;
+}
+
+function canUpgradeMaxEnergy() {
+  return maxEnergyPurchases < MAX_ENERGY_LEVEL;
+}
+
+export function toggleBoostMenu() {
+  $boostMenu.classList.toggle('active');
+}
+
+function upgradeMaxEnergy() {
+  if (canUpgradeMaxEnergy()) {
+    setMaxEnergy(getMaxEnergy() + 500);
+    maxEnergyCost += 1000;
+    maxEnergyPurchases++;
+    localStorage.setItem('maxEnergyPurchases', maxEnergyPurchases);
+    localStorage.setItem('maxEnergyCost', maxEnergyCost);
+    document.querySelector('#max-energy-cost').textContent = maxEnergyCost;
+  } else {
+    showToast('error', 'Max energy upgrade is maxed out!');
+  }
+}
 
 function upgradeMultitap() {
   if (canUpgradeMultitap()) {
@@ -113,19 +134,41 @@ function upgradeMultitap() {
   }
 }
 
-function showEnergyUpgradeMenu() {
-  const imgSrc = $energyUpgrade.querySelector('img').src;
-  const title = $energyUpgrade.querySelector('h3').textContent;
-  const cost = $energyUpgrade.querySelector('span').textContent;
+function buyUpgrade() {
+  const currentBalance = getScore();
+  const cost = Number($upgradeCost.textContent);
+  const upgradeName = $upgradeTitle.textContent.toLowerCase();
 
-  $upgradeImg.src = imgSrc;
-  $upgradeTitle.textContent = title;
-  $upgradeDescription.textContent = `Increase your ${title.toLowerCase()} +500.`;
-  $upgradeCost.textContent = cost;
+  if (upgradeName === 'multitap') {
+    if (cost > currentBalance) {
+      showToast('error', 'Not enough coins!');
+      return;
+    }
 
-  $upgradeBtn.addEventListener('click', handleUpgradeClick);
+    if (canUpgradeMultitap()) {
+      upgradeMultitap();
+      setScore(currentBalance - cost);
+      showToast('success', 'Upgrade purchased!');
+    } else {
+      showToast('error', 'Multitap upgrade is maxed out!');
+    }
+  } else if (upgradeName === 'max energy') {
+    if (cost > currentBalance) {
+      showToast('error', 'Not enough coins!');
+      return;
+    }
 
-  $upgradeMenu.classList.add('active');
+    if (canUpgradeMaxEnergy()) {
+      upgradeMaxEnergy();
+      setScore(currentBalance - cost);
+      showToast('success', 'Upgrade purchased!');
+    } else {
+      showToast('error', 'Max energy upgrade is maxed out!');
+    }
+  }
+  updateUpgradesState();
+  updateLevel();
+  hideUpgradeMenu();
 }
 
 function handleUpgradeClick() {
@@ -143,16 +186,6 @@ window.addEventListener('click', function (event) {
     hideUpgradeMenu();
   }
 });
-
-const $cardsUpgradeMenu = document.querySelector('#cards-upgrade-menu');
-const $cardsUpgradeImg = document.querySelector('#cards-upgrade-img');
-const $cardsUpgradeTitle = document.querySelector('#cards-upgrade-title');
-const $cardsUpgradeDescription = document.querySelector(
-  '#cards-upgrade-description'
-);
-const $cardsUpgradeBtn = document.querySelector('#cards-upgrade-button');
-const $cardsUpgradeCost = document.querySelector('#cards-upgrade-cost');
-const $cardsUpgradeIncome = document.querySelector('#cards-upgrade-income');
 
 export function showCardsUpgradeMenu(card) {
   const index = card.dataset.index;
@@ -180,8 +213,6 @@ export function showCardsUpgradeMenu(card) {
   $cardsUpgradeMenu.classList.add('active');
 }
 
-const $perTap = document.querySelector('#tap');
-
 export function getCoinsPerTap() {
   return parseInt(localStorage.getItem('coinsPerTap')) || 1;
 }
@@ -195,19 +226,18 @@ export function getCoinsPerHour() {
   return localStorage.getItem('coinsPerHour') ?? 0;
 }
 
-const $coinsPerHour = document.querySelector('#perHour');
-const $coinsPerHourPopover = document.querySelector('#perHourPopover');
 export function setCoinsPerHour(coins) {
   localStorage.setItem('coinsPerHour', coins);
   $coinsPerHour.textContent = AbbreviateNum(coins);
   $coinsPerHourPopover.innerHTML = coins;
 }
+
 export function updateCoinsPerHour(coins) {
   const newCoinsPerHour = Number(getCoinsPerHour()) + coins;
   setCoinsPerHour(newCoinsPerHour);
-
   startCoinAccumulation();
 }
+
 let accumulatedCoins = 0;
 let coinsIntervalId = null;
 
