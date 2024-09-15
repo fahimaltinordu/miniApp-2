@@ -9,6 +9,7 @@ import {
   storyWidgetLink,
   storyWidgetName,
 } from '../main.js';
+import { updateLevel } from './level.js';
 const $checkBtn = document.querySelector('.earn__item__check-btn');
 const $checkBtncontainer = $checkBtn.parentElement;
 
@@ -118,6 +119,7 @@ watchAddBtn.addEventListener('click', () => {
       adData.count += 1;
       setAdData(adData);
       updateWatchCount();
+      updateLevel();
       startFallingCoins();
     })
     .catch((result) => {
