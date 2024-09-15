@@ -77,6 +77,8 @@ window.addEventListener('load', function () {
 });
 function loadingDelay() {
   document.getElementById('loading').style.display = 'none';
+  document.querySelector('.menu-bar').style.display = 'flex';
+  document.querySelector('.header').style.display = 'flex';
 }
 // main.js
 
