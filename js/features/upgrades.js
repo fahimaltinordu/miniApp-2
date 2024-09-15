@@ -20,6 +20,8 @@ const $upgradeDescription = document.querySelector('#upgrade-description');
 const $upgradeBtn = document.querySelector('#upgrade-button');
 const $upgradeCost = document.querySelector('#upgrade-cost');
 const $energyUpgrade = document.querySelector('#energy-upgrade');
+const $multitapLevel = document.querySelector('#multitapPurchases');
+const $maxEnergyLevel = document.querySelector('#maxEnergyPurchases');
 const $tapUpgrade = document.querySelector('#tap-upgrade');
 const $cardsUpgradeMenu = document.querySelector('#cards-upgrade-menu');
 const $cardsUpgradeImg = document.querySelector('#cards-upgrade-img');
@@ -42,6 +44,8 @@ let maxEnergyCost = Number(localStorage.getItem('maxEnergyCost')) || 1000;
 
 document.querySelector('#max-energy-cost').textContent = maxEnergyCost;
 document.querySelector('#multitap-cost').textContent = multitapCost;
+$multitapLevel.textContent = `lvl ${multitapPurchases}`;
+$maxEnergyLevel.textContent = `lvl ${maxEnergyPurchases}`;
 
 function updateUpgradesState() {
   if (!canUpgradeMaxEnergy()) {
@@ -116,6 +120,7 @@ function upgradeMaxEnergy() {
     localStorage.setItem('maxEnergyPurchases', maxEnergyPurchases);
     localStorage.setItem('maxEnergyCost', maxEnergyCost);
     document.querySelector('#max-energy-cost').textContent = maxEnergyCost;
+    $maxEnergyLevel.textContent = `lvl ${maxEnergyPurchases}`;
   } else {
     showToast('error', 'Max energy upgrade is maxed out!');
   }
@@ -129,6 +134,7 @@ function upgradeMultitap() {
     localStorage.setItem('multitapPurchases', multitapPurchases);
     localStorage.setItem('multitapCost', multitapCost);
     document.querySelector('#multitap-cost').textContent = multitapCost;
+    $multitapLevel.textContent = `lvl ${multitapPurchases}`;
   } else {
     showToast('error', 'Multitap upgrade is maxed out!');
   }
