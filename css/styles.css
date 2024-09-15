@@ -1096,7 +1096,6 @@ hr {
 .earn__section-container {
     display: flex;
     justify-content: center;
-    align-items: center;
     flex-direction: column;
     gap: 7px;
     margin-bottom: 20px;
@@ -1113,6 +1112,7 @@ hr {
 
 .earn__item {
     display: flex;
+    position: relative;
     justify-content: space-between;
     background-color: #157866;
     align-items: center;
@@ -1121,6 +1121,14 @@ hr {
     padding: 15px 15px;
     border-radius: 4px;
     transition: transform 0.2s;
+}
+
+.earn__item__watch-count {
+    position: absolute;
+    top: 40px;
+    right: 70px;
+    color: #8b8a8a;
+    ;
 }
 
 .earn__item-reward {
@@ -1160,7 +1168,9 @@ hr {
     transition: 0.3s ease-in-out;
 }
 
-.earn__item-btn .earn__item__check-btn {
+.earn__item-btn .earn__item__check-btn,
+.earn__item-btn .earn__item__share-btn,
+.earn__item-btn .earn__item__watch-btn {
     /* margin-left: 80%; */
     padding: 7px 7px;
     border-radius: 3px;
@@ -1169,14 +1179,6 @@ hr {
     transition: 0.3s ease-in-out;
 }
 
-.earn__item-btn .earn__item__share-btn {
-    /* margin-left: 80%; */
-    padding: 7px 7px;
-    border-radius: 3px;
-    background-color: #04C98E;
-    color: white;
-    transition: 0.3s ease-in-out;
-}
 
 .earn__item__share-btn:active {
     transform: scale(.9);
