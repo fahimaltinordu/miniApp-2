@@ -510,13 +510,15 @@ hr {
 .boost-menu__bosters__upgrade .boost-menu__boost div {
     display: flex;
     flex-direction: row;
+    align-items: center;
     gap: 10px;
 }
 
 .boost-menu__bosters__upgrade .boost-menu__boost div div {
     display: flex;
     flex-direction: column;
-    gap: 0px;
+    align-items: flex-start;
+    gap: 3px;
 }
 
 .boost-menu__bosters .boost-menu__boost button,
@@ -1337,6 +1339,15 @@ hr {
 #energy-upgrade.disabled {
     opacity: 0.5;
     pointer-events: none;
+}
+.upgradeLevel {
+    border: 1px solid #157866;
+    border-radius: 20px;
+    background-color: #252F43;
+    color: white;
+    text-align: center;
+    padding: 5px 8px;
+    font-size:12px;
 }
 
 @media (max-width: 720px) {
