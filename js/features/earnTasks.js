@@ -73,6 +73,7 @@ export function setupShareButton(TELEGRAM, user) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  updateButtonState();
   updateWatchCount();
 });
 
