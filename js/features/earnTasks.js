@@ -118,6 +118,7 @@ watchAddBtn.addEventListener('click', () => {
       adData.count += 1;
       setAdData(adData);
       updateWatchCount();
+      startFallingCoins();
     })
     .catch((result) => {
       showToast('error', 'No ads available!');
