@@ -1,5 +1,6 @@
 import { showToast, startFallingCoins } from '../utils/utils.js';
 import { addCoins } from '../gameState/gameState.js';
+import { AdController } from '../integrations/adsgram.js';
 import {
   walletConnectyReward,
   shareStoryReward,
@@ -69,3 +70,56 @@ export function setupShareButton(TELEGRAM, user) {
     }
   });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateWatchCount();
+});
+
+const watchAddBtn = document.querySelector('#watchAddBtn');
+const $watchCount = document
+  .querySelector('.earn__item__watch-count')
+  .querySelector('span');
+const maxAdsPerDay = 10;
+const currentDate = new Date().toISOString().slice(0, 10);
+
+function updateWatchCount() {
+  const adData = getAdData();
+  const watchCount = adData.count;
+  $watchCount.textContent = watchCount;
+}
+
+function getAdData() {
+  const adData = JSON.parse(localStorage.getItem('adData')) || {
+    count: 0,
+    date: currentDate,
+  };
+  return adData;
+}
+
+function setAdData(adData) {
+  localStorage.setItem('adData', JSON.stringify(adData));
+}
+
+watchAddBtn.addEventListener('click', () => {
+  let adData = getAdData();
+
+  if (adData.date !== currentDate) {
+    adData = { count: 0, date: currentDate };
+  }
+
+  if (adData.count >= maxAdsPerDay) {
+    showToast('error', 'No ads any more for today!');
+    return;
+  }
+
+  AdController.show()
+    .then((result) => {
+      addCoins(200);
+      adData.count += 1;
+      setAdData(adData);
+      updateWatchCount();
+    })
+    .catch((result) => {
+      showToast('error', 'No ads available!');
+    });
+});
