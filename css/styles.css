@@ -17,8 +17,8 @@
     /* width: 60px;  */
     overflow: hidden;
     text-overflow: ellipsis;
-    border: 1px solid #252F43;
-    background-color: #252F43;
+    border: 1px solid #26f0b1;
+    background-color: #03c98e;
     color: white;
     padding: 6px;
     border-radius: 3px;
@@ -32,6 +32,13 @@
 .swal2-popup.swal2-toast {
     background: #157866 !important;
     color: white;
+    z-index: 100000000000000000;
+}
+.swal2-toast-shown {
+    z-index: 100000000000000000;
+}
+.swal2-shown{
+    z-index: 100000000000000000;
 }
 
 /* div:where(.swal2-container).swal2-backdrop-show, div:where(.swal2-container).swal2-noanimation {
@@ -90,6 +97,7 @@ body {
 }
 
 .header {
+    background-color: #252F43;
     width: 100%;
     display: none;
     align-items: center;
@@ -118,7 +126,7 @@ body {
 
 .settings img {
     display: block;
-    filter: drop-shadow(0 0 0.5rem #26f0b1);
+    filter: drop-shadow(0 0 0.03rem #26f0b1);
 }
 
 #settings_container {
@@ -553,8 +561,8 @@ hr {
     position: fixed;
     flex-direction: column;
     margin: 0;
-    /* height: 100%; */
-    height: calc(100vh - 115px);
+    height: 100vh;
+    /* height: calc(100vh - 115px); */
     padding: 0;
     width: 100%;
     display: block;
@@ -581,10 +589,10 @@ hr {
     bottom: -100%;
     left: 0;
     right: 0;
-    background: #157866;
+    background: #252F43;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px -2px 0px rgba(38, 240, 177, 0.8);
     transition: bottom 0.3s;
     z-index: 1000;
 }
@@ -594,7 +602,7 @@ hr {
 }
 
 .upgrade-menu.active {
-    bottom: 0;
+    bottom: 60px;
 }
 
 .upgrade-menu__content {
@@ -625,7 +633,7 @@ hr {
 .upgrade-menu__button {
     font-size: 1.5rem;
     font-weight: 800;
-    background-color: #252F43;
+    background-color: #157866;
     border-radius: 6px;
     box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .1) 0 2px 5px 0, rgba(0, 0, 0, .07) 0 1px 1px 0;
     color: #fff;
@@ -712,7 +720,7 @@ hr {
 
 .menu-bar__nav {
     background-color: #252F43;
-    box-shadow: 0 0 2px 2px #04C98E;
+    box-shadow: 0px -2px 4px rgba(38, 240, 177, 0.8);
     max-width: 768px;
     padding: 4px;
     justify-content: space-between;
@@ -730,10 +738,10 @@ hr {
     flex-direction: column;
     justify-content: center;
     color: #8b8e93;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
     width: 28px;
     transition: color 0.3s ease-in-out;
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 .menu-bar__item__active {
@@ -1016,6 +1024,7 @@ hr {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap:5px;
 }
 
 .cards-upgrade-income-container img {
