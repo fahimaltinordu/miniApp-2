@@ -32,6 +32,7 @@ import {
   setCoinsPerTap,
   startCoinAccumulation,
   markAsMaxLevel,
+  $boostMenu,
 } from './features/upgrades.js';
 import { getReferral, setReferral } from './user/referrals.js';
 import {
@@ -314,6 +315,8 @@ $barItems.forEach((barItem) => {
       item.classList.remove('menu-bar__item__active');
     });
 
+    $boostMenu.classList.remove('active');
+    
     barItem.classList.add('menu-bar__item__active');
 
     const targetId = barItem.getAttribute('href').substring(1);
