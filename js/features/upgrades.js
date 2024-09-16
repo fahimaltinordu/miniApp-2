@@ -12,7 +12,7 @@ import { updateLevel } from './level.js';
 const MAX_ENERGY_LEVEL = 10;
 const MAX_MULTITAP_LEVEL = 8;
 
-const $boostMenu = document.querySelector('.boost-menu');
+export const $boostMenu = document.querySelector('.boost-menu');
 const $upgradeMenu = document.querySelector('#upgrade-menu');
 const $upgradeImg = document.querySelector('#upgrade-img');
 const $upgradeTitle = document.querySelector('#upgrade-title');
@@ -148,6 +148,7 @@ function buyUpgrade() {
   if (upgradeName === 'multitap') {
     if (cost > currentBalance) {
       showToast('error', 'Not enough coins!');
+      hideUpgradeMenu()
       return;
     }
 
@@ -155,12 +156,15 @@ function buyUpgrade() {
       upgradeMultitap();
       setScore(currentBalance - cost);
       showToast('success', 'Upgrade purchased!');
+      hideUpgradeMenu()
     } else {
       showToast('error', 'Multitap upgrade is maxed out!');
+      hideUpgradeMenu()
     }
   } else if (upgradeName === 'max energy') {
     if (cost > currentBalance) {
       showToast('error', 'Not enough coins!');
+      hideUpgradeMenu()
       return;
     }
 
@@ -168,8 +172,10 @@ function buyUpgrade() {
       upgradeMaxEnergy();
       setScore(currentBalance - cost);
       showToast('success', 'Upgrade purchased!');
+      hideUpgradeMenu()
     } else {
       showToast('error', 'Max energy upgrade is maxed out!');
+      hideUpgradeMenu()
     }
   }
   updateUpgradesState();
