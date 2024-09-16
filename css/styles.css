@@ -1235,7 +1235,7 @@ hr {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background: rgba(0, 0, 0, 0.8);
     justify-content: center;
     align-items: center;
@@ -1304,7 +1304,7 @@ hr {
     min-height: 70px;
     background: #444;
     border-radius: 10px;
-    padding: 10px;
+    padding: 5px;
     text-align: center;
     margin: 5px;
     color: #fff;
@@ -1460,7 +1460,7 @@ hr {
     }
 }
 
-@media (max-width: 480px) {
+/* @media (max-width: 480px) {
 
     .info__container,
     .player__info {
@@ -1476,16 +1476,181 @@ hr {
         max-height: 30px;
     }
 
-    /* .mine-tab__card {
-        width: 150px;
-    } */
-}
+} */
+@media (min-width: 850px) {
+    .game__clicker-circle {
+        width:55vw;
+        height:55vw;
+    }
+    .game__clicker-circle img {
+        width:55vw;
+        height:55vw;
+    }
+    .info__container, .player__info {
+        font-size: 2rem;
+    }
+    .info__container img {
+        height:50px;
+    }
+    .player__icon {
+        width:60px;
+    }
+    .boost-menu__balance, .game__score {
+        font-size:90px;
+    }
+    .boost,
+    .energy {
+        font-size: 2rem;
+    }
+    .level-progress__info {
+        font-size: 2.6rem;
+    }
+    .menu-bar__image {
+        font-size: 1.7rem;
+    }
+    .level-progress {
+        margin-top: 50px;
+        max-width: 650px;
+    }
+    .level-progress img {
+        height:35px;
+        width:35px;
+    }
+    .info {
+        margin-bottom: 35px;
+    }
+    .game__footer {
+        margin-top:35px;
+        max-width: 650px;
+    }
+    .earn__item {
+        width:55vw;
+    }
+    .plusCoins {
+        font-size: 3.5rem;
+    }
+    .earn__item-info {
+        font-size: 1.9rem;
+    }
+    .earn__item-image, .earn__item-image img {
+        min-width: 90px;
+        width: 90px;
+    }
+    .earn > img {
+        height:150px !important;
+    }
+    .earn__top-title {
+        font-size: 1.9rem;
+    }
+    .earn__section-title {
+        font-size: 1.7rem;
+    }
+    .earn__item-btn .earn__item__check-btn, .earn__item-btn .earn__item__share-btn, .earn__item-btn .earn__item__watch-btn {
+        /* margin-left: 80%; */
+        height: 45px;
+        width: 100px;
+        font-size: 1.5rem;
+    }
 
+}
+@media (min-width: 542px) and (max-width: 849px){
+    .game__clicker-circle {
+        width:55vw;
+        height:55vw;
+    }
+    .game__clicker-circle img {
+        width:55vw;
+        height:55vw;
+    }
+    .info__container, .player__info {
+        font-size: 1.7rem;
+    }
+    .boost-menu__balance, .game__score {
+        font-size:60px;
+    }
+    .boost,
+    .energy {
+        font-size: 2rem;
+    }
+    .level-progress__info {
+        font-size: 1.6rem;
+    }
+    .menu-bar__image {
+        font-size: 1.7rem;
+    }
+    .level-progress {
+        margin-top: 50px;
+        max-width: 450px;
+    }
+    .level-progress img {
+        height:35px !important;
+        width:35px !important;
+    }
+    .info {
+        margin-bottom: 35px;
+    }
+    .game__footer {
+        margin-top:35px;
+        max-width: 450px;
+    }
+    .earn__item {
+        width:55vw;
+    }
+    .plusCoins {
+        font-size: 3.5rem;
+    }
+}
+@media (min-width: 380px) and (max-width: 539px){
+    .game__clicker-circle {
+        width:80vw;
+        height:80vw;
+    }
+    .game__clicker-circle img {
+        width:80vw;
+        height:80vw;
+    }
+    .info__container, .player__info {
+        font-size: 1rem;
+    }
+    .boost-menu__balance, .game__score {
+        font-size:50px;
+    }
+    .boost,
+    .energy {
+        font-size: 1.5rem;
+    }
+    .level-progress__info {
+        font-size: 1.2rem;
+    }
+    .menu-bar__image {
+        font-size: 1.25rem;
+    }
+    .level-progress {
+        margin-top: 50px;
+    }
+    .info {
+        margin-bottom: 35px;
+    }
+    .game__footer {
+        margin-top:35px;
+    }
+    .plusCoins {
+        font-size: 2.5rem;
+    }
+}
 @media (max-width: 380px) {
 
     .info__container,
     .player__info {
         font-size: 0.8rem;
+    }
+    .game__clicker-circle {
+        width:55vw;
+        height:55vw;
+    }
+    .game__clicker-circle img {
+        width:55vw;
+        height:55vw;
     }
 }
 
