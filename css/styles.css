@@ -32,14 +32,18 @@
 .swal2-popup.swal2-toast {
     background: #157866 !important;
     color: white;
-    z-index: 100000000000000000;
+    z-index: 100000000000000000 !important;
 }
 .swal2-toast-shown {
-    z-index: 100000000000000000;
+    z-index: 100000000000000000 !important;
 }
 .swal2-shown{
-    z-index: 100000000000000000;
+    z-index: 100000000000000000 !important;
 }
+body.swal2-toast-shown .swal2-container {
+    z-index: 100000000000000000 !important;
+}
+
 
 /* div:where(.swal2-container).swal2-backdrop-show, div:where(.swal2-container).swal2-noanimation {
     background: rgba(0, 0, 0, .6) !important;
@@ -57,7 +61,7 @@ html,
 body {
     position: relative;
     margin: 0;
-    height: 100%;
+    height: 100vh;
     padding: 0;
     width: 100%;
     flex-direction: column;
@@ -756,7 +760,7 @@ hr {
 .tab-content {
     display: none;
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     color: white;
     z-index: 11;
     justify-content: flex-start;
@@ -1235,7 +1239,7 @@ hr {
     background: rgba(0, 0, 0, 0.8);
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 10000000000;
 }
 
 .popup__content {
@@ -1393,7 +1397,7 @@ hr {
     position: absolute;
     width: 50px;
     height: 50px;
-    z-index: 1000;
+    z-index: 10000000000;
     background-image: url('../assets/img/ENR.png');
     background-size: contain;
     background-repeat: no-repeat;
