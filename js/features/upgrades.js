@@ -8,6 +8,7 @@ import {
   getMaxEnergy,
 } from '../gameState/gameState.js';
 import { updateLevel } from './level.js';
+import { headerNav } from '../main.js';
 
 const MAX_ENERGY_LEVEL = 10;
 const MAX_MULTITAP_LEVEL = 8;
@@ -110,6 +111,11 @@ function canUpgradeMaxEnergy() {
 
 export function toggleBoostMenu() {
   $boostMenu.classList.toggle('active');
+  if($boostMenu.classList.contains('active')) {
+    headerNav.style.display  = 'none'
+  } else {
+    headerNav.style.display  = 'flex'
+  }
 }
 
 function upgradeMaxEnergy() {

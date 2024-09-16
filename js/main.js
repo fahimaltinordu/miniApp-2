@@ -76,10 +76,12 @@ export const walletConnectyReward = 5000;
 window.addEventListener('load', function () {
   setTimeout(loadingDelay, 2000);
 });
+
+export let headerNav = document.querySelector('.header');
 function loadingDelay() {
   document.getElementById('loading').style.display = 'none';
   document.querySelector('.menu-bar').style.display = 'flex';
-  document.querySelector('.header').style.display = 'flex';
+  headerNav.style.display = 'flex';
 }
 // main.js
 
@@ -316,6 +318,12 @@ $barItems.forEach((barItem) => {
     });
 
     $boostMenu.classList.remove('active');
+    hideUpgradeMenu();
+    if($boostMenu.classList.contains('active')) {
+      headerNav.style.display  = 'none'
+    } else {
+      headerNav.style.display  = 'flex'
+    }
     
     barItem.classList.add('menu-bar__item__active');
 
