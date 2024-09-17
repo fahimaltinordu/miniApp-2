@@ -4,6 +4,7 @@ import { AdController } from '../integrations/adsgram.js';
 import {
   walletConnectyReward,
   shareStoryReward,
+  adsgramReward,
   storyLink,
   storyText,
   storyWidgetLink,
@@ -117,7 +118,7 @@ watchAddBtn.addEventListener('click', async () => {
   watchAddBtn.innerHTML = `<img class="promiseGif" src='../../assets/img/promiseGif.gif' />`
   await AdController.show()
     .then((result) => {
-      addCoins(200);
+      addCoins(adsgramReward);
       adData.count += 1;
       watchAddBtn.textContent="Watch"
       setAdData(adData);

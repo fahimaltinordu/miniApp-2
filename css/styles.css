@@ -356,8 +356,8 @@ hr {
     align-items: center;
     background-color: #252F43;
     margin-top: 20px;
-    width: 250px;
-    height: 250px;
+    width: 20dvw;
+    height: 20dvw;
     border-radius: 50%;
     box-shadow: 0px 0px 16px 0px rgba(138, 143, 254, 0.05);
     transition: transform 0.2s ease;
@@ -372,8 +372,8 @@ hr {
 
 
 .game__clicker-circle img {
-    width: 250px;
-    height: 250px;
+    width: 20dvw;
+    height: 20dvw;
     border-radius: 50%;
     user-select: none;
     -webkit-user-drag: none;
@@ -598,9 +598,13 @@ hr {
     left: 0;
     right: 0;
     background: #252F43;
-    border-top-left-radius: 20px;
+    /* border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-    box-shadow: 1px -2px 0px rgba(38, 240, 177, 0.8);
+    box-shadow: 1px -2px 0px rgba(38, 240, 177, 0.8); */
+    border-top-left-radius: 60px;
+    border-top-right-radius: 60px;
+    border-top: 4px solid rgb(38, 240, 177);
+    box-shadow: 0 0 60px rgb(21, 120, 102);
     transition: bottom 0.3s;
     z-index: 1000;
 }
@@ -614,9 +618,9 @@ hr {
 }
 
 .upgrade-menu__content {
-    -webkit-box-shadow: 0px -5px 30px -1px #252F43;
+    /* -webkit-box-shadow: 0px -5px 30px -1px #252F43;
     box-shadow: 0px -5px 30px -1px #252F43;
-    border-radius: 20px;
+    border-radius: 20px; */
     color: #fff;
     padding: 20px;
     display: flex;
@@ -1445,10 +1449,6 @@ hr {
     .mine-tab__card-image img {
         max-height: 50px;
     }
-
-    /* .mine-tab__card {
-        width: 250px;
-    } */
 }
 
 
@@ -1464,24 +1464,9 @@ hr {
     }
 }
 
-/* @media (max-width: 480px) {
 
-    .info__container,
-    .player__info {
-        font-size: 0.9rem;
-    }
 
-    .mine-tab__tabs .mine-tab__btn {
-        font-size: 16px;
-    }
-
-    .mine-tab__card-image,
-    .mine-tab__card-image img {
-        max-height: 30px;
-    }
-
-} */
-@media (min-height: 971px) {
+@media (min-height: 971px){
     .game__clicker-circle {
         width:50vw;
         height:50vw;
@@ -1724,6 +1709,18 @@ hr {
         height: 30px;
         width: 60px;
         font-size: 1rem;
+    }
+}
+
+
+@media (min-width: 1024px) {
+    .game__clicker-circle {
+        width:15dvw;
+        height:15dvw;
+    }
+    .game__clicker-circle img {
+        width:15dvw;
+        height:15dvw;
     }
 }
 
