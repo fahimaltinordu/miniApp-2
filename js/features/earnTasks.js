@@ -51,10 +51,11 @@ export function updateButtonState() {
 export function setupShareButton(TELEGRAM, user) {
   let shareBtn = document.querySelector('.earn__item__share-btn');
 
-  shareBtn.addEventListener('click', () => {
+  shareBtn.addEventListener('click', async() => {
     if (shareBtn.textContent === 'Share') {
       if (user) {
-        TELEGRAM.shareToStory(storyLink, { text: storyText });
+        shareBtn.innerHTML = `<img class="promiseGif" src='../../assets/img/promiseGif.gif' />`
+        await TELEGRAM.shareToStory(storyLink, { text: storyText });
         shareBtn.textContent = 'Claim';
       } else {
         showToast('error', 'No user!');
@@ -102,7 +103,7 @@ function setAdData(adData) {
   localStorage.setItem('adData', JSON.stringify(adData));
 }
 
-watchAddBtn.addEventListener('click', () => {
+watchAddBtn.addEventListener('click', async () => {
   let adData = getAdData();
 
   if (adData.date !== currentDate) {
@@ -113,11 +114,12 @@ watchAddBtn.addEventListener('click', () => {
     showToast('error', 'No ads any more for today!');
     return;
   }
-
-  AdController.show()
+  watchAddBtn.innerHTML = `<img class="promiseGif" src='../../assets/img/promiseGif.gif' />`
+  await AdController.show()
     .then((result) => {
       addCoins(200);
       adData.count += 1;
+      watchAddBtn.textContent="Watch"
       setAdData(adData);
       updateWatchCount();
       updateLevel();
@@ -125,5 +127,6 @@ watchAddBtn.addEventListener('click', () => {
     })
     .catch((result) => {
       showToast('error', 'No ads available!');
+      watchAddBtn.textContent="Watch"
     });
 });
