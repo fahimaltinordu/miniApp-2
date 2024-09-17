@@ -67,10 +67,15 @@ const invoiceAmount = 2;
 const invoiceAmountLabel = `${invoiceAmount} stars`;
 //adsgram blockID
 export const adsgram_blockId = '2808';
-//share story
+//share story reward
 export const shareStoryReward = 5000;
-//wallet connect
+//wallet connect reward
 export const walletConnectyReward = 5000;
+//adsgram reward per video
+export const adsgramReward = 200;
+//tonconnect
+// export const manifestUrl = 'https://mini-app-2.vercel.app/tonconnect-manifest.json';
+// export const twaReturnUrl = 'https://t.me/EnergyFi_testApp_bot'; //To redirect user to a Telegram Mini App after wallet connection
 ///////////////////////////////  CONFIG END  /////////////////////////////
 
 window.addEventListener('load', function () {

@@ -1,9 +1,11 @@
+// import {manifestUrl, twaReturnUrl} from '../main.js';
+
 const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-    manifestUrl: 'https://mini-app-2.vercel.app/tonconnect-manifest.json',
+    manifestUrl: "https://mini-app-2.vercel.app/tonconnect-manifest.json",
 });
 
 tonConnectUI.uiOptions = {
-    twaReturnUrl: 'https://t.me/EnergyFi_testApp_bot', //To redirect user to a Telegram Mini App after wallet connection
+    twaReturnUrl: "https://t.me/EnergyFi_testApp_bot",
 };
 
 function connectAct() {
