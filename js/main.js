@@ -108,7 +108,7 @@ if (TELEGRAM) {
   // Payment
   const payWithStar = document.querySelector('.pay_with_star');
   payWithStar.addEventListener('click', async () => {
-    console.log('button clicked');
+    payWithStar.innerHTML = `<img class="promiseGif" src='../../assets/img/promiseGif.gif' />`
     const prices = [{ label: invoiceAmountLabel, amount: invoiceAmount }];
     const result = await starPaymentFetch(
       apiKey,
@@ -118,6 +118,7 @@ if (TELEGRAM) {
     );
     console.log(result.data);
     if (result.success) {
+      payWithStar.textContent ="Pay 2 star";
       openInvoiceLink(result.data);
     }
   });

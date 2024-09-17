@@ -10,6 +10,10 @@
     background-color: #252F43 !important;
 }
 
+.promiseGif {
+    width:15px;
+}
+
 #tonAddress {
     display: none;
     font-size: 1rem;
