@@ -1,4 +1,4 @@
-export async function starPaymentFetch(apiKey, _title, _description, _prices) {
+export async function starPaymentFetch(_title, _description, _prices) {
   const fetchResult = {
     success: false,
     data: null,
@@ -22,7 +22,7 @@ export async function starPaymentFetch(apiKey, _title, _description, _prices) {
   };
 
   try {
-    const url = `https://api.telegram.org/bot${apiKey}/createInvoiceLink`;
+    const url = `https://sweet-lake-5572.fahimaltinordu-yedek.workers.dev/tg-star-payment`;
     const response = await fetch(url, options);
     const data = await response.json();
 
