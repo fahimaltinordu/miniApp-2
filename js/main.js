@@ -45,7 +45,7 @@ import { initializeTelegramApp } from './integrations/telegram.js';
 import { starPaymentFetch } from './integrations/payment.js';
 import { setupShareButton } from './features/earnTasks.js';
 import { updateProfile } from './user/profile.js';
-import { addFrens } from '/user/referral.js';
+import { addFrens } from './user/referral.js';
 
 ///////////////////////////////  CONFIG START  /////////////////////////////
 //story
