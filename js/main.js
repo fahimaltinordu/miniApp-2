@@ -131,7 +131,7 @@ if (TELEGRAM) {
   function openInvoiceLink(invoiceUrl) {
     TELEGRAM.openInvoice(invoiceUrl, (status) => {
       console.log(status);
-      if (status === 'success') {
+      if (status === 'paid') {
         console.log('Invoice payment successful!');
         addFrens(1);
       } else {
