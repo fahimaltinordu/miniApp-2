@@ -40,7 +40,7 @@ import {
   checkUnlockConditions,
   renderStockCards,
 } from './gameState/stocks.js';
-
+import { showToast } from './utils/utils.js';
 import { initializeTelegramApp } from './integrations/telegram.js';
 import { starPaymentFetch } from './integrations/payment.js';
 import { setupShareButton } from './features/earnTasks.js';
@@ -63,8 +63,8 @@ const c_url = 'https://sweet-lake-5572.fahimaltinordu-yedek.workers.dev';
 const apiKey = '7513220093:AAFogDDXxV-lWOMUva4Kzhw0LE8gI7tA93A'; //bot token
 const invoiceTitle = 'ENR-friend';
 const invoiceDescription = 'invite 1 friend';
-const invoiceAmount = 2;
-const invoiceAmountLabel = `${invoiceAmount} stars`;
+const invoiceAmount = 1;
+const invoiceAmountLabel = `${invoiceAmount} Star`;
 //adsgram blockID
 export const adsgram_blockId = '2808';
 //share story reward
@@ -123,7 +123,7 @@ if (TELEGRAM) {
     );
     console.log(result.data);
     if (result.success) {
-      payWithStar.textContent ="Pay 2 star";
+      payWithStar.textContent = `Pay ${invoiceAmountLabel}`;
       openInvoiceLink(result.data);
     }
   });
@@ -132,10 +132,18 @@ if (TELEGRAM) {
     TELEGRAM.openInvoice(invoiceUrl, (status) => {
       console.log(status);
       if (status === 'paid') {
-        console.log('Invoice payment successful!');
+        showToast('success', 'Invoice payment successful!');
+        console.log('Invoice payment successful!' , status);
         addFrens(1);
-      } else {
-        console.error('Error opening invoice:', status);
+      } else if (status === 'failed') {
+        showToast('error', 'Payment has been failed.');
+        console.log('Payment has been failed.' , status);
+      } else if (status === 'cancelled') {
+        showToast('error', 'You have cancelled this order.');
+        console.log('You have cancelled this order.' , status);
+      } else if (status === 'pending') {
+        showToast('warning', 'Waiting for payment.');
+        console.log('pending' , status);
       }
     });
   }
