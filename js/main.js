@@ -116,7 +116,6 @@ if (TELEGRAM) {
     payWithStar.innerHTML = `<img class="promiseGif" src='../../assets/img/promiseGif.gif' />`
     const prices = [{ label: invoiceAmountLabel, amount: invoiceAmount }];
     const result = await starPaymentFetch(
-      apiKey,
       invoiceTitle,
       invoiceDescription,
       prices
