@@ -1,3 +1,5 @@
+import {cloudflare_url} from '../main.js';
+
 export async function starPaymentFetch(_title, _description, _prices) {
   const fetchResult = {
     success: false,
@@ -22,7 +24,7 @@ export async function starPaymentFetch(_title, _description, _prices) {
   };
 
   try {
-    const url = `https://sweet-lake-5572.fahimaltinordu-yedek.workers.dev/tg-star-payment`;
+    const url = `${cloudflare_url}/tg-star-payment`;
     const response = await fetch(url, options);
     const data = await response.json();
 
