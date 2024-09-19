@@ -1,9 +1,10 @@
-import {checkUnlockConditions} from '../gameState/stocks.js';
+import {checkUnlockConditions, renderStockCards} from '../gameState/stocks.js';
 
 //Friends
 export function addFrens(frens) {
   setReferral(getReferral() + frens);
   checkUnlockConditions();
+  renderStockCards('Crypto');
 }
 
 export function getReferral() {
