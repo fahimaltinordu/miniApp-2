@@ -278,6 +278,7 @@ mineTabButtons.forEach((mineTabButton) => {
     e.target.classList.add('mine-tab__btn__active');
     loadStocks();
     const category = e.target.textContent;
+    setCurrentCategoryTab(category);
     renderStockCards(category);
   });
 });
@@ -316,7 +317,9 @@ export function buyStock(index, cardElement) {
     showToast('success', 'Upgrade purchased!');
     $cardsUpgradeMenu.classList.remove('active');
     checkUnlockConditions();
-    renderStockCards(stock.category);
+    const category = stock.category;
+    setCurrentCategoryTab(category);
+    renderStockCards(category);
   } else {
     hideUpgradeMenu();
     showToast('error', 'Not enough coins!');
@@ -364,6 +367,13 @@ export function checkUnlockConditions() {
   });
 
   saveStocks();
+}
+
+export function getCurrentCategoryTab() {
+  return localStorage.getItem('currentCategory') || 'Crypto';
+}
+function setCurrentCategoryTab(category) {
+  localStorage.setItem('currentCategory', category);
 }
 
 export function renderStockCards(category) {
