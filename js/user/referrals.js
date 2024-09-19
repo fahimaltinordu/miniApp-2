@@ -1,6 +1,9 @@
+import {checkUnlockConditions} from '../gameState/stocks.js';
+
 //Friends
 export function addFrens(frens) {
   setReferral(getReferral() + frens);
+  checkUnlockConditions();
 }
 
 export function getReferral() {

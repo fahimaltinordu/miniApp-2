@@ -59,9 +59,8 @@ const TelegramLink = 'https://t.me/EnergyFi_org';
 const TwitterLink = 'https://twitter.com/EnergyFi_org';
 const GithubLink = 'https://github.com/fahimaltinordu/miniApp-2';
 //cloudflare
-const c_url = 'https://sweet-lake-5572.fahimaltinordu-yedek.workers.dev';
+export const cloudflare_url = 'https://sweet-lake-5572.fahimaltinordu-yedek.workers.dev'; // without slash
 //createInvoice
-const apiKey = '7513220093:AAFogDDXxV-lWOMUva4Kzhw0LE8gI7tA93A'; //bot token
 const invoiceTitle = 'ENR-friend';
 const invoiceDescription = 'invite 1 friend';
 const invoiceAmount = 1;
@@ -130,20 +129,15 @@ if (TELEGRAM) {
 
   function openInvoiceLink(invoiceUrl) {
     TELEGRAM.openInvoice(invoiceUrl, (status) => {
-      console.log(status);
       if (status === 'paid') {
         showToast('success', 'Invoice payment successful!');
-        console.log('Invoice payment successful!' , status);
         addFrens(1);
       } else if (status === 'failed') {
         showToast('error', 'Payment has been failed.');
-        console.log('Payment has been failed.' , status);
       } else if (status === 'cancelled') {
         showToast('error', 'You have cancelled this order.');
-        console.log('You have cancelled this order.' , status);
       } else if (status === 'pending') {
         showToast('warning', 'Waiting for payment.');
-        console.log('pending' , status);
       }
     });
   }
