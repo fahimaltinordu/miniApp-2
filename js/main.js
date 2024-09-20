@@ -79,18 +79,6 @@ export const adsgramReward = 200;
 ///////////////////////////////  CONFIG END  /////////////////////////////
 
 
-// MOBILE CONTROL
-function responsiveScript() {
-  if (window.innerWidth >= 767) {
-    document.querySelector(".noMobile").style.display = "flex";
-  }else {
-    document.querySelector(".noMobile").style.display = "none";
-  }
-}
-responsiveScript();
-window.addEventListener("resize", responsiveScript);
-// MOBILE CONTROL END
-
 window.addEventListener('load', function () {
   setTimeout(loadingDelay, 2000);
 });
@@ -101,9 +89,20 @@ function loadingDelay() {
   document.querySelector('.menu-bar').style.display = 'flex';
   headerNav.style.display = 'flex';
 }
-// main.js
 
 const TELEGRAM = initializeTelegramApp();
+//mobile control - only tg mobile
+if(TELEGRAM.platform === "android") {
+  document.querySelector(".noMobile").style.display = "none";
+}else if(TELEGRAM.platform === "iOS") {
+  document.querySelector(".noMobile").style.display = "none";
+}else if(TELEGRAM.platform === "weba") {
+  document.querySelector(".noMobile").style.display = "flex";
+}else if(TELEGRAM.platform === "unknown") { //normal browser - unknown - make it "none" for test 
+  document.querySelector(".noMobile").style.display = "flex";
+}else {
+  document.querySelector(".noMobile").style.display = "flex";
+}
 
 export let playerName = document.getElementById('player-name');
 if (TELEGRAM) {
