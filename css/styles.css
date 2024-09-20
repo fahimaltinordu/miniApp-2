@@ -12,7 +12,7 @@
     height:100dvh;
     width: 100%;
     z-index:1000;
-    background-color:black;
+    background-color:#252F43;
     display:none;
     align-items: center;
     justify-content: center;
@@ -109,7 +109,7 @@ body {
     top: 0;
     left: 0;
     text-align: center;
-    opacity: 0.99;
+    opacity: 1;
     background-color: #252F43;
     z-index: 9999999999999999999999999999999;
 }
