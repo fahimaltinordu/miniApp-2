@@ -373,8 +373,8 @@ hr {
     align-items: center;
     background-color: #252F43;
     margin-top: 20px;
-    width: 20dvw;
-    height: 20dvw;
+    width: 40dvh;
+    height: 40dvh;
     border-radius: 50%;
     box-shadow: 0px 0px 16px 0px rgba(138, 143, 254, 0.05);
     transition: transform 0.2s ease;
@@ -389,8 +389,8 @@ hr {
 
 
 .game__clicker-circle img {
-    width: 20dvw;
-    height: 20dvw;
+    width: 40dvh;
+    height: 40dvh;
     border-radius: 50%;
     user-select: none;
     -webkit-user-drag: none;
@@ -637,7 +637,8 @@ hr {
 }
 
 .upgrade-menu.active {
-    bottom: 60px;
+    /* bottom: 60px; */
+    bottom: 10dvh;
 }
 
 .upgrade-menu__content {
@@ -837,7 +838,7 @@ hr {
     flex: 1 1;
     flex-direction: column;
     font-size: 10px;
-    height: 56px;
+    height: 8dvh;
     justify-content: center;
     transition: all 0.2s ease-in-out;
     padding: 5px;
@@ -874,6 +875,7 @@ hr {
     align-items: center;
     justify-content: flex-start;
     width: 100%;
+    overflow: auto;
 }
 .mine-tab__title {
     font-size: 2rem;
@@ -1496,12 +1498,12 @@ hr {
 
 @media (min-height: 971px){
     .game__clicker-circle {
-        width:50vw;
-        height:50vw;
+        width:45dvh;
+        height:45dvh;
     }
     .game__clicker-circle img {
-        width:50vw;
-        height:50vw;
+        width:45dvh;
+        height:45dvh;
     }
     .info__container, .player__info {
         font-size: 1.7rem;
@@ -1525,9 +1527,12 @@ hr {
     .level-progress__info {
         font-size: 2rem;
     }
-    .menu-bar, .menu-bar__item, .menu-bar__nav {
+    .menu-bar, .menu-bar__nav {
         /* height:100px; */
         height:10dvh;
+    }
+    .menu-bar__item {
+        height:8dvh;
     }
     .header {
         height:7dvh;
@@ -1622,12 +1627,12 @@ hr {
 }
 @media (min-height: 761px) and (max-height: 970px){
     .game__clicker-circle {
-        width:75vw;
-        height:75vw;
+        width:37dvh;
+        height:37dvh;
     }
     .game__clicker-circle img {
-        width:75vw;
-        height:75vw;
+        width:37dvh;
+        height:37dvh;
     }
     .info__container, .player__info {
         font-size: 1.2rem;
@@ -1678,12 +1683,12 @@ hr {
 }
 @media (min-height: 668px) and (max-height: 761px){
     .game__clicker-circle {
-        width:65vw;
-        height:65vw;
+        width:35dvh;
+        height:35dvh;
     }
     .game__clicker-circle img {
-        width:65vw;
-        height:65vw;
+        width:35dvh;
+        height:35dvh;
     }
     .info__container, .player__info {
         font-size: 1rem;
@@ -1727,12 +1732,12 @@ hr {
         font-size: 0.8rem;
     }
     .game__clicker-circle {
-        width:55vw;
-        height:55vw;
+        width:38dvh;
+        height:38dvh;
     }
     .game__clicker-circle img {
-        width:55vw;
-        height:55vw;
+        width:38dvh;
+        height:38dvh;
     }
     .earn__item-btn .earn__item__check-btn, .earn__item-btn .earn__item__share-btn, .earn__item-btn .earn__item__watch-btn {
         /* margin-left: 80%; */
@@ -1743,22 +1748,19 @@ hr {
 }
 
 
-@media (min-width: 1024px) {
-    .game__clicker-circle {
-        width:15dvw;
-        height:15dvw;
-    }
-    .game__clicker-circle img {
-        width:15dvw;
-        height:15dvw;
-    }
-}
-
 @media (max-width: 350px) {
 
     .info__container,
     .player__info {
         font-size: 0.7rem;
+    }
+    .game__clicker-circle {
+        width:30dvh;
+        height:30dvh;
+    }
+    .game__clicker-circle img {
+        width:30dvh;
+        height:30dvh;
     }
 }
 
