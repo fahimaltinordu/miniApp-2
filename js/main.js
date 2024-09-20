@@ -91,17 +91,18 @@ function loadingDelay() {
 }
 
 const TELEGRAM = initializeTelegramApp();
+
 //mobile control - only tg mobile
-if(TELEGRAM.platform === "android") {
-  document.querySelector(".noMobile").style.display = "none";
-}else if(TELEGRAM.platform === "ios") {
-  document.querySelector(".noMobile").style.display = "none";
-}else if(TELEGRAM.platform === "weba") {
-  document.querySelector(".noMobile").style.display = "flex";
-}else if(TELEGRAM.platform === "unknown") { //normal browser - unknown - make it "none" for test 
-  document.querySelector(".noMobile").style.display = "flex";
-}else {
-  document.querySelector(".noMobile").style.display = "flex";
+const noMobileElement = document.querySelector(".noMobile");
+switch (TELEGRAM.platform){ 
+  case "android": 
+  case "ios": noMobileElement.style.display = "none"; 
+  break; 
+  case"weba": 
+  case "unknown": noMobileElement.style.display = "none"; // change to flex at production 
+  break; 
+  default: noMobileElement.style.display = "flex"; 
+  break; 
 }
 
 export let playerName = document.getElementById('player-name');
