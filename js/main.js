@@ -78,6 +78,19 @@ export const adsgramReward = 200;
 // export const twaReturnUrl = 'https://t.me/EnergyFi_testApp_bot'; //To redirect user to a Telegram Mini App after wallet connection
 ///////////////////////////////  CONFIG END  /////////////////////////////
 
+
+// MOBILE CONTROL
+function responsiveScript() {
+  if (window.innerWidth >= 767) {
+    document.querySelector(".noMobile").style.display = "flex";
+  }else {
+    document.querySelector(".noMobile").style.display = "none";
+  }
+}
+responsiveScript();
+window.addEventListener("resize", responsiveScript);
+// MOBILE CONTROL END
+
 window.addEventListener('load', function () {
   setTimeout(loadingDelay, 2000);
 });
