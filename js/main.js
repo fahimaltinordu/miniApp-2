@@ -94,7 +94,7 @@ const TELEGRAM = initializeTelegramApp();
 //mobile control - only tg mobile
 if(TELEGRAM.platform === "android") {
   document.querySelector(".noMobile").style.display = "none";
-}else if(TELEGRAM.platform === "iOS") {
+}else if(TELEGRAM.platform === "ios") {
   document.querySelector(".noMobile").style.display = "none";
 }else if(TELEGRAM.platform === "weba") {
   document.querySelector(".noMobile").style.display = "flex";
