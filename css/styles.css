@@ -5,6 +5,21 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+.noMobile {
+    position:absolute;
+    top:0;
+    left:0;
+    height:100dvh;
+    width: 100%;
+    z-index:1000;
+    background-color:black;
+    display:none;
+    align-items: center;
+    justify-content: center;
+    color:white;
+    font-size:1.5rem;
+}
+
 /* WALLET CONNECT */
 [data-tc-button="true"] {
     background-color: #252F43 !important;
@@ -116,7 +131,8 @@ body {
     height:58px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     padding: 10px;
-    z-index: 1000000000000000;
+    /* z-index: 1000000000000000; */
+    z-index: 999;
 }
 
 .header h1 {
