@@ -20,3 +20,4 @@ export function setReferral(frens) {
   localStorage.setItem('frens', frens);
   $friendCount.textContent = `You have ${Number(frens)} fake friend`;
 }
+
