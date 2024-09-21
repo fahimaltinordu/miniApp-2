@@ -1134,7 +1134,20 @@ hr {
 } */
 
 /* FRIENDS TAB */
-#friends button {
+.panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap:10px;
+    width: 90%;
+    overflow-wrap: break-word;
+    border: 1px solid #252F43;
+    padding:5px;
+    text-align:center;
+}
+#friends button, 
+#shareRefLink {
     height: 35px;
     padding: 5px 10px;
     border-radius: 7px;
@@ -1143,8 +1156,12 @@ hr {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     margin-top: 10px;
 }
+#shareRefLink {
+    margin-top: 0;
+}
 
-#friends button:active {
+#friends button:active,
+#shareRefLink:active {
     transform: scale(.9);
 }
 

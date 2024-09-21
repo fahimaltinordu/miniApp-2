@@ -73,6 +73,9 @@ export const shareStoryReward = 5000;
 export const walletConnectyReward = 5000;
 //adsgram reward per video
 export const adsgramReward = 200;
+//referral
+const botLink = "https://t.me/EnergyFi_testApp_bot/EnergyFi?startapp=";
+
 //tonconnect
 // export const manifestUrl = 'https://mini-app-2.vercel.app/tonconnect-manifest.json';
 // export const twaReturnUrl = 'https://t.me/EnergyFi_testApp_bot'; //To redirect user to a Telegram Mini App after wallet connection
@@ -111,8 +114,22 @@ if (TELEGRAM) {
 
   // Update profile
   let profileData = updateProfile(TELEGRAM, user);
-
   playerName.textContent = profileData.playerName_textContent;
+  
+  //referals
+  const referralURL = document.querySelector('#ref_link');
+  const inviteCount = document.querySelector("#invite_count");
+  const shareBtn = document.querySelector('#shareRefLink');
+  let url_tier= profileData.telegram_userId;
+  let ref_link = `${botLink+url_tier}`;
+  referralURL.textContent = ref_link;
+  inviteCount.textContent = 0;
+  shareBtn.addEventListener('click', async () => {
+    const link = `https://t.me/share/url?url=${encodeURIComponent('join, invite and earn more 🪙')}&text=${encodeURIComponent(ref_link)}`;
+    shareBtn.innerHTML = `<img class="promiseGif" src='../../assets/img/promiseGif.gif' />`
+    await TELEGRAM.openTelegramLink(link);
+    shareBtn.innerHTML = `Share`
+  });
 
   const $openSettingsbtn = document.querySelector('.openSettingsbtn');
   $openSettingsbtn.addEventListener('click', () => {
