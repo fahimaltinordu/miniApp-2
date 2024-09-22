@@ -877,7 +877,8 @@ hr {
     width: 100%;
     overflow: auto;
 }
-.mine-tab__title {
+.mine-tab__title,
+.friends-tab__title {
     font-size: 2rem;
     text-transform: uppercase;
     text-align: center;
@@ -1143,11 +1144,34 @@ hr {
     width: 90%;
     overflow-wrap: break-word;
     border: 1px solid #252F43;
-    padding:5px;
+    padding:10px;
     text-align:center;
+    border-radius:7px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+    background-color: #252F43;
 }
-#friends button, 
-#shareRefLink {
+.panel > img {
+    height:10dvh;
+}
+.invite_description {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:20px;
+    color: #c4eb00;
+}
+
+.btnContainer {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    gap:10px;
+    margin-bottom: 10px;
+    margin-top:10px;
+}
+.pay_with_star, 
+#shareRefLink,
+#copyLink {
     height: 35px;
     padding: 5px 10px;
     border-radius: 7px;
@@ -1156,12 +1180,23 @@ hr {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     margin-top: 10px;
 }
-#shareRefLink {
+#shareRefLink,
+#copyLink {
     margin-top: 0;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+    background-color: #02c98e;
+}
+#shareRefLink img,
+#copyLink img {
+    height:2dvh;
 }
 
-#friends button:active,
-#shareRefLink:active {
+.pay_with_star:active,
+#shareRefLink:active,
+#copyLink:active {
     transform: scale(.9);
 }
 
@@ -1483,7 +1518,8 @@ hr {
 
 
 @media (max-width: 720px) {
-    .mine-tab__title {
+    .mine-tab__title,
+    .friends-tab__title {
         font-size: 1.5rem;
     }
 

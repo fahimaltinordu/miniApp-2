@@ -120,15 +120,22 @@ if (TELEGRAM) {
   const referralURL = document.querySelector('#ref_link');
   const inviteCount = document.querySelector("#invite_count");
   const shareBtn = document.querySelector('#shareRefLink');
+  const copyBtn = document.querySelector('#copyLink')
   let url_tier= profileData.telegram_userId;
   let ref_link = `${botLink+url_tier}`;
-  referralURL.textContent = ref_link;
+  console.log(ref_link);
+  // referralURL.textContent = ref_link;
   inviteCount.textContent = 0;
   shareBtn.addEventListener('click', async () => {
     const link = `https://t.me/share/url?url=${encodeURIComponent('join, invite and earn more 🪙')}&text=${encodeURIComponent(ref_link)}`;
     shareBtn.innerHTML = `<img class="promiseGif" src='../../assets/img/promiseGif.gif' />`
     await TELEGRAM.openTelegramLink(link);
-    shareBtn.innerHTML = `Share`
+    shareBtn.innerHTML = `<span>Invite a friend</span> <img src="./assets/img/icons/friends/share.png" alt="">`
+  });
+  copyBtn.addEventListener('click', async () => {
+    copyBtn.innerHTML = `<img class="promiseGif" src='../../assets/img/promiseGif.gif' />`
+    await navigator.clipboard.writeText(ref_link);
+    copyBtn.innerHTML = `<span>Copy</span> <img src="./assets/img/icons/friends/clipboard.png" alt="">`
   });
 
   const $openSettingsbtn = document.querySelector('.openSettingsbtn');
