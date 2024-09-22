@@ -131,11 +131,20 @@
         </div>
 
         <div id="friends" class="tab-content soon">
+            <h1 class="friends-tab__title">Invite Friends!</h1>
             <div class="panel">
-                <p><b>Your referral URL:</b> <span id="ref_link">x</span></p>
+                <div class="invite_description">
+                    <img src="./assets/img/icons/friends/referral.png" alt="">
+                    <p>You'll get 5,000 coins for every invite.</p>
+                </div>
+                <div class="btnContainer">
+                    <button id="shareRefLink"><span>Invite a friend</span> <img src="./assets/img/icons/friends/share.png" alt=""></button>
+                    <button id="copyLink"><span>Copy</span> <img src="./assets/img/icons/friends/clipboard.png" alt=""></button>
+                </div>
+                <!-- <p><b>Your referral URL:</b> <span id="ref_link">x</span></p> -->
                 <p><b>Invited friends:</b> <span id="invite_count">x</span></p>
-                <button id="shareRefLink">Share</button>
             </div>
+
             <button class="pay_with_star">Pay 1 Star</button>
             <p id="friendCount">0</p>
         </div>
