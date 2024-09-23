@@ -52,10 +52,10 @@ export function updateButtonState() {
 export function setupShareButton(TELEGRAM, user) {
   let shareBtn = document.querySelector('.earn__item__share-btn');
 
-  shareBtn.addEventListener('click', async() => {
+  shareBtn.addEventListener('click', async () => {
     if (shareBtn.textContent === 'Share') {
       if (user) {
-        shareBtn.innerHTML = `<img class="promiseGif" src='../../assets/img/promiseGif.gif' />`
+        shareBtn.innerHTML = `<img class="promiseGif" src='../../assets/img/promiseGif.gif' />`;
         await TELEGRAM.shareToStory(storyLink, { text: storyText });
         shareBtn.textContent = 'Claim';
       } else {
@@ -83,7 +83,7 @@ const watchAddBtn = document.querySelector('#watchAddBtn');
 const $watchCount = document
   .querySelector('.earn__item__watch-count')
   .querySelector('span');
-const maxAdsPerDay = 10;
+const MAX_ADS_PER_DAY = 10;
 const currentDate = new Date().toISOString().slice(0, 10);
 
 function updateWatchCount() {
@@ -111,16 +111,16 @@ watchAddBtn.addEventListener('click', async () => {
     adData = { count: 0, date: currentDate };
   }
 
-  if (adData.count >= maxAdsPerDay) {
+  if (adData.count >= MAX_ADS_PER_DAY) {
     showToast('error', 'No ads any more for today!');
     return;
   }
-  watchAddBtn.innerHTML = `<img class="promiseGif" src='../../assets/img/promiseGif.gif' />`
+  watchAddBtn.innerHTML = `<img class="promiseGif" src='../../assets/img/promiseGif.gif' />`;
   await AdController.show()
     .then((result) => {
       addCoins(adsgramReward);
       adData.count += 1;
-      watchAddBtn.textContent="Watch"
+      watchAddBtn.textContent = 'Watch';
       setAdData(adData);
       updateWatchCount();
       updateLevel();
@@ -128,6 +128,6 @@ watchAddBtn.addEventListener('click', async () => {
     })
     .catch((result) => {
       showToast('error', 'No ads available!');
-      watchAddBtn.textContent="Watch"
+      watchAddBtn.textContent = 'Watch';
     });
 });
