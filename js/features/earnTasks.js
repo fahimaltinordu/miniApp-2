@@ -149,7 +149,7 @@ watchAddBtn.addEventListener('click', async () => {
 function updateButtonWithRemainingTime(remainingTime) {
   const remainingMinutes = Math.floor(remainingTime / 1000 / 60);
   const remainingSeconds = Math.floor((remainingTime / 1000) % 60);
-  watchAddBtn.textContent = `Wait ${remainingMinutes}m ${remainingSeconds}s`;
+  watchAddBtn.textContent = `${remainingMinutes}:${remainingSeconds}`;
 }
 
 function updateButtonCooldown() {
