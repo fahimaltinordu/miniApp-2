@@ -103,20 +103,17 @@ function getAdData() {
 function setAdData(adData) {
   localStorage.setItem('adData', JSON.stringify(adData));
 }
-const COOLDOWN_PERIOD = 5 * 60 * 1000; // 5 minutes
+const COOLDOWN_PERIOD = 5 * 60 * 1000;
 
 watchAddBtn.addEventListener('click', async () => {
   let adData = getAdData();
   const lastAdTime = parseInt(localStorage.getItem('lastAdTime')) || 0;
   const currentTime = Date.now();
 
-  // Check if 5 minutes have passed since the last ad was watched
   if (currentTime - lastAdTime < COOLDOWN_PERIOD) {
     const remainingTime = COOLDOWN_PERIOD - (currentTime - lastAdTime);
-    const remainingMinutes = Math.floor(remainingTime / 1000 / 60);
-    const remainingSeconds = Math.floor((remainingTime / 1000) % 60);
-
-    watchAddBtn.textContent = `${remainingMinutes}m ${remainingSeconds}s`;
+    localStorage.setItem('remainingTime', remainingTime);
+    updateButtonWithRemainingTime(remainingTime);
     return;
   }
 
@@ -135,6 +132,7 @@ watchAddBtn.addEventListener('click', async () => {
     .then((result) => {
       addCoins(adsgramReward);
       adData.count += 1;
+      // Update the last ad time in localStorage
       localStorage.setItem('lastAdTime', currentTime.toString());
       watchAddBtn.textContent = 'Watch';
       setAdData(adData);
@@ -148,19 +146,32 @@ watchAddBtn.addEventListener('click', async () => {
     });
 });
 
+function updateButtonWithRemainingTime(remainingTime) {
+  const remainingMinutes = Math.floor(remainingTime / 1000 / 60);
+  const remainingSeconds = Math.floor((remainingTime / 1000) % 60);
+  watchAddBtn.textContent = `Wait ${remainingMinutes}m ${remainingSeconds}s`;
+}
+
 function updateButtonCooldown() {
-  const lastAdTime = parseInt(localStorage.getItem('lastAdTime')) || 0;
-  const currentTime = Date.now();
+  const remainingTime = parseInt(localStorage.getItem('remainingTime')) || 0;
 
-  if (currentTime - lastAdTime >= COOLDOWN_PERIOD) {
-    watchAddBtn.textContent = 'Watch';
+  if (remainingTime > 0) {
+    localStorage.setItem('remainingTime', remainingTime - 1000);
+    updateButtonWithRemainingTime(remainingTime);
   } else {
-    const remainingTime = COOLDOWN_PERIOD - (currentTime - lastAdTime);
-    const remainingMinutes = Math.floor(remainingTime / 1000 / 60);
-    const remainingSeconds = Math.floor((remainingTime / 1000) % 60);
-
-    watchAddBtn.textContent = `Wait ${remainingMinutes}m ${remainingSeconds}s`;
+    watchAddBtn.textContent = 'Watch';
+    localStorage.removeItem('remainingTime');
   }
 }
 
 setInterval(updateButtonCooldown, 1000);
+
+document.addEventListener('DOMContentLoaded', () => {
+  const remainingTime = parseInt(localStorage.getItem('remainingTime')) || 0;
+
+  if (remainingTime > 0) {
+    updateButtonWithRemainingTime(remainingTime);
+  } else {
+    watchAddBtn.textContent = 'Watch';
+  }
+});
