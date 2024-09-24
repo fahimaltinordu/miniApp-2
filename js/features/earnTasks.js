@@ -132,12 +132,12 @@ watchAddBtn.addEventListener('click', async () => {
     .then((result) => {
       addCoins(adsgramReward);
       adData.count += 1;
-      // Update the last ad time in localStorage
       localStorage.setItem('lastAdTime', currentTime.toString());
       watchAddBtn.textContent = 'Watch';
       setAdData(adData);
       updateWatchCount();
       updateLevel();
+      updateButtonWithRemainingTime(remainingTime);
       startFallingCoins();
     })
     .catch((result) => {
