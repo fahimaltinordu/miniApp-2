@@ -418,7 +418,7 @@ export function renderStockCards(category) {
                     </div>
                 </div>
                 <div class="mine-tab__card-unlock">
-                  <img src="/assets/img/icons/mine/lock.svg">
+                  <img src="/assets/img/icons/mine/locked.png">
                   <p>${unlockText}</p>
                   <p style="color: red;">${maxLevelText}</p>
                 </div>

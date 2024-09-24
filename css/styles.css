@@ -151,7 +151,8 @@ body.swal2-height-auto {
 
 .settings img {
     display: block;
-    filter: drop-shadow(0 0 0.03rem #26f0b1);
+    /* filter: drop-shadow(0 0 0.03rem #26f0b1); */
+    filter: drop-shadow(0 0 0.1rem #5ff3d0);
 }
 
 #settings_container {
@@ -1282,6 +1283,7 @@ hr {
     min-width: 60px;
     padding: 0 8px;
     width: 60px;
+    filter: drop-shadow(0 0 0.07rem #5ff3d0);
 }
 
 .earn__item-btn button {
