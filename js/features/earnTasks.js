@@ -103,9 +103,22 @@ function getAdData() {
 function setAdData(adData) {
   localStorage.setItem('adData', JSON.stringify(adData));
 }
+const COOLDOWN_PERIOD = 5 * 60 * 1000; // 5 minutes
 
 watchAddBtn.addEventListener('click', async () => {
   let adData = getAdData();
+  const lastAdTime = parseInt(localStorage.getItem('lastAdTime')) || 0;
+  const currentTime = Date.now();
+
+  // Check if 5 minutes have passed since the last ad was watched
+  if (currentTime - lastAdTime < COOLDOWN_PERIOD) {
+    const remainingTime = COOLDOWN_PERIOD - (currentTime - lastAdTime);
+    const remainingMinutes = Math.floor(remainingTime / 1000 / 60);
+    const remainingSeconds = Math.floor((remainingTime / 1000) % 60);
+
+    watchAddBtn.textContent = `${remainingMinutes}m ${remainingSeconds}s`;
+    return;
+  }
 
   if (adData.date !== currentDate) {
     adData = { count: 0, date: currentDate };
@@ -115,11 +128,14 @@ watchAddBtn.addEventListener('click', async () => {
     showToast('error', 'No ads any more for today!');
     return;
   }
+
   watchAddBtn.innerHTML = `<img class="promiseGif" src='../../assets/img/promiseGif.gif' />`;
+
   await AdController.show()
     .then((result) => {
       addCoins(adsgramReward);
       adData.count += 1;
+      localStorage.setItem('lastAdTime', currentTime.toString());
       watchAddBtn.textContent = 'Watch';
       setAdData(adData);
       updateWatchCount();
@@ -131,3 +147,20 @@ watchAddBtn.addEventListener('click', async () => {
       watchAddBtn.textContent = 'Watch';
     });
 });
+
+function updateButtonCooldown() {
+  const lastAdTime = parseInt(localStorage.getItem('lastAdTime')) || 0;
+  const currentTime = Date.now();
+
+  if (currentTime - lastAdTime >= COOLDOWN_PERIOD) {
+    watchAddBtn.textContent = 'Watch';
+  } else {
+    const remainingTime = COOLDOWN_PERIOD - (currentTime - lastAdTime);
+    const remainingMinutes = Math.floor(remainingTime / 1000 / 60);
+    const remainingSeconds = Math.floor((remainingTime / 1000) % 60);
+
+    watchAddBtn.textContent = `Wait ${remainingMinutes}m ${remainingSeconds}s`;
+  }
+}
+
+setInterval(updateButtonCooldown, 1000);
