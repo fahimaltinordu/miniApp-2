@@ -159,7 +159,7 @@ if (TELEGRAM) {
     );
     console.log(result.data);
     if (result.success) {
-      payWithStar.textContent = `Pay ${invoiceAmountLabel}`;
+      payWithStar.innerHTML = `Pay <span>${invoiceAmount}</span> <img src="./assets/img/icons/friends/star.png" alt="">`;
       openInvoiceLink(result.data);
     }
   });

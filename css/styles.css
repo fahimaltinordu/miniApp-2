@@ -454,6 +454,7 @@ hr {
     background-color: transparent;
     max-width: 40px;
     max-height: 40px;
+    filter: drop-shadow(0 0 0.07rem #5ff3d0)
 }
 
 .boost-menu__title {
@@ -691,7 +692,7 @@ hr {
 
 .upgrade-menu__content>img {
     height: 150px;
-    filter: drop-shadow(0 0 0.3rem black);
+    filter: drop-shadow(0 0 0.07rem #5ff3d0);
 }
 
 .upgrade-menu__content h5 {
@@ -880,7 +881,7 @@ hr {
 }
 .mine-tab__title,
 .friends-tab__title {
-    font-size: 2rem;
+    font-size: 4dvh;
     text-transform: uppercase;
     text-align: center;
     margin-bottom: 10px;
@@ -890,7 +891,9 @@ hr {
     width: 90%;
     text-shadow: 1px 1px 2px #252f43;
 }
-
+.mine-tab__title + p {
+    font-size: 2.5dvh;
+}
 .mine-tab__tabs {
     display: flex;
     justify-content: center;
@@ -1136,7 +1139,7 @@ hr {
 } */
 
 /* FRIENDS TAB */
-.panel {
+.panel, .panel_2 {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1151,15 +1154,20 @@ hr {
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
     background-color: #252F43;
 }
-.panel > img {
-    height:10dvh;
+.panel_2 {
+    margin-top:15px;
 }
+/* .panel > img {
+    height:10dvh;
+} */
 .invite_description {
     display: flex;
     align-items: center;
     justify-content: center;
     gap:20px;
     color: #c4eb00;
+    font-size: 2dvh;
+    width: 70%;
 }
 
 .btnContainer {
@@ -1170,16 +1178,23 @@ hr {
     margin-bottom: 10px;
     margin-top:10px;
 }
+.btnContainer + p {
+    font-size: 2dvh;
+}
 .pay_with_star, 
 #shareRefLink,
 #copyLink {
-    height: 35px;
+    height: 6.5dvh;
+    font-size: 3dvh;
     padding: 5px 10px;
     border-radius: 7px;
     background-color: #252f43;
     color: white;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     margin-top: 10px;
+}
+.pay_with_star {
+    background-color: #02c98e;
 }
 #shareRefLink,
 #copyLink {
@@ -1191,8 +1206,9 @@ hr {
     background-color: #02c98e;
 }
 #shareRefLink img,
-#copyLink img {
-    height:2dvh;
+#copyLink img, 
+.pay_with_star img {
+    height:3dvh;
 }
 
 .pay_with_star:active,
@@ -1202,8 +1218,9 @@ hr {
 }
 
 #friends #friendCount {
-    color: #c4eb00;
+    color: #ffffff;
     margin-top: 10px;
+    font-size: 2dvh;
 }
 
 .earn__top-title {
@@ -1366,6 +1383,7 @@ hr {
     height: auto;
     max-width: 100%;
     max-height: 200px;
+    filter: drop-shadow(0 0 0.07rem #5ff3d0)
 }
 
 .popup__title {
@@ -1520,10 +1538,10 @@ hr {
 
 
 @media (max-width: 720px) {
-    .mine-tab__title,
+    /* .mine-tab__title,
     .friends-tab__title {
         font-size: 1.5rem;
-    }
+    } */
 
     .mine-tab__tabs .mine-tab__btn {
         font-size: 15px;
@@ -1668,9 +1686,6 @@ hr {
     }
     .mine-tab__card.disabled .mine-tab__card-unlock {
         font-size: 1.5rem;
-    }
-    .mine-tab__title + p {
-        font-size: 2rem;
     }
     .mine-tab__tabs .mine-tab__btn {
         font-size: 2rem;
