@@ -111,15 +111,15 @@ switch (TELEGRAM.platform){
 
 export let playerName = document.getElementById('player-name');
 if (TELEGRAM) {
-  const user = TELEGRAM.initDataUnsafe.user;
-  console.log("User obj: " + user);
+  const WebAppInitData = TELEGRAM.initDataUnsafe;
+  const user = WebAppInitData.user;
 
   // Update profile
   let profileData = updateProfile(TELEGRAM, user);
   playerName.textContent = profileData.playerName_textContent;
   
   //referals
-  const WebAppInitData = TELEGRAM.initDataUnsafe;
+  console.log(WebAppInitData);
   const referred_ID = WebAppInitData.start_param;
   console.log("REFERRED ID: " + referred_ID);
   document.querySelector('#invited_by').textContent = referred_ID === undefined ? `You joined without ref` : `You invited by ${referred_ID}`;
