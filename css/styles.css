@@ -215,7 +215,7 @@ hr {
     font-size: 1rem;
     background-color: #252F43;
     padding: 5px 10px;
-    border-radius: 5px;
+    border-radius: 3dvh;
     color: #fff;
 }
 
@@ -230,13 +230,17 @@ hr {
     width: 95%;
     gap: 15px;
     margin-bottom: 25px;
+    background-color: #252f43;
+    border-radius: 3dvh;
+    border: 2px solid rgb(38, 240, 177);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
 }
 
 .info__container {
     font-size: 1rem;
     background-color: #252F43;
     padding: 5px 10px;
-    border-radius: 5px;
+    border-radius: 3dvh;
     color: #fff;
     text-align: center;
     font-weight: 800;
@@ -1164,6 +1168,7 @@ hr {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     gap:20px;
     color: #c4eb00;
     font-size: 2dvh;
@@ -1185,6 +1190,7 @@ hr {
 #shareRefLink,
 #copyLink {
     height: 6.5dvh;
+    min-width: 15dvh;
     font-size: 3dvh;
     padding: 5px 10px;
     border-radius: 7px;
@@ -1318,6 +1324,8 @@ hr {
     background-color: #04C98E;
     color: white;
     transition: 0.3s ease-in-out;
+    height: 5dvh;
+    min-width: 10dvh;
 }
 
 
@@ -1660,10 +1668,12 @@ hr {
     .earn__section-title {
         font-size: 1.7rem;
     }
-    .earn__item-btn .earn__item__check-btn, .earn__item-btn .earn__item__share-btn, .earn__item-btn .earn__item__watch-btn {
+    .earn__item-btn .earn__item__check-btn, 
+    .earn__item-btn .earn__item__share-btn, 
+    .earn__item-btn .earn__item__watch-btn {
         /* margin-left: 80%; */
-        height: 55px;
-        width: 110px;
+        /* height: 55px;
+        width: 110px; */
         font-size: 1.7rem;
     }
     .upgrade-menu.active {
@@ -1744,10 +1754,12 @@ hr {
     .plusCoins {
         font-size: 3.5rem;
     }
-    .earn__item-btn .earn__item__check-btn, .earn__item-btn .earn__item__share-btn, .earn__item-btn .earn__item__watch-btn {
+    .earn__item-btn .earn__item__check-btn, 
+    .earn__item-btn .earn__item__share-btn, 
+    .earn__item-btn .earn__item__watch-btn {
         /* margin-left: 80%; */
-        height: 35px;
-        width: 70px;
+        /* height: 35px;
+        width: 70px; */
         font-size: 1.25rem;
     }
 }
@@ -1788,10 +1800,12 @@ hr {
     .plusCoins {
         font-size: 2.5rem;
     }
-    .earn__item-btn .earn__item__check-btn, .earn__item-btn .earn__item__share-btn, .earn__item-btn .earn__item__watch-btn {
+    .earn__item-btn .earn__item__check-btn, 
+    .earn__item-btn .earn__item__share-btn, 
+    .earn__item-btn .earn__item__watch-btn {
         /* margin-left: 80%; */
-        height: 30px;
-        width: 60px;
+        /* height: 30px;
+        width: 60px; */
         font-size: 1rem;
     }
 }
@@ -1809,10 +1823,12 @@ hr {
         width:38dvh;
         height:38dvh;
     }
-    .earn__item-btn .earn__item__check-btn, .earn__item-btn .earn__item__share-btn, .earn__item-btn .earn__item__watch-btn {
+    .earn__item-btn .earn__item__check-btn, 
+    .earn__item-btn .earn__item__share-btn, 
+    .earn__item-btn .earn__item__watch-btn {
         /* margin-left: 80%; */
-        height: 30px;
-        width: 60px;
+        /* height: 30px;
+        width: 60px; */
         font-size: 1rem;
     }
 }

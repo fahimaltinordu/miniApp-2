@@ -75,6 +75,7 @@ export const walletConnectyReward = 5000;
 export const adsgramReward = 200;
 //referral
 const botLink = "https://t.me/EnergyFi_testApp_bot/EnergyFi?startapp=";
+const refURL_title = "Play with me, grab an extra bonus 🚀 Tap & Earn 💸";
 
 //tonconnect
 // export const manifestUrl = 'https://mini-app-2.vercel.app/tonconnect-manifest.json';
@@ -111,12 +112,17 @@ switch (TELEGRAM.platform){
 export let playerName = document.getElementById('player-name');
 if (TELEGRAM) {
   const user = TELEGRAM.initDataUnsafe.user;
+  console.log("User obj: " + user);
 
   // Update profile
   let profileData = updateProfile(TELEGRAM, user);
   playerName.textContent = profileData.playerName_textContent;
   
   //referals
+  const referred_ID = profileData.referred_ID;
+  console.log("REFERRED ID: " + referred_ID);
+  document.querySelector('#invited_by').textContent = referred_ID === "no refer"? `You joined without ref` : `You invited by ${referred_ID}`;
+
   const referralURL = document.querySelector('#ref_link');
   const inviteCount = document.querySelector("#invite_count");
   const shareBtn = document.querySelector('#shareRefLink');
@@ -127,7 +133,7 @@ if (TELEGRAM) {
   // referralURL.textContent = ref_link;
   inviteCount.textContent = 0;
   shareBtn.addEventListener('click', async () => {
-    const link = `https://t.me/share/url?url=${encodeURIComponent('join, invite and earn more 🪙')}&text=${encodeURIComponent(ref_link)}`;
+    const link = `https://t.me/share/url?url=${encodeURIComponent(refURL_title)}&text=${encodeURIComponent(ref_link)}`;
     shareBtn.innerHTML = `<img class="promiseGif" src='../../assets/img/promiseGif.gif' />`
     await TELEGRAM.openTelegramLink(link);
     shareBtn.innerHTML = `<span>Invite a friend</span> <img src="./assets/img/icons/friends/share.png" alt="">`
@@ -304,7 +310,7 @@ $circle.addEventListener('click', (event) => {
     plusCoins.classList.add('plusCoins');
     plusCoins.textContent = '+' + coinsPerTap;
     plusCoins.style.left = `${event.clientX}px`;
-    plusCoins.style.top = `${event.clientY - 80}px`;
+    plusCoins.style.top = `${event.clientY - 120}px`;
 
     $circle.parentElement.appendChild(plusCoins);
 
