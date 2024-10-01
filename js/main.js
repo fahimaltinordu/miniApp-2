@@ -119,9 +119,10 @@ if (TELEGRAM) {
   playerName.textContent = profileData.playerName_textContent;
   
   //referals
-  const referred_ID = profileData.referred_ID;
+  const WebAppInitData = TELEGRAM.initDataUnsafe;
+  const referred_ID = WebAppInitData.start_param;
   console.log("REFERRED ID: " + referred_ID);
-  document.querySelector('#invited_by').textContent = referred_ID === "no refer"? `You joined without ref` : `You invited by ${referred_ID}`;
+  document.querySelector('#invited_by').textContent = referred_ID === undefined ? `You joined without ref` : `You invited by ${referred_ID}`;
 
   const referralURL = document.querySelector('#ref_link');
   const inviteCount = document.querySelector("#invite_count");
@@ -129,7 +130,7 @@ if (TELEGRAM) {
   const copyBtn = document.querySelector('#copyLink')
   let url_tier= profileData.telegram_userId;
   let ref_link = `${botLink+url_tier}`;
-  console.log(ref_link);
+  // console.log(ref_link);
   // referralURL.textContent = ref_link;
   inviteCount.textContent = 0;
   shareBtn.addEventListener('click', async () => {
