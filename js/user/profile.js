@@ -13,6 +13,7 @@ export function updateProfile(TELEGRAM, user) {
         telegram_userId: user.id,
         telegram_userPhoto: user.username,
         playerName_textContent: user.first_name,
+        referred_ID: user.start_param,
       };
     } else {
       // playerName.textContent = `No user`;
@@ -21,6 +22,7 @@ export function updateProfile(TELEGRAM, user) {
         telegram_userId: '0',
         telegram_userPhoto: 'durov',
         playerName_textContent: 'No user',
+        referred_ID: 'no refer',
       };
     }
   } 
